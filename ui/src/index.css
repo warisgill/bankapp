@@ -1,0 +1,8 @@
+.custom-nav-dropdown .nav-link{
+    color: white !important;
+}
+
+.leaflet-container {
+    height: 57vh;
+    width: 40vw;
+}
