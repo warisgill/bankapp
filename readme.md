@@ -13,48 +13,45 @@ It includes the following:
 - Custom middleware to check JSON web token and store in cookie
 - Custom error middleware
 
+
 ### Frontend
 
 - React frontend to register, login, logout, view profile, and update profile
 - React Bootstrap UI library
 - React Toastify notifications
 
+
+
 ### Env Variables
 
-Add the following
+Add a .env file under /ui, /customer-auth and /atm-locator. For the /customer-auth/.env and /atm-locator/.env, add these details:
 
 ```
 NODE_ENV = development
-PORT = 5000
-MONGO_URI = your mongodb uri
-JWT_SECRET = 'abc123'
+PORT = 8000
+MONGO_URI = <your mongodb uri>
+JWT_SECRET = 'secret@123'
 ```
 
-Change the JWT_SECRET to what you want
 
-### Install Dependencies (frontend & backend)
-
-```
-cd customer-auth
-npm install
-cd ui
-npm install
-```
-
-### Run
+### Run on localhost
 
 ```
 # Run frontend (:3000)
-npm run client
-
+cd ui
+npm install
+npm run dev
+```
+```
 # Run auth microservice (:8000)
-npm run auth
+cd customer-auth
+npm install
+nodemon server.js
+```
+```
+# Run atm microservice (:8001)
+cd atm-locator
+npm install
+nodemon server.js
 ```
 
-<!-- ## Build & Deploy
-
-```
-# Create frontend prod build
-cd frontend
-npm run build
-``` -->
