@@ -1,0 +1,20 @@
+syntax = "proto3";
+
+message Account {
+  string account_number = 1;
+  string account_holder_name = 2;
+  double balance = 3;
+  string currency = 4;
+}
+
+message GetAccountDetailsRequest {
+  string account_number = 1;
+}
+
+message GetAccountDetailsResponse {
+  Account account = 1;
+}
+
+service AccountDetailsService {
+  rpc GetAccountDetails(GetAccountDetailsRequest) returns (GetAccountDetailsResponse);
+}

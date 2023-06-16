@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+message LoanRequest {
+  string account_number = 1;
+  double amount = 2;
+}
+
+message LoanResponse {
+  bool approved = 1;
+  string message = 2;
+}
+
+service LoanService {
+  rpc ProcessLoanRequest(LoanRequest) returns (LoanResponse);
+}
