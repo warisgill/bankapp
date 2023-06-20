@@ -3,7 +3,7 @@ import os
 from flask import Flask, render_template, request
 import grpc
 
-from account_details_pb2 import GetAccountDetailsRequest # type: ignore
+from account_details_pb2 import * 
 from account_details_pb2_grpc import AccountDetailsServiceStub
 
 from transaction_pb2_grpc import TransactionServiceStub
@@ -80,7 +80,25 @@ app = Flask(__name__)
 # gRPC setup
 
 
-@app.route('/detail', methods=['GET', 'POST'])
+# @app.route('/detail', methods=['GET', 'POST'])
+# def account_details():
+#     channel = grpc.insecure_channel('localhost:50051')
+#     client = AccountDetailsServiceStub(channel)
+#     if request.method == 'POST':
+#         account_number = request.form['account_number']
+
+#         # Create a gRPC request
+#         account_request = GetAccountDetailsRequest(account_number=account_number)
+
+#         # Send the gRPC request to the Account Details Microservice
+#         response = client.getAccountDetails(account_request)
+
+#         return render_template('detail_result.html', response=response)
+
+#     return render_template('detail_form.html')
+
+
+@app.route('/account/create', methods=['GET', 'POST'])
 def account_details():
     channel = grpc.insecure_channel('localhost:50051')
     client = AccountDetailsServiceStub(channel)
@@ -91,11 +109,15 @@ def account_details():
         account_request = GetAccountDetailsRequest(account_number=account_number)
 
         # Send the gRPC request to the Account Details Microservice
-        response = client.GetAccountDetails(account_request)
+        response = client.getAccountDetails(account_request)
 
         return render_template('detail_result.html', response=response)
 
     return render_template('detail_form.html')
+
+
+
+
 
 @app.route('/transaction', methods=['GET', 'POST'])
 def transaction_form():
