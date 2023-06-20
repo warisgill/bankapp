@@ -13,19 +13,29 @@ _sym_db = _symbol_database.Default()
 
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x15\x61\x63\x63ount_details.proto\"a\n\x07\x41\x63\x63ount\x12\x16\n\x0e\x61\x63\x63ount_number\x18\x01 \x01(\t\x12\x1b\n\x13\x61\x63\x63ount_holder_name\x18\x02 \x01(\t\x12\x0f\n\x07\x62\x61lance\x18\x03 \x01(\x01\x12\x10\n\x08\x63urrency\x18\x04 \x01(\t\"2\n\x18GetAccountDetailsRequest\x12\x16\n\x0e\x61\x63\x63ount_number\x18\x01 \x01(\t\"6\n\x19GetAccountDetailsResponse\x12\x19\n\x07\x61\x63\x63ount\x18\x01 \x01(\x0b\x32\x08.Account2c\n\x15\x41\x63\x63ountDetailsService\x12J\n\x11GetAccountDetails\x12\x19.GetAccountDetailsRequest\x1a\x1a.GetAccountDetailsResponseb\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x15\x61\x63\x63ount_details.proto\"\xcf\x01\n\x07\x41\x63\x63ount\x12\x16\n\x0e\x61\x63\x63ount_number\x18\x01 \x01(\t\x12\x10\n\x08\x65mail_id\x18\x02 \x01(\t\x12\x14\n\x0c\x61\x63\x63ount_type\x18\x03 \x01(\t\x12\x0f\n\x07\x61\x64\x64ress\x18\x04 \x01(\t\x12\x12\n\nssn_number\x18\x05 \x01(\t\x12\x15\n\rgovernment_id\x18\x06 \x01(\t\x12\x12\n\nfirst_name\x18\x07 \x01(\t\x12\x11\n\tlast_name\x18\x08 \x01(\t\x12\x10\n\x08\x63urrency\x18\t \x01(\t\x12\x0f\n\x07\x62\x61lance\x18\n \x01(\x01\"z\n\x14\x43reateAccountRequest\x12\x10\n\x08\x65mail_id\x18\x01 \x01(\t\x12\x14\n\x0c\x61\x63\x63ount_type\x18\x02 \x01(\t\x12\x0f\n\x07\x61\x64\x64ress\x18\x03 \x01(\t\x12\x12\n\nssn_number\x18\x04 \x01(\t\x12\x15\n\rgovernment_id\x18\x05 \x01(\t\"\'\n\x15\x43reateAccountResponse\x12\x0e\n\x06result\x18\x01 \x01(\x08\"%\n\x12GetAccountsRequest\x12\x0f\n\x07user_id\x18\x01 \x01(\t\"1\n\x13GetAccountsResponse\x12\x1a\n\x08\x61\x63\x63ounts\x18\x01 \x03(\x0b\x32\x08.Account\"g\n\rAccountDetail\x12\x16\n\x0e\x61\x63\x63ount_number\x18\x01 \x01(\t\x12\x1b\n\x13\x61\x63\x63ount_holder_name\x18\x02 \x01(\t\x12\x0f\n\x07\x62\x61lance\x18\x03 \x01(\x01\x12\x10\n\x08\x63urrency\x18\x04 \x01(\t\"1\n\x17GetAccountDetailRequest\x12\x16\n\x0e\x61\x63\x63ount_number\x18\x01 \x01(\t\";\n\x18GetAccountDetailResponse\x12\x1f\n\x07\x61\x63\x63ount\x18\x01 \x01(\x0b\x32\x0e.AccountDetail2\xdb\x01\n\x15\x41\x63\x63ountDetailsService\x12H\n\x11getAccountDetails\x12\x18.GetAccountDetailRequest\x1a\x19.GetAccountDetailResponse\x12>\n\rcreateAccount\x12\x15.CreateAccountRequest\x1a\x16.CreateAccountResponse\x12\x38\n\x0bgetAccounts\x12\x13.GetAccountsRequest\x1a\x14.GetAccountsResponseb\x06proto3')
 
 _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, globals())
 _builder.BuildTopDescriptorsAndMessages(DESCRIPTOR, 'account_details_pb2', globals())
 if _descriptor._USE_C_DESCRIPTORS == False:
 
   DESCRIPTOR._options = None
-  _ACCOUNT._serialized_start=25
-  _ACCOUNT._serialized_end=122
-  _GETACCOUNTDETAILSREQUEST._serialized_start=124
-  _GETACCOUNTDETAILSREQUEST._serialized_end=174
-  _GETACCOUNTDETAILSRESPONSE._serialized_start=176
-  _GETACCOUNTDETAILSRESPONSE._serialized_end=230
-  _ACCOUNTDETAILSSERVICE._serialized_start=232
-  _ACCOUNTDETAILSSERVICE._serialized_end=331
+  _ACCOUNT._serialized_start=26
+  _ACCOUNT._serialized_end=233
+  _CREATEACCOUNTREQUEST._serialized_start=235
+  _CREATEACCOUNTREQUEST._serialized_end=357
+  _CREATEACCOUNTRESPONSE._serialized_start=359
+  _CREATEACCOUNTRESPONSE._serialized_end=398
+  _GETACCOUNTSREQUEST._serialized_start=400
+  _GETACCOUNTSREQUEST._serialized_end=437
+  _GETACCOUNTSRESPONSE._serialized_start=439
+  _GETACCOUNTSRESPONSE._serialized_end=488
+  _ACCOUNTDETAIL._serialized_start=490
+  _ACCOUNTDETAIL._serialized_end=593
+  _GETACCOUNTDETAILREQUEST._serialized_start=595
+  _GETACCOUNTDETAILREQUEST._serialized_end=644
+  _GETACCOUNTDETAILRESPONSE._serialized_start=646
+  _GETACCOUNTDETAILRESPONSE._serialized_end=705
+  _ACCOUNTDETAILSSERVICE._serialized_start=708
+  _ACCOUNTDETAILSSERVICE._serialized_end=927
 # @@protoc_insertion_point(module_scope)
