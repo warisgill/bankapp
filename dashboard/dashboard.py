@@ -3,7 +3,7 @@ import os
 
 from flask_cors import CORS
 
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, jsonify
 import grpc
 
 from account_details_pb2 import * 
@@ -116,20 +116,59 @@ def create_account():
         government_id_type = request.form['government_id_type']
         name = request.form['name']
 
-        # Create a gRPC request
-        account_request = CreateAccountRequest(
-            email_id=email_id,
-            account_type=account_type,
-            address=address,
-            govt_id_number=govt_id_number,
-            government_id_type=government_id_type,
-            name=name
-        )
+        try:
+            # Create a gRPC request
+            account_request = CreateAccountRequest(
+                email_id=email_id,
+                account_type=account_type,
+                address=address,
+                govt_id_number=govt_id_number,
+                government_id_type=government_id_type,
+                name=name
+            )
 
-        # Send the gRPC request to the Account Microservice
-        response = client.createAccount(account_request)
+            # Send the gRPC request to the Account Microservice
+            response = client.createAccount(account_request)
 
-        return f"Response  {response}"  # render_template('result.html', response=response)
+            # Return a JSON response
+            return jsonify({
+                'success': True,
+                'message': 'Account created successfully',
+                'data': {
+                    'response': response
+                }
+            })
+
+        except grpc.RpcError as e:
+            # Handle gRPC errors
+            return jsonify({
+                'success': False,
+                'message': 'An error occurred during the gRPC request',
+                'error': str(e)
+            })
+
+        except Exception as e:
+            # Handle other exceptions
+            return jsonify({
+                'success': False,
+                'message': 'An unexpected error occurred',
+                'error': str(e)
+            })
+
+        # # Create a gRPC request
+        # account_request = CreateAccountRequest(
+        #     email_id=email_id,
+        #     account_type=account_type,
+        #     address=address,
+        #     govt_id_number=govt_id_number,
+        #     government_id_type=government_id_type,
+        #     name=name
+        # )
+
+        # # Send the gRPC request to the Account Microservice
+        # response = client.createAccount(account_request)
+
+        # return f"Response  {response}"  # render_template('result.html', response=response)
 
     return render_template('create_account_form.html')
 

@@ -3,8 +3,9 @@ import { useNavigate } from "react-router-dom";
 import { Form, Button} from "react-bootstrap";
 import FormContainer from "../components/FormContainer";
 import { useSelector } from "react-redux";
-import { useLoginMutation } from "../slices/usersApiSlice";
-// import { toast } from "react-toastify";
+import { useCreateAccountMutation } from "../slices/accountApiSlice";
+import { createAccount } from "../slices/accountSlice";
+import { toast } from "react-toastify";
 import Loader from "../components/Loader";
 
 const NewAccScreen = () => {
@@ -15,20 +16,55 @@ const NewAccScreen = () => {
 
   const navigate = useNavigate();
 
-  const [login, { isLoading }] = useLoginMutation();
+  const [createNewAccount, { isLoading }] = useCreateAccountMutation();
 
   const { userInfo } = useSelector((state) => state.auth);
 
   const submitHandler = async (e) => {
     e.preventDefault();
-    // try {
-    //   const res = await login({ email, password }).unwrap();
-    //   dispatch(setCredentials({ ...res }));
-    //   toast.success('Successfully logged in!')
-    //   navigate('/');
-    // } catch (err) {
-    //   toast.error(err?.data?.message || err.error);
-    // }
+
+    try{
+
+      const data = new FormData();
+      data.append("name", userInfo.name);
+      data.append("email_id", userInfo.email);
+      data.append("address", address);
+      data.append("government_id_type", govtId);
+      data.append("govt_id_number", govtIdNo);
+      data.append("account_type", accType);
+
+      // const data = {
+      //   "name": userInfo.name,
+      //   "email_id": userInfo.email,
+      //   "address": address,
+      //   "government_id_type": govtId,
+      //   "govt_id_number": govtIdNo,
+      //   "account_type": accType
+      // }
+
+      // console.log(data)
+
+      // fetch('http://127.0.0.1:5000/', {
+      //   method: 'POST',
+      //   headers: {
+      //     'Content-Type': 'multipart/form-data',
+      //     'Access-Control-Allow-Origin': '*',
+      //   },
+      //   body: data,
+      // })
+      // .then(response => response.json())
+      // .then(data => console.log(data));
+      
+      const res = await createNewAccount(data).unwrap();
+      console.log(res);
+      dispatch(createAccount({ ...res }));
+      toast.success('Successfully created a new account!')
+      navigate('/');
+    }
+    catch(err){
+      console.log(err);
+      toast.error(err?.data?.message || err.error);
+    }
   };
 
   return (
