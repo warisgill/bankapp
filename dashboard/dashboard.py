@@ -112,20 +112,18 @@ def create_account():
         email_id = request.form['email_id']
         account_type = request.form['account_type']
         address = request.form['address']
-        ssn_number = request.form['ssn_number']
-        government_id = request.form['government_id']
-        first_name = request.form['first_name']
-        last_name = request.form['last_name']
+        govt_id_number = request.form['govt_id_number']
+        government_id_type = request.form['government_id_type']
+        name = request.form['name']
 
         # Create a gRPC request
         account_request = CreateAccountRequest(
             email_id=email_id,
             account_type=account_type,
             address=address,
-            ssn_number=ssn_number,
-            government_id=government_id,
-            first_name=first_name,
-            last_name=last_name
+            govt_id_number=govt_id_number,
+            government_id_type=government_id_type,
+            name=name
         )
 
         # Send the gRPC request to the Account Microservice

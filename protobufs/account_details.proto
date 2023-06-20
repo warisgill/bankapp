@@ -5,12 +5,11 @@ message Account {
   string email_id = 2;
   string account_type = 3;
   string address = 4;
-  string ssn_number = 5;
-  string government_id = 6;
-  string first_name = 7;
-  string last_name = 8;
-  string currency = 9;
-  double balance = 10;
+  string govt_id_number = 5;
+  string government_id_type = 6;
+  string name = 7;
+  string currency = 8;
+  double balance = 9;
 }
 
 
@@ -18,10 +17,9 @@ message CreateAccountRequest {
   string email_id = 1;
   string account_type = 2;
   string address = 3;
-  string ssn_number = 4;
-  string government_id = 5;
-  string first_name = 6;
-  string last_name = 7;
+  string govt_id_number = 4;
+  string government_id_type = 5;
+  string name = 6;
 }
 
 message CreateAccountResponse {

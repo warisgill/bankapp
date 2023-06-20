@@ -39,11 +39,10 @@ class AccountDetailsService(account_details_pb2_grpc.AccountDetailsServiceServic
             "email_id": request.email_id,
             "account_type": request.account_type,
             "address": request.address,
-            "ssn_number": request.ssn_number,
-            "government_id": request.government_id,
+            "govt_id_number": request.govt_id_number,
+            "government_id_type": request.government_id_type,
             # "account_holder_name": request.account_holder_name,
-            "first_name": request.first_name,
-            "last_name": request.last_name,
+            'name' : request.name,
             "balance": 0,
             "currency": "USD"
 
@@ -63,7 +62,7 @@ class AccountDetailsService(account_details_pb2_grpc.AccountDetailsServiceServic
         accounts = collection.find({"email_id": email_id})
         account_list = []
         for account in accounts:
-            account_list.append(Account(account_number=account['account_number'], email_id=account['email_id'], account_type=account['account_type'], address=account['address'], ssn_number=account['ssn_number'], government_id=account['government_id'], first_name =account['first_name'], last_name=account['last_name'],  balance=account['balance'], currency=account['currency']))
+            account_list.append(Account(account_number=account['account_number'], email_id=account['email_id'], account_type=account['account_type'], address=account['address'], govt_id_number=account['govt_id_number'], government_id_type=account['government_id_type'], name =account['name'], balance=account['balance'], currency=account['currency']))
 
   
     
