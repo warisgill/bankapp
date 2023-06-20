@@ -1,7 +1,7 @@
-import { configureStore } from '@reduxjs/toolkit';
-import authReducer from './slices/authSlice';
-import { apiSlice } from './slices/usersApiSlice';
-import atmReducer from './slices/atmSlice';
+import { configureStore } from "@reduxjs/toolkit";
+import authReducer from "./slices/authSlice";
+import { apiSlice } from "./slices/usersApiSlice";
+import atmReducer from "./slices/atmSlice";
 
 const store = configureStore({
   reducer: {
@@ -10,9 +10,7 @@ const store = configureStore({
     auth: authReducer,
   },
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat([
-      apiSlice.middleware,
-    ]),
+    getDefaultMiddleware().concat([apiSlice.middleware]),
   devTools: true,
 });
 

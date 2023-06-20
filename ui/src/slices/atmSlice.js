@@ -1,13 +1,13 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-    atms: [],
-    isLoading: false,
-    error: null,
+  atms: [],
+  isLoading: false,
+  error: null,
 };
 
 const atmSlice = createSlice({
-  name: 'atm',
+  name: "atm",
   initialState,
   reducers: {
     setAtms: (state, action) => {
