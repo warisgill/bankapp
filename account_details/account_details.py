@@ -4,7 +4,7 @@ import random
 import grpc
 
 
-from account_details_pb2 import GetAccountDetailsResponse, Account # type: ignore
+from account_details_pb2 import *
 
 import account_details_pb2_grpc
 
@@ -23,12 +23,16 @@ collection = db['accounts']
 
 class AccountDetailsService(account_details_pb2_grpc.AccountDetailsServiceServicer):
 
-    def GetAccountDetails(self, request, context):
+    def getAccountDetails(self, request, context):
         accounts = collection.find()
         for account in accounts:
             if account['account_number'] == request.account_number:
-                return GetAccountDetailsResponse(account=Account(account_number=account['account_number'], account_holder_name=account['account_holder_name'], balance=account['balance'], currency=account['currency']))
-        return GetAccountDetailsResponse()
+                return GetAccountDetailResponse(account=Account(account_number=account['account_number'], account_holder_name=account['account_holder_name'], balance=account['balance'], currency=account['currency']))
+        return GetAccountDetailResponse()
+    
+    def createAccount(self, request, context):
+        collection.insert_one({'account_number': request.account_number, 'account_holder_name': request.account_holder_name, 'balance': request.balance, 'currency': request.currency})
+        return CreateAccountResponse(message='Account Created Successfully')
     
 
 def serve():

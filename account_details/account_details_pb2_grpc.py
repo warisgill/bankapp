@@ -14,17 +14,39 @@ class AccountDetailsServiceStub(object):
         Args:
             channel: A grpc.Channel.
         """
-        self.GetAccountDetails = channel.unary_unary(
-                '/AccountDetailsService/GetAccountDetails',
-                request_serializer=account__details__pb2.GetAccountDetailsRequest.SerializeToString,
-                response_deserializer=account__details__pb2.GetAccountDetailsResponse.FromString,
+        self.getAccountDetails = channel.unary_unary(
+                '/AccountDetailsService/getAccountDetails',
+                request_serializer=account__details__pb2.GetAccountDetailRequest.SerializeToString,
+                response_deserializer=account__details__pb2.GetAccountDetailResponse.FromString,
+                )
+        self.createAccount = channel.unary_unary(
+                '/AccountDetailsService/createAccount',
+                request_serializer=account__details__pb2.CreateAccountRequest.SerializeToString,
+                response_deserializer=account__details__pb2.CreateAccountResponse.FromString,
+                )
+        self.getAccounts = channel.unary_unary(
+                '/AccountDetailsService/getAccounts',
+                request_serializer=account__details__pb2.GetAccountsRequest.SerializeToString,
+                response_deserializer=account__details__pb2.GetAccountsResponse.FromString,
                 )
 
 
 class AccountDetailsServiceServicer(object):
     """Missing associated documentation comment in .proto file."""
 
-    def GetAccountDetails(self, request, context):
+    def getAccountDetails(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def createAccount(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def getAccounts(self, request, context):
         """Missing associated documentation comment in .proto file."""
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
@@ -33,10 +55,20 @@ class AccountDetailsServiceServicer(object):
 
 def add_AccountDetailsServiceServicer_to_server(servicer, server):
     rpc_method_handlers = {
-            'GetAccountDetails': grpc.unary_unary_rpc_method_handler(
-                    servicer.GetAccountDetails,
-                    request_deserializer=account__details__pb2.GetAccountDetailsRequest.FromString,
-                    response_serializer=account__details__pb2.GetAccountDetailsResponse.SerializeToString,
+            'getAccountDetails': grpc.unary_unary_rpc_method_handler(
+                    servicer.getAccountDetails,
+                    request_deserializer=account__details__pb2.GetAccountDetailRequest.FromString,
+                    response_serializer=account__details__pb2.GetAccountDetailResponse.SerializeToString,
+            ),
+            'createAccount': grpc.unary_unary_rpc_method_handler(
+                    servicer.createAccount,
+                    request_deserializer=account__details__pb2.CreateAccountRequest.FromString,
+                    response_serializer=account__details__pb2.CreateAccountResponse.SerializeToString,
+            ),
+            'getAccounts': grpc.unary_unary_rpc_method_handler(
+                    servicer.getAccounts,
+                    request_deserializer=account__details__pb2.GetAccountsRequest.FromString,
+                    response_serializer=account__details__pb2.GetAccountsResponse.SerializeToString,
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
@@ -49,7 +81,7 @@ class AccountDetailsService(object):
     """Missing associated documentation comment in .proto file."""
 
     @staticmethod
-    def GetAccountDetails(request,
+    def getAccountDetails(request,
             target,
             options=(),
             channel_credentials=None,
@@ -59,8 +91,42 @@ class AccountDetailsService(object):
             wait_for_ready=None,
             timeout=None,
             metadata=None):
-        return grpc.experimental.unary_unary(request, target, '/AccountDetailsService/GetAccountDetails',
-            account__details__pb2.GetAccountDetailsRequest.SerializeToString,
-            account__details__pb2.GetAccountDetailsResponse.FromString,
+        return grpc.experimental.unary_unary(request, target, '/AccountDetailsService/getAccountDetails',
+            account__details__pb2.GetAccountDetailRequest.SerializeToString,
+            account__details__pb2.GetAccountDetailResponse.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
+    def createAccount(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(request, target, '/AccountDetailsService/createAccount',
+            account__details__pb2.CreateAccountRequest.SerializeToString,
+            account__details__pb2.CreateAccountResponse.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
+    def getAccounts(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(request, target, '/AccountDetailsService/getAccounts',
+            account__details__pb2.GetAccountsRequest.SerializeToString,
+            account__details__pb2.GetAccountsResponse.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
