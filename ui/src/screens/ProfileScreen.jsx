@@ -47,7 +47,9 @@ const ProfileScreen = () => {
   };
   return (
     <FormContainer>
-      <h1 style={{textAlign:'center'}}>Update Details</h1>
+      <h2 className='bg-dark mx-3 text-white' style={{textAlign:'center', paddingTop: '1.5vh', paddingBottom: '1.5vh'}}>
+        <strong>UPDATE &nbsp; DETAILS</strong>
+      </h2>
 
       <Form onSubmit={submitHandler}>
         <Form.Group className='my-4' controlId='name'>
