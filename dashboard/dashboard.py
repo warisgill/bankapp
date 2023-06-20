@@ -1,5 +1,8 @@
 import os
 
+
+from flask_cors import CORS
+
 from flask import Flask, render_template, request
 import grpc
 
@@ -59,7 +62,7 @@ names = ["John", "Mary", "James", "Patricia", "Robert", "Jennifer", "Michael", "
 
 
 app = Flask(__name__)
-
+CORS(app)
 
 
 
@@ -98,24 +101,39 @@ app = Flask(__name__)
 #     return render_template('detail_form.html')
 
 
-@app.route('/account/create', methods=['GET', 'POST'])
-def account_details():
+@app.route('/', methods=['GET', 'POST'])
+def create_account():
     channel = grpc.insecure_channel('localhost:50051')
     client = AccountDetailsServiceStub(channel)
     if request.method == 'POST':
-        account_number = request.form['account_number']
+        print("+++++++++++++++++++++++++++++++++++++++++")
+        print(request.form)
+
+        email_id = request.form['email_id']
+        account_type = request.form['account_type']
+        address = request.form['address']
+        ssn_number = request.form['ssn_number']
+        government_id = request.form['government_id']
+        first_name = request.form['first_name']
+        last_name = request.form['last_name']
 
         # Create a gRPC request
-        account_request = GetAccountDetailsRequest(account_number=account_number)
+        account_request = CreateAccountRequest(
+            email_id=email_id,
+            account_type=account_type,
+            address=address,
+            ssn_number=ssn_number,
+            government_id=government_id,
+            first_name=first_name,
+            last_name=last_name
+        )
 
-        # Send the gRPC request to the Account Details Microservice
-        response = client.getAccountDetails(account_request)
+        # Send the gRPC request to the Account Microservice
+        response = client.createAccount(account_request)
 
-        return render_template('detail_result.html', response=response)
+        return f"Response  {response}"  # render_template('result.html', response=response)
 
-    return render_template('detail_form.html')
-
-
+    return render_template('create_account_form.html')
 
 
 

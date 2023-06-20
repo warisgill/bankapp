@@ -50,6 +50,8 @@ message GetAccountDetailRequest {
   string account_number = 1;
 }
 
+
+
 message GetAccountDetailResponse {
   AccountDetail account = 1;
 }

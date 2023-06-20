@@ -41,7 +41,9 @@ class AccountDetailsService(account_details_pb2_grpc.AccountDetailsServiceServic
             "address": request.address,
             "ssn_number": request.ssn_number,
             "government_id": request.government_id,
-            "account_holder_name": request.account_holder_name,
+            # "account_holder_name": request.account_holder_name,
+            "first_name": request.first_name,
+            "last_name": request.last_name,
             "balance": 0,
             "currency": "USD"
 
