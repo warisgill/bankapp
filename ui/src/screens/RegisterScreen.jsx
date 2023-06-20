@@ -46,7 +46,9 @@ const RegisterScreen = () => {
   };
   return (
     <FormContainer>
-      <h1 style={{textAlign:'center'}}>Create New Account</h1>
+      <h2 className='bg-dark mx-3 text-white' style={{textAlign:'center', paddingTop: '1.5vh', paddingBottom: '1.5vh'}}>
+        <strong>SIGN &nbsp; UP</strong>
+      </h2>
       <Form onSubmit={submitHandler}>
         <Form.Group className='my-4' controlId='name'>
           <Form.Label>Name</Form.Label>

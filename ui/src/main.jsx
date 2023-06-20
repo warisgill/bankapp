@@ -17,6 +17,8 @@ import RegisterScreen from './screens/RegisterScreen.jsx';
 import ProfileScreen from './screens/ProfileScreen.jsx';
 import PrivateRoute from './components/PrivateRoute.jsx';
 import AtmScreen from './screens/AtmScreen.jsx';
+import NewAccScreen from './screens/NewAccScreen.jsx';
+import AccInfoScreen from './screens/AccInfoScreen.jsx';
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -27,6 +29,8 @@ const router = createBrowserRouter(
       <Route path='/find-atm' element={<AtmScreen />} />
       <Route path='' element={<PrivateRoute />}>
         <Route path='/profile' element={<ProfileScreen />} />
+        <Route path='/new-account' element={<NewAccScreen />} />
+        <Route path='/acc-info' element={<AccInfoScreen />} />
       </Route>
     </Route>
   )

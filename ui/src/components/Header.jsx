@@ -44,7 +44,7 @@ const Header = () => {
                 <>
                   <NavDropdown title={userInfo.name} id='username' className='custom-nav-dropdown' style={{fontSize: '2.5vh'}}>
                     <LinkContainer to='/profile'>
-                      <NavDropdown.Item><span style={{fontSize: '1.5vh'}}>Account Info</span></NavDropdown.Item>
+                      <NavDropdown.Item><span style={{fontSize: '1.5vh'}}>Personal Info</span></NavDropdown.Item>
                     </LinkContainer>
                     <LinkContainer to='/login'>
                       <NavDropdown.Item onClick={logoutHandler}>
