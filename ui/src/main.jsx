@@ -22,6 +22,7 @@ import AtmScreen from "./screens/AtmScreen.jsx";
 import NewAccScreen from "./screens/NewAccScreen.jsx";
 import AccInfoScreen from "./screens/AccInfoScreen.jsx";
 import TransferScreen from "./screens/TransferScreen.jsx";
+import TransactionScreen from "./screens/TransactionScreen.jsx";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -35,6 +36,7 @@ const router = createBrowserRouter(
         <Route path="/new-account" element={<NewAccScreen />} />
         <Route path="/acc-info" element={<AccInfoScreen />} />
         <Route path="/transfer" element={<TransferScreen />} />
+        <Route path="/transactions" element={<TransactionScreen />} />
       </Route>
     </Route>
   )

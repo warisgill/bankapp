@@ -166,6 +166,7 @@ const HomeScreen = () => {
                 </Badge>
               </Card>
             </Link>
+            <Link to="/transactions" style={{ textDecoration: "none" }}>
             <Card className="custom-card" style={{ marginTop: "6vh" }}>
               <Card.Body>
                 <Card.Title style={{ fontSize: "2.5vh" }}>
@@ -195,6 +196,7 @@ const HomeScreen = () => {
                 />
               </Badge>
             </Card>
+            </Link>
             <Card className="custom-card" style={{ marginTop: "6vh" }}>
               <Card.Body>
                 <Card.Title style={{ fontSize: "2.5vh" }}>
