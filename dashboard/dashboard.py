@@ -174,6 +174,8 @@ def get_all_accounts():
         # accounts = []
         # for acc in response.accounts:
         #    temp_account = {} 
+        # for acc in response.accounts:
+        #     print("balance", acc.balance)
 
         
         return json.dumps({"response":[MessageToDict(acc) for acc in response.accounts]}) #response
