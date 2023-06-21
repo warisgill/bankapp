@@ -23,41 +23,6 @@ db = client['bank']
 collection = db['accounts']
 
 
-@dataclass
-class Account:
-    def __init__(self):
-        self.account_number = ""
-        self.account_holder_name = ""
-        self.balance = 0.0
-        self.currency = ""
-
-    def __str__(self):
-        return f"Account Number: {self.account_number}, Account Holder Name: {self.account_holder_name}, Balance: {self.balance}, Currency: {self.currency}"
-
-
-
-# list ten random English names for account holders  
-names = ["John", "Mary", "James", "Patricia", "Robert", "Jennifer", "Michael", "Linda", "William", "Elizabeth"]
-
-# # create index on account_number field
-# collection.create_index("account_number", unique=True)
-
-
-# for i in range(1, 10):
-#     account = Account()
-#     account.account_number = f"IBAN00000-{i}"
-#     account.account_holder_name = f"User{i}"
-#     account.balance = 100
-#     account.currency = "USD"
-
-#     if collection.find_one({"account_number": account.account_number}) is None:
-
-#         collection.insert_one(account.__dict__)
-
-# print(collection.find_one({"account_number": "IBAN00000-1"}))
-    
-
-
 
 
 
