@@ -1,6 +1,13 @@
 import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { Form, Button, Row, Col} from "react-bootstrap";
+import {
+  Form,
+  Button,
+  Row,
+  Col,
+  DropdownButton,
+  Dropdown,
+} from "react-bootstrap";
 import FormContainer from "../components/FormContainer";
 import { useSelector } from "react-redux";
 import { useCreateAccountMutation } from "../slices/accountApiSlice";
@@ -9,13 +16,13 @@ import { toast } from "react-toastify";
 import Loader from "../components/Loader";
 
 const TransferScreen = () => {
-  const [accType, setAccType] = useState('Checking');
-  const [accNo, setAccNo] = useState('12345678987654321');
-  const [receiverAcc, setReceiverAcc] = useState('');
-  const [receiverAccNo, setReceiverAccNo] = useState('');
-  const [accBalance, setAccBalance] = useState('$ 1,217.53');
-  const [transferAmount, setTransferAmount] = useState('');
-  const [reason, setReason] = useState('');
+  const [accType, setAccType] = useState("Checking");
+  const [accNo, setAccNo] = useState("12345678987654321");
+  const [receiverAcc, setReceiverAcc] = useState("");
+  const [receiverAccNo, setReceiverAccNo] = useState("");
+  const [accBalance, setAccBalance] = useState("$ 1,217.53");
+  const [transferAmount, setTransferAmount] = useState("");
+  const [reason, setReason] = useState("");
 
   const navigate = useNavigate();
 
@@ -26,8 +33,7 @@ const TransferScreen = () => {
   const submitHandler = async (e) => {
     e.preventDefault();
 
-    try{
-
+    try {
       const data = new FormData();
       data.append("name", userInfo.name);
       data.append("email_id", userInfo.email);
@@ -57,14 +63,13 @@ const TransferScreen = () => {
       // })
       // .then(response => response.json())
       // .then(data => console.log(data));
-      
+
       const res = await createNewAccount(data).unwrap();
       console.log(res);
       dispatch(createAccount({ ...res }));
-      toast.success('Successfully created a new account!')
-      navigate('/');
-    }
-    catch(err){
+      toast.success("Successfully created a new account!");
+      navigate("/");
+    } catch (err) {
       console.log(err);
       toast.error(err?.data?.message || err.error);
     }
@@ -84,86 +89,84 @@ const TransferScreen = () => {
       </h2>
 
       <Form onSubmit={submitHandler}>
-        
         <Row className="mt-4">
-            <Col md={4}>
-                <Form.Group className="my-3" controlId="acc_type">
-                    <Form.Label>Your account</Form.Label>
-                    <Form.Control
-                    value={accType}
-                    multiple={false}
-                    disabled
-                    >
-                    </Form.Control>
-                </Form.Group>
-            </Col>
-            <Col md={8}>
-                <Form.Group className="my-3" controlId="acc_no">
-                    <Form.Label>Your account number</Form.Label>
-                    <Form.Control
-                        type="text"
-                        min="0"
-                        placeholder="Enter your account number"
-                        value={accNo}
-                        disabled
-                    />
-                </Form.Group>
-            </Col>
+          <Col md={3}>
+            <DropdownButton
+              id="acc_type"
+              className="mt-5"
+              variant="dark"
+              title={accType ? accType : "Checking"}
+              onSelect={(option) => setAccType(option)}
+              style={{ width: "100%" }}
+            >
+              <Dropdown.Item eventKey="*required">
+                Your account type
+              </Dropdown.Item>
+              <Dropdown.Item eventKey="savings">Savings</Dropdown.Item>
+              <Dropdown.Item eventKey="checking">Checking</Dropdown.Item>
+            </DropdownButton>
+          </Col>
+          <Col md={9}>
+            <Form.Group className="mt-3" controlId="acc_no">
+              <Form.Label>Your account number</Form.Label>
+              <Form.Control
+                type="text"
+                min="0"
+                placeholder="Enter your account number"
+                value={accNo}
+              />
+            </Form.Group>
+          </Col>
         </Row>
 
-        <Row>
-            <Col md={4}>
-                <Form.Group className="my-3" controlId="receiver_acc_type">
-                    <Form.Label>Receiver's account</Form.Label>
-                    <Form.Select
-                    value={receiverAcc}
-                    multiple={false}
-                    onChange={(e) => setReceiverAcc(e.target.value)}
-                    aria-label="Select account type"
-                    >
-                    <option value="">Account type</option>
-                    <option value="savings">Savings</option>
-                    <option value="checking">Checking</option>
-                    </Form.Select>
-                </Form.Group>
-            </Col>
-            <Col md={8}>
-                <Form.Group className="my-3" controlId="receiver_acc_no">
-                    <Form.Label>Receiver's account number</Form.Label>
-                    <Form.Control
-                        type="text"
-                        placeholder="Enter receiver's account number"
-                        value={receiverAccNo}
-                        onChange={(e) => setReceiverAccNo(e.target.value)}
-                    />
-                </Form.Group>
-            </Col>
+        <Row className="mt-3">
+          <Col md={3}>
+            <DropdownButton
+              id="receiver_acc_type"
+              className="mt-5"
+              variant="dark"
+              title={receiverAcc ? receiverAcc : "Checking"}
+              onChange={(e) => setReceiverAcc(e.target.value)}
+              style={{ width: "100%" }}
+            >
+              <Dropdown.Item value="">Receiver's account type</Dropdown.Item>
+              <Dropdown.Item value="savings">Savings</Dropdown.Item>
+              <Dropdown.Item value="checking">Checking</Dropdown.Item>
+            </DropdownButton>
+          </Col>
+          <Col md={9}>
+            <Form.Group className="mt-3" controlId="receiver_acc_no">
+              <Form.Label>Receiver's account number</Form.Label>
+              <Form.Control
+                type="text"
+                placeholder="Enter receiver's account number"
+                value={receiverAccNo}
+                onChange={(e) => setReceiverAccNo(e.target.value)}
+              />
+            </Form.Group>
+          </Col>
         </Row>
 
-        <Row>
-            <Col md={4}>
-                <Form.Group className="my-3" controlId="balance">
-                    <Form.Label>Your balance</Form.Label>
-                    <Form.Control
-                        value={accBalance}
-                        multiple={false}
-                        disabled
-                    />
-                </Form.Group>
-            </Col>
-            <Col md={8}>
-                <Form.Group className="my-3" controlId="transfer_amount">
-                    <Form.Label>Amount to be transfered</Form.Label>
-                    <Form.Control
-                        type="number"
-                        min="0"
-                        placeholder="Enter amount to be transfered"
-                        value={transferAmount}
-                        onChange={(e) => setTransferAmount(e.target.value)}
-                        onWheel={(e) => e.target.blur()}
-                    />
-                </Form.Group>
-            </Col>
+        <Row className="mt-4">
+          <Col md={3}>
+            <Form.Group className="my-3" controlId="balance">
+              <Form.Label>Your balance</Form.Label>
+              <Form.Control value={accBalance} multiple={false} disabled />
+            </Form.Group>
+          </Col>
+          <Col md={9}>
+            <Form.Group className="my-3" controlId="transfer_amount">
+              <Form.Label>Amount to be transfered</Form.Label>
+              <Form.Control
+                type="number"
+                min="0"
+                placeholder="Enter amount to be transfered"
+                value={transferAmount}
+                onChange={(e) => setTransferAmount(e.target.value)}
+                onWheel={(e) => e.target.blur()}
+              />
+            </Form.Group>
+          </Col>
         </Row>
 
         <Row>
@@ -179,17 +182,16 @@ const TransferScreen = () => {
         </Row>
 
         <Row>
-            <Button
+          <Button
             disabled={isLoading}
             style={{ width: "100%" }}
             type="submit"
             variant="dark"
             className="mt-4 mr-3"
-            >
-              Make Payment
-            </Button>
+          >
+            Make Payment
+          </Button>
         </Row>
-        
       </Form>
 
       {isLoading && <Loader />}

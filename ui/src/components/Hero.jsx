@@ -7,7 +7,7 @@ const Hero = () => {
         <Card className="p-5 d-flex flex-column align-items-center hero-card bg-light w-75">
           <h1 className="text-center mb-4">
             <span style={{ fontSize: "6vh", fontWeight: "bold" }}>
-              Welcome to Cisco Bank
+              Welcome to Martian Bank
             </span>
           </h1>
           <div className="d-flex mt-4 mb-4">
