@@ -1,5 +1,5 @@
 import { fetchBaseQuery, createApi } from "@reduxjs/toolkit/query/react";
-const USERS_URL = "http://localhost:8000/api/auth/users";
+const usersUrl = import.meta.env.VITE_USERS_URL;
 
 // const baseQuery = fetchBaseQuery({ baseUrl: 'http://host.docker.internal:8000/' });
 const baseQuery = fetchBaseQuery({ 
@@ -16,27 +16,27 @@ export const userApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     login: builder.mutation({
       query: (data) => ({
-        url: `${USERS_URL}/auth`,
+        url: `${usersUrl}/auth`,
         method: "POST",
         body: data,
       }),
     }),
     logout: builder.mutation({
       query: () => ({
-        url: `${USERS_URL}/logout`,
+        url: `${usersUrl}/logout`,
         method: "POST",
       }),
     }),
     register: builder.mutation({
       query: (data) => ({
-        url: `${USERS_URL}`,
+        url: `${usersUrl}`,
         method: "POST",
         body: data,
       }),
     }),
     updateUser: builder.mutation({
       query: (data) => ({
-        url: `${USERS_URL}/profile`,
+        url: `${usersUrl}/profile`,
         method: "PUT",
         body: data,
       }),

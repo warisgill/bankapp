@@ -1,11 +1,11 @@
 import { apiSlice } from "./usersApiSlice";
-const ACCOUNT_URL = "http://127.0.0.1:5000";
+const accUrl = import.meta.env.VITE_ACCOUNT_URL;
 
 export const accountApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     createAccount: builder.mutation({
       query: (data) => ({
-        url: `${ACCOUNT_URL}/account/create`,
+        url: `${accUrl}/account/create`,
         method: "POST",
         prepareHeaders: (headers) => {
           headers.set("Content-Type", "multipart/form-data");
@@ -16,7 +16,7 @@ export const accountApiSlice = apiSlice.injectEndpoints({
     }),
     getAllAccounts: builder.mutation({
       query: (data) => ({
-        url: `${ACCOUNT_URL}/account/allaccounts`,
+        url: `${accUrl}/account/allaccounts`,
         method: "POST",
         body: data,
         prepareHeaders: (headers) => {
