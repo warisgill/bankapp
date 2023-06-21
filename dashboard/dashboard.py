@@ -136,7 +136,7 @@ def create_account():
                 'success': True,
                 'message': 'Account created successfully',
                 'data': {
-                    'response': response
+                    'response': MessageToDict(response)
                 }
             })
 
