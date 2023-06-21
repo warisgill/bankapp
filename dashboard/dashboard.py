@@ -1,6 +1,6 @@
 import os
-
-
+import json
+from google.protobuf.json_format import MessageToDict
 from flask_cors import CORS
 
 from flask import Flask, render_template, request, jsonify
@@ -170,8 +170,16 @@ def get_all_accounts():
 
         get_req = GetAccountsRequest(email_id=email_id)
         response = client.getAccounts(get_req)
-        return response
+        # print(response.accounts)
+        # accounts = []
+        # for acc in response.accounts:
+        #    temp_account = {} 
+
+        
+        return json.dumps({"response":[MessageToDict(acc) for acc in response.accounts]}) #response
     return jsonify({"response": None})
+
+
 
 
 
