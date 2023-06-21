@@ -43,7 +43,7 @@ class AccountDetailsService(account_details_pb2_grpc.AccountDetailsServiceServic
             "government_id_type": request.government_id_type,
             # "account_holder_name": request.account_holder_name,
             'name' : request.name,
-            "balance": 0,
+            "balance": 100,
             "currency": "USD"
 
         }
