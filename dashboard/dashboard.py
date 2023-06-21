@@ -170,13 +170,7 @@ def get_all_accounts():
 
         get_req = GetAccountsRequest(email_id=email_id)
         response = client.getAccounts(get_req)
-        # print(response.accounts)
-        # accounts = []
-        # for acc in response.accounts:
-        #    temp_account = {} 
-        # for acc in response.accounts:
-        #     print("balance", acc.balance)
-
+       
         
         return json.dumps({"response":[MessageToDict(acc) for acc in response.accounts]}) #response
     return jsonify({"response": None})
