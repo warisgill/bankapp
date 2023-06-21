@@ -102,7 +102,7 @@ CORS(app)
 #     return render_template('detail_form.html')
 
 
-@app.route('/', methods=['GET', 'POST'])
+@app.route('/account/create', methods=['GET', 'POST'])
 def create_account():
     channel = grpc.insecure_channel('localhost:50051')
     client = AccountDetailsServiceStub(channel)
@@ -155,24 +155,29 @@ def create_account():
                 'message': 'An unexpected error occurred',
                 'error': str(e)
             })
-
-        # # Create a gRPC request
-        # account_request = CreateAccountRequest(
-        #     email_id=email_id,
-        #     account_type=account_type,
-        #     address=address,
-        #     govt_id_number=govt_id_number,
-        #     government_id_type=government_id_type,
-        #     name=name
-        # )
-
-        # # Send the gRPC request to the Account Microservice
-        # response = client.createAccount(account_request)
-
-        # return f"Response  {response}"  # render_template('result.html', response=response)
-
     return render_template('create_account_form.html')
 
+
+@app.route('/account/allaccounts', methods=['GET', 'POST'])
+def get_all_accounts():
+    channel = grpc.insecure_channel('localhost:50051')
+    client = AccountDetailsServiceStub(channel)
+    if request.method == 'POST':
+        print("+++++++++++++++++++++++++++++++++++++++++")
+        print(request.form)
+
+        email_id = request.form['email_id']
+
+        get_req = GetAccountsRequest(email_id=email_id)
+        response = client.getAccounts(get_req)
+        return response
+    return jsonify({"response": None})
+
+
+
+        
+
+        
 
 
 @app.route('/transaction', methods=['GET', 'POST'])
