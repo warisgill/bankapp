@@ -30,7 +30,7 @@ const HomeScreen = () => {
             <Card style={{ marginTop: "2vh" }}>
               <Card.Header className="bg-light text-uppercase">
                 <strong>
-                  Cisco Checking{" "}
+                  Checking Account
                   <FontAwesomeIcon
                     icon={faArrowRightFromBracket}
                     style={{ marginLeft: "1rem" }}
@@ -77,7 +77,7 @@ const HomeScreen = () => {
             <Card style={{ marginTop: "2vh" }}>
               <Card.Header className="bg-light text-uppercase">
                 <strong>
-                  Cisco Savings{" "}
+                  Savings Account
                   <FontAwesomeIcon
                     icon={faArrowRightFromBracket}
                     style={{ marginLeft: "1rem" }}

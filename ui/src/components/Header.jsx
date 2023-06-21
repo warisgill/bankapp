@@ -37,7 +37,7 @@ const Header = () => {
         <Container>
           <LinkContainer to="/">
             <Navbar.Brand className="text-white text-uppercase">
-              <strong style={{ fontSize: "4vh" }}>Cisco Bank</strong>
+              <strong style={{ fontSize: "4vh" }}>Martian Bank</strong>
             </Navbar.Brand>
           </LinkContainer>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
