@@ -14,7 +14,18 @@ export const accountApiSlice = apiSlice.injectEndpoints({
         body: data,
       }),
     }),
+    getAllAccounts: builder.mutation({
+      query: (data) => ({
+        url: `${ACCOUNT_URL}/account/allaccounts`,
+        method: "POST",
+        body: data,
+        prepareHeaders: (headers) => {
+          headers.set("Content-Type", "application/json");
+          return headers;
+        },
+      }),
+    }),
   }),
 });
 
-export const { useCreateAccountMutation } = accountApiSlice;
+export const { useCreateAccountMutation, useGetAllAccountsMutation } = accountApiSlice;

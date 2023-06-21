@@ -1,4 +1,3 @@
-import { useSelector } from "react-redux";
 import { Container, Row, Col, Card, Button, Badge } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import Hero from "../components/Hero";
@@ -10,102 +9,46 @@ import {
   faCreditCard,
   faLandmarkFlag,
 } from "@fortawesome/free-solid-svg-icons";
+import { toast } from "react-toastify";
+import { useGetAllAccountsMutation } from "../slices/accountApiSlice";
+import { getAccounts } from "../slices/accountSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect, useState } from "react";
 
 const HomeScreen = () => {
   const { userInfo } = useSelector((state) => state.auth);
+
+  const accountInfo = useSelector(
+    (state) => state.account.all_accounts
+  ).response;
+  const dispatch = useDispatch();
+
+  const [getAllAccounts, { isLoading }] = useGetAllAccountsMutation();
+
+  const fetchAccounts = async () => {
+    const data = new FormData();
+    data.append("email_id", userInfo.email);
+    const res = await getAllAccounts(data).unwrap();
+    console.log("Fetched accounts: ", res);
+    dispatch(getAccounts(res));
+  };
+
+  useEffect(() => {
+    try {
+      fetchAccounts();
+    } catch (err) {
+      console.log(err);
+      toast.error("Error in fetching accounts!");
+    }
+  }, []);
 
   const renderDashboard = () => {
     return (
       <Container fluid style={{ overflowY: "auto" }}>
         <Row>
-          <Col md={8} style={{ marginTop: "5vh" }}>
-            <Card>
-              <Card.Header
-                style={{ fontSize: "3vh" }}
-                className="bg-dark text-white"
-              >
-                <strong>Bank accounts</strong>
-              </Card.Header>
-            </Card>
-            <Card style={{ marginTop: "2vh" }}>
-              <Card.Header className="bg-light text-uppercase">
-                <strong>
-                  Checking Account
-                  <FontAwesomeIcon
-                    icon={faArrowRightFromBracket}
-                    style={{ marginLeft: "1rem" }}
-                  />
-                </strong>
-              </Card.Header>
-              <Card.Body>
-                <Card.Text>
-                  <Row>
-                    <Col md={5}>
-                      <div>
-                        <strong style={{ fontSize: "5vh" }}>$ 1,217.53</strong>
-                      </div>
-                      <div>Available balance</div>
-                    </Col>
-                    <Col md={1} />
-                    <Col md={6}>
-                      <div style={{ fontSize: "1.5vh", marginTop: "1vh" }}>
-                        Account Number:{" "}
-                        <span className="text-primary">12345678987654321</span>{" "}
-                        <br />
-                      </div>
-                      <div style={{ fontSize: "1.5vh" }}>
-                        Deposits this month: <strong>+ $100</strong> <br />
-                        Withdrawls this month: <strong>- $200</strong>
-                      </div>
-                    </Col>
-                  </Row>
-                </Card.Text>
-              </Card.Body>
-              <Card.Footer>
-                <Link to="/acc-info" style={{ textDecoration: "none" }}>
-                  <Button variant="dark" className="float-end">
-                    Account info
-                  </Button>
-                </Link>
-                <Link to="/transfer" style={{ textDecoration: "none" }}>
-                  <Button variant="dark" className="float-end me-2">
-                    Transfer money
-                  </Button>
-                </Link>
-              </Card.Footer>
-            </Card>
-            <Card style={{ marginTop: "2vh" }}>
-              <Card.Header className="bg-light text-uppercase">
-                <strong>
-                  Savings Account
-                  <FontAwesomeIcon
-                    icon={faArrowRightFromBracket}
-                    style={{ marginLeft: "1rem" }}
-                  />
-                </strong>
-              </Card.Header>
-              <Card.Body>
-                <Card.Text>
-                  <div>
-                    <strong style={{ fontSize: "5vh" }}>$ 1,217.53</strong>
-                  </div>
-                  <div>Available balance</div>
-                </Card.Text>
-              </Card.Body>
-              <Card.Footer>
-                <Button variant="dark" className="float-end">
-                  Account info
-                </Button>
-                <Button variant="dark" className="float-end me-2">
-                  Transfer money
-                </Button>
-              </Card.Footer>
-            </Card>
-          </Col>
-          <Col md={1}></Col>
           <Col md={3}>
             <Link to="/new-account" style={{ textDecoration: "none" }}>
-              <Card className="custom-card" style={{ marginTop: "6vh" }}>
+              <Card className="custom-card" style={{ marginTop: "6vh", backgroundColor: 'rgba(255, 255, 255, 0.5)', backdropFilter: 'invert(2%)'  }}>
                 <Card.Body>
                   <Card.Title style={{ fontSize: "2.5vh" }}>
                     <strong>New Account</strong>
@@ -136,7 +79,7 @@ const HomeScreen = () => {
               </Card>
             </Link>
             <Link to="/transfer" style={{ textDecoration: "none" }}>
-              <Card className="custom-card" style={{ marginTop: "6vh" }}>
+              <Card className="custom-card" style={{ marginTop: "6vh", backgroundColor: 'rgba(255, 255, 255, 0.5)', backdropFilter: 'invert(2%)' }}>
                 <Card.Body>
                   <Card.Title style={{ fontSize: "2.5vh" }}>
                     <strong>Transfer</strong>
@@ -167,37 +110,37 @@ const HomeScreen = () => {
               </Card>
             </Link>
             <Link to="/transactions" style={{ textDecoration: "none" }}>
-            <Card className="custom-card" style={{ marginTop: "6vh" }}>
-              <Card.Body>
-                <Card.Title style={{ fontSize: "2.5vh" }}>
-                  <strong>Transactions</strong>
-                </Card.Title>
-                <Card.Text style={{ fontSize: "1.5vh" }}>
-                  Check all your pending and completed transactions here.
-                </Card.Text>
-              </Card.Body>
-              <Badge
-                circle
-                bg="dark"
-                className="position-absolute top-0 end-0"
-                style={{
-                  transform: "translate(-20%, -50%)",
-                  height: "5vh",
-                  width: "5vw",
-                }}
-              >
-                <FontAwesomeIcon
-                  icon={faMoneyBillTransfer}
-                  className="p-2"
+              <Card className="custom-card" style={{ marginTop: "6vh", backgroundColor: 'rgba(255, 255, 255, 0.5)', backdropFilter: 'invert(2%)' }}>
+                <Card.Body>
+                  <Card.Title style={{ fontSize: "2.5vh" }}>
+                    <strong>Transactions</strong>
+                  </Card.Title>
+                  <Card.Text style={{ fontSize: "1.5vh" }}>
+                    Check all your pending and completed transactions here.
+                  </Card.Text>
+                </Card.Body>
+                <Badge
+                  circle
+                  bg="dark"
+                  className="position-absolute top-0 end-0"
                   style={{
-                    fontSize: "24px",
-                    color: "white",
+                    transform: "translate(-20%, -50%)",
+                    height: "5vh",
+                    width: "5vw",
                   }}
-                />
-              </Badge>
-            </Card>
+                >
+                  <FontAwesomeIcon
+                    icon={faMoneyBillTransfer}
+                    className="p-2"
+                    style={{
+                      fontSize: "24px",
+                      color: "white",
+                    }}
+                  />
+                </Badge>
+              </Card>
             </Link>
-            <Card className="custom-card" style={{ marginTop: "6vh" }}>
+            <Card className="custom-card" style={{ marginTop: "6vh", backgroundColor: 'rgba(255, 255, 255, 0.5)', backdropFilter: 'invert(2%)'  }}>
               <Card.Body>
                 <Card.Title style={{ fontSize: "2.5vh" }}>
                   <strong>Loan</strong>
@@ -236,6 +179,82 @@ const HomeScreen = () => {
             `}
               </style>
             </Card>
+          </Col>
+          <Col md={1}></Col>
+          <Col md={8} style={{ marginTop: "5vh" }}>
+            <Card>
+              <Card.Header
+                style={{ fontSize: "3vh" }}
+                className="bg-dark text-white"
+              >
+                <strong>Bank accounts</strong>
+              </Card.Header>
+            </Card>
+            {accountInfo ? (
+              accountInfo.map((account) => {
+                return (
+                  <Card style={{ marginTop: "2vh", backgroundColor: 'rgba(255, 255, 255, 0.5)', backdropFilter: 'invert(2%)' }}>
+                    <Card.Header className="bg-dark text-uppercase text-white">
+                      <strong>
+                        {account.accountType} Account
+                        <FontAwesomeIcon
+                          icon={faArrowRightFromBracket}
+                          style={{ marginLeft: "1rem" }}
+                        />
+                      </strong>
+                    </Card.Header>
+                    <Card.Body>
+                      <Card.Text>
+                        <Row>
+                          <Col md={5} className="text-center">
+                            <div>
+                              <strong style={{ fontSize: "5vh" }}>
+                                ${account.balance}
+                              </strong>
+                            </div>
+                            <div className="text-muted">Available balance</div>
+                          </Col>
+                          <Col md={1} />
+                          <Col md={6}>
+                            <div
+                              style={{ fontSize: "1.5vh", marginTop: "1vh" }}
+                            >
+                              Account Number:{" "}
+                              <span className="text-primary">
+                                <span>&nbsp;</span>
+                                <strong>{account.accountNumber}</strong>
+                              </span>
+                              <br />
+                              <div
+                                style={{ fontSize: "1.5vh" }}
+                                className="text-muted"
+                              >
+                                Name: {account.name} <br />
+                                Email ID: {account.emailId}
+                              </div>
+                            </div>
+                          </Col>
+                        </Row>
+                      </Card.Text>
+                    </Card.Body>
+                    <Card.Footer>
+                      <Link to="/acc-info" style={{ textDecoration: "none" }}>
+                        <Button variant="dark" className="float-end">
+                          Account info
+                        </Button>
+                      </Link>
+                      <Link to="/transfer" style={{ textDecoration: "none" }}>
+                        <Button variant="dark" className="float-end me-2">
+                          Transfer money
+                        </Button>
+                      </Link>
+                    </Card.Footer>
+                  </Card>
+                );
+              })
+            ) : (
+              <></>
+            )}
           </Col>
         </Row>
       </Container>

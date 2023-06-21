@@ -58,7 +58,7 @@ const NewAccScreen = () => {
       
       const res = await createNewAccount(data).unwrap();
       console.log(res);
-      dispatch(createAccount({ ...res }));
+      dispatch(createAccount(res));
       toast.success('Successfully created a new account!')
       navigate('/');
     }
@@ -118,8 +118,8 @@ const NewAccScreen = () => {
               aria-label="Select account type"
             >
               <option value="">Select your account type</option>
-              <option value="savings">Savings</option>
-              <option value="checking">Checking</option>
+              <option value="Savings">Savings</option>
+              <option value="Checking">Checking</option>
             </Form.Select>
           </Form.Group>
         </Row>
@@ -135,9 +135,9 @@ const NewAccScreen = () => {
                 aria-label="Select your govt. ID"
               >
                 <option value="">Select your govt. ID</option>
-                <option value="passport">Passport</option>
-                <option value="driverLicense">Driver's License</option>
-                <option value="aadharCard">SSN</option>
+                <option value="Passport">Passport</option>
+                <option value="DriverLicense">Driver's License</option>
+                <option value="AadharCard">SSN</option>
               </Form.Select>
             </Form.Group>
           </Col>
@@ -146,7 +146,6 @@ const NewAccScreen = () => {
                 <Form.Label>Govt. ID number</Form.Label>
                 <Form.Control
                   type="text"
-                  min="0"
                   placeholder="Enter your Govt. ID number"
                   value={govtIdNo}
                   onChange={(e) => setGovtIdNo(e.target.value)}
