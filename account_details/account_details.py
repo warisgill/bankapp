@@ -62,6 +62,7 @@ class AccountDetailsService(account_details_pb2_grpc.AccountDetailsServiceServic
         accounts = collection.find({"email_id": email_id})
         account_list = []
         for account in accounts:
+            print(account["balance"])
             account_list.append(Account(account_number=account['account_number'], email_id=account['email_id'], account_type=account['account_type'], address=account['address'], govt_id_number=account['govt_id_number'], government_id_type=account['government_id_type'], name =account['name'], balance=account['balance'], currency=account['currency']))
         
         return GetAccountsResponse(accounts=account_list)
