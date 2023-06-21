@@ -15,6 +15,57 @@ import { getAccounts } from "../slices/accountSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 
+const CustomCard = ({ title, text, icon, link }) => {
+  return (
+    <Link to={link} style={{ textDecoration: "none" }}>
+      <Card
+        className="custom-card"
+        style={{
+          marginTop: "6vh",
+          backgroundColor: "rgba(255, 255, 255, 0.5)",
+          backdropFilter: "invert(2%)",
+        }}
+      >
+        <Card.Body>
+          <Card.Title style={{ fontSize: "2.5vh" }}>
+            <strong>{title}</strong>
+          </Card.Title>
+          <Card.Text style={{ fontSize: "1.5vh" }}>{text}</Card.Text>
+        </Card.Body>
+        <Badge
+          circle
+          bg="dark"
+          className="position-absolute top-0 end-0"
+          style={{
+            transform: "translate(-20%, -50%)",
+            height: "5vh",
+            width: "5vw",
+          }}
+        >
+          <FontAwesomeIcon
+            icon={icon}
+            className="p-2"
+            style={{
+              fontSize: "24px",
+              color: "white",
+            }}
+          />
+        </Badge>
+        <style>
+          {`
+              .custom-card:hover .card-body{
+                box-shadow: 0 10px 10px rgba(0, 0, 0, 0.5);
+              }
+              .custom-card:hover .position-absolute{
+                box-shadow: 0 10px 10px rgba(0, 0, 0, 0.5);
+              }
+            `}
+        </style>
+      </Card>
+    </Link>
+  );
+};
+
 const HomeScreen = () => {
   const { userInfo } = useSelector((state) => state.auth);
 
@@ -47,140 +98,42 @@ const HomeScreen = () => {
       <Container fluid style={{ overflowY: "auto" }}>
         <Row>
           <Col md={3}>
-            <Link to="/new-account" style={{ textDecoration: "none" }}>
-              <Card className="custom-card" style={{ marginTop: "6vh", backgroundColor: 'rgba(255, 255, 255, 0.5)', backdropFilter: 'invert(2%)'  }}>
-                <Card.Body>
-                  <Card.Title style={{ fontSize: "2.5vh" }}>
-                    <strong>New Account</strong>
-                  </Card.Title>
-                  <Card.Text style={{ fontSize: "1.5vh" }}>
-                    Create a new checking or savings account with Cisco Bank.
-                  </Card.Text>
-                </Card.Body>
-                <Badge
-                  circle
-                  bg="dark"
-                  className="position-absolute top-0 end-0"
-                  style={{
-                    transform: "translate(-20%, -50%)",
-                    height: "5vh",
-                    width: "5vw",
-                  }}
-                >
-                  <FontAwesomeIcon
-                    icon={faBuildingColumns}
-                    className="p-2"
-                    style={{
-                      fontSize: "24px",
-                      color: "white",
-                    }}
-                  />
-                </Badge>
-              </Card>
-            </Link>
-            <Link to="/transfer" style={{ textDecoration: "none" }}>
-              <Card className="custom-card" style={{ marginTop: "6vh", backgroundColor: 'rgba(255, 255, 255, 0.5)', backdropFilter: 'invert(2%)' }}>
-                <Card.Body>
-                  <Card.Title style={{ fontSize: "2.5vh" }}>
-                    <strong>Transfer</strong>
-                  </Card.Title>
-                  <Card.Text style={{ fontSize: "1.5vh" }}>
-                    Make a payment to an external or internal bank account.
-                  </Card.Text>
-                </Card.Body>
-                <Badge
-                  circle
-                  bg="dark"
-                  className="position-absolute top-0 end-0"
-                  style={{
-                    transform: "translate(-20%, -50%)",
-                    height: "5vh",
-                    width: "5vw",
-                  }}
-                >
-                  <FontAwesomeIcon
-                    icon={faCreditCard}
-                    className="p-2"
-                    style={{
-                      fontSize: "24px",
-                      color: "white",
-                    }}
-                  />
-                </Badge>
-              </Card>
-            </Link>
-            <Link to="/transactions" style={{ textDecoration: "none" }}>
-              <Card className="custom-card" style={{ marginTop: "6vh", backgroundColor: 'rgba(255, 255, 255, 0.5)', backdropFilter: 'invert(2%)' }}>
-                <Card.Body>
-                  <Card.Title style={{ fontSize: "2.5vh" }}>
-                    <strong>Transactions</strong>
-                  </Card.Title>
-                  <Card.Text style={{ fontSize: "1.5vh" }}>
-                    Check all your pending and completed transactions here.
-                  </Card.Text>
-                </Card.Body>
-                <Badge
-                  circle
-                  bg="dark"
-                  className="position-absolute top-0 end-0"
-                  style={{
-                    transform: "translate(-20%, -50%)",
-                    height: "5vh",
-                    width: "5vw",
-                  }}
-                >
-                  <FontAwesomeIcon
-                    icon={faMoneyBillTransfer}
-                    className="p-2"
-                    style={{
-                      fontSize: "24px",
-                      color: "white",
-                    }}
-                  />
-                </Badge>
-              </Card>
-            </Link>
-            <Card className="custom-card" style={{ marginTop: "6vh", backgroundColor: 'rgba(255, 255, 255, 0.5)', backdropFilter: 'invert(2%)'  }}>
-              <Card.Body>
-                <Card.Title style={{ fontSize: "2.5vh" }}>
-                  <strong>Loan</strong>
-                </Card.Title>
-                <Card.Text style={{ fontSize: "1.5vh" }}>
-                  Apply for a loan at the best interest rates in the market.
-                </Card.Text>
-              </Card.Body>
-              <Badge
-                circle
-                bg="dark"
-                className="position-absolute top-0 end-0"
-                style={{
-                  transform: "translate(-20%, -50%)",
-                  height: "5vh",
-                  width: "5vw",
-                }}
-              >
-                <FontAwesomeIcon
-                  icon={faLandmarkFlag}
-                  className="p-2"
-                  style={{
-                    fontSize: "24px",
-                    color: "white",
-                  }}
-                />
-              </Badge>
-              <style>
-                {`
-              .custom-card:hover .card-body{
-                box-shadow: 0 10px 10px rgba(0, 0, 0, 0.5);
-              }
-              .custom-card:hover .position-absolute{
-                box-shadow: 0 10px 10px rgba(0, 0, 0, 0.5);
-              }
-            `}
-              </style>
-            </Card>
+            {/* New Account Card */}
+            <CustomCard
+              link="/new-accr"
+              title="New Account"
+              text="Create a new checking or savings account with Cisco Bank."
+              icon={faBuildingColumns}
+            />
+
+            {/* Transfer Card */}
+            <CustomCard
+              link="/transfer"
+              title="Transfer"
+              text="Make a payment to an external or internal bank account."
+              icon={faCreditCard}
+            />
+
+            {/* Transactions Card */}
+            <CustomCard
+              link="/transactions"
+              title="Transactions"
+              text="Check all your pending and completed transactions here."
+              icon={faMoneyBillTransfer}
+            />
+
+            {/* Loan Card */}
+            <CustomCard
+              link="/loan"
+              title="Loan"
+              text="Apply for a loan at the best interest rates in the market."
+              icon={faLandmarkFlag}
+            />
+
           </Col>
-          <Col md={1}></Col>
+
+          <Col md={1} />
+
           <Col md={8} style={{ marginTop: "5vh" }}>
             <Card>
               <Card.Header
@@ -193,7 +146,13 @@ const HomeScreen = () => {
             {accountInfo ? (
               accountInfo.map((account) => {
                 return (
-                  <Card style={{ marginTop: "2vh", backgroundColor: 'rgba(255, 255, 255, 0.5)', backdropFilter: 'invert(2%)' }}>
+                  <Card
+                    style={{
+                      marginTop: "2vh",
+                      backgroundColor: "rgba(255, 255, 255, 0.5)",
+                      backdropFilter: "invert(2%)",
+                    }}
+                  >
                     <Card.Header className="bg-dark text-uppercase text-white">
                       <strong>
                         {account.accountType} Account
