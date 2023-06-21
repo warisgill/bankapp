@@ -5,6 +5,7 @@ from flask_cors import CORS
 
 from flask import Flask, render_template, request, jsonify
 import grpc
+from dataclasses import dataclass
 
 from account_details_pb2 import * 
 from account_details_pb2_grpc import AccountDetailsServiceStub
@@ -22,7 +23,7 @@ db = client['bank']
 collection = db['accounts']
 
 
-
+@dataclass
 class Account:
     def __init__(self):
         self.account_number = ""
