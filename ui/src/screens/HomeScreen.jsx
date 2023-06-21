@@ -18,7 +18,7 @@ const HomeScreen = () => {
     return (
       <Container fluid style={{ overflowY: "auto" }}>
         <Row>
-          <Col md={8} style={{ marginTop: "4vh" }}>
+          <Col md={8} style={{ marginTop: "5vh" }}>
             <Card>
               <Card.Header
                 style={{ fontSize: "3vh" }}
@@ -67,9 +67,11 @@ const HomeScreen = () => {
                     Account info
                   </Button>
                 </Link>
-                <Button variant="dark" className="float-end me-2">
-                  Transfer money
-                </Button>
+                <Link to="/transfer" style={{ textDecoration: "none" }}>
+                  <Button variant="dark" className="float-end me-2">
+                    Transfer money
+                  </Button>
+                </Link>
               </Card.Footer>
             </Card>
             <Card style={{ marginTop: "2vh" }}>
@@ -133,6 +135,37 @@ const HomeScreen = () => {
                 </Badge>
               </Card>
             </Link>
+            <Link to="/transfer" style={{ textDecoration: "none" }}>
+              <Card className="custom-card" style={{ marginTop: "6vh" }}>
+                <Card.Body>
+                  <Card.Title style={{ fontSize: "2.5vh" }}>
+                    <strong>Transfer</strong>
+                  </Card.Title>
+                  <Card.Text style={{ fontSize: "1.5vh" }}>
+                    Make a payment to an external or internal bank account.
+                  </Card.Text>
+                </Card.Body>
+                <Badge
+                  circle
+                  bg="dark"
+                  className="position-absolute top-0 end-0"
+                  style={{
+                    transform: "translate(-20%, -50%)",
+                    height: "5vh",
+                    width: "5vw",
+                  }}
+                >
+                  <FontAwesomeIcon
+                    icon={faCreditCard}
+                    className="p-2"
+                    style={{
+                      fontSize: "24px",
+                      color: "white",
+                    }}
+                  />
+                </Badge>
+              </Card>
+            </Link>
             <Card className="custom-card" style={{ marginTop: "6vh" }}>
               <Card.Body>
                 <Card.Title style={{ fontSize: "2.5vh" }}>
@@ -154,35 +187,6 @@ const HomeScreen = () => {
               >
                 <FontAwesomeIcon
                   icon={faMoneyBillTransfer}
-                  className="p-2"
-                  style={{
-                    fontSize: "24px",
-                    color: "white",
-                  }}
-                />
-              </Badge>
-            </Card>
-            <Card className="custom-card" style={{ marginTop: "6vh" }}>
-              <Card.Body>
-                <Card.Title style={{ fontSize: "2.5vh" }}>
-                  <strong>Payments</strong>
-                </Card.Title>
-                <Card.Text style={{ fontSize: "1.5vh" }}>
-                  Make a payment to an external or internal bank account.
-                </Card.Text>
-              </Card.Body>
-              <Badge
-                circle
-                bg="dark"
-                className="position-absolute top-0 end-0"
-                style={{
-                  transform: "translate(-20%, -50%)",
-                  height: "5vh",
-                  width: "5vw",
-                }}
-              >
-                <FontAwesomeIcon
-                  icon={faCreditCard}
                   className="p-2"
                   style={{
                     fontSize: "24px",

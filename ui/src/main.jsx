@@ -1,5 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
+import 'mdb-react-ui-kit/dist/css/mdb.min.css';
+import "@fortawesome/fontawesome-free/css/all.min.css";
 import App from "./App.jsx";
 import {
   createBrowserRouter,
@@ -19,6 +21,7 @@ import PrivateRoute from "./components/PrivateRoute.jsx";
 import AtmScreen from "./screens/AtmScreen.jsx";
 import NewAccScreen from "./screens/NewAccScreen.jsx";
 import AccInfoScreen from "./screens/AccInfoScreen.jsx";
+import TransferScreen from "./screens/TransferScreen.jsx";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -31,6 +34,7 @@ const router = createBrowserRouter(
         <Route path="/profile" element={<ProfileScreen />} />
         <Route path="/new-account" element={<NewAccScreen />} />
         <Route path="/acc-info" element={<AccInfoScreen />} />
+        <Route path="/transfer" element={<TransferScreen />} />
       </Route>
     </Route>
   )

@@ -6,3 +6,7 @@
     height: 57vh;
     width: 40vw;
 }
+
+body {
+    font-family: Roboto, Helvetica, Arial, sans-serif;
+  }
