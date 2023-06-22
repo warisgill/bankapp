@@ -141,14 +141,6 @@ def get_all_accounts():
     return jsonify({"response": None})
 
 
-
-
-
-        
-
-        
-
-
 @app.route('/transaction', methods=['GET', 'POST'])
 def transaction_form():
     if request.method == 'POST':
