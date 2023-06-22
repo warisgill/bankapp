@@ -147,6 +147,10 @@ def transaction_form():
         sender_account_number = request.form['sender_account_number'] # type: ignore
         receiver_account_number = request.form['receiver_account_number'] # type: ignore
         amount = float(request.form['amount']) # type: ignore
+        sender_account_type = request.form['sender_account_type'] # type: ignore
+        receiver_account_type = request.form['receiver_account_type'] # type: ignore
+        reason = request.form['reason'] # type: ignore
+
 
         channel = grpc.insecure_channel('localhost:50052')
         client = TransactionServiceStub(channel)
@@ -154,14 +158,18 @@ def transaction_form():
         req = TransactionRequest(
             sender_account_number=sender_account_number,
             receiver_account_number=receiver_account_number,
-            amount=amount
+            amount=amount,
+            sender_account_type=sender_account_type,
+            receiver_account_type=receiver_account_type,
+            reason=reason
         )
 
         print("Sending transaction request...")
 
         response = client.SendMoney(req)
 
-        return f"Transaction successful. Transaction ID: {response}"
+        # return f"Transaction successful. Transaction ID: {response}"
+        return json.dumps({"response": MessageToDict(response)})
     
     return render_template('transaction.html')
 
