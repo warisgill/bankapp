@@ -11,7 +11,7 @@ from account_details_pb2 import *
 from account_details_pb2_grpc import AccountDetailsServiceStub
 
 from transaction_pb2_grpc import TransactionServiceStub
-from transaction_pb2 import TransactionRequest # type: ignore
+from transaction_pb2 import * 
 
 from loan_pb2_grpc import LoanServiceStub
 from loan_pb2 import LoanRequest # type: ignore
@@ -172,6 +172,32 @@ def transaction_form():
         return json.dumps({"response": MessageToDict(response)})
     
     return render_template('transaction.html')
+
+
+@app.route('/transaction/history', methods=['GET', 'POST'])
+def get_all_transactions():
+    if request.method == 'POST':
+        sender_account_number = request.form['account_number'] # type: ignore
+        
+
+        channel = grpc.insecure_channel('localhost:50052')
+        client = TransactionServiceStub(channel)
+
+
+
+        req = GetALLTransactionsRequest(
+            account_number=sender_account_number)
+
+        print("Sending transaction request... +++++++++++++++++++++++++++++++")    
+
+        response = client.getTransactionsHistory(req)
+
+        print("After transaction request... +++++++++++++++++++++++++++++++")
+
+        # return f"Transaction successful. Transaction ID: {response}"
+        return json.dumps({"response": MessageToDict(response)})
+    
+    return json.dumps({"response": None})
 
 
 

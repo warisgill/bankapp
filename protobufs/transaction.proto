@@ -35,5 +35,5 @@ message GetALLTransactionsResponse{
 
 service TransactionService {
   rpc SendMoney(TransactionRequest) returns (TransactionResponse);
-  rpc getTransactions(GetALLTransactionsRequest) returns (GetALLTransactionsResponse);
+  rpc getTransactionsHistory(GetALLTransactionsRequest) returns (GetALLTransactionsResponse);
 }

@@ -19,8 +19,8 @@ class TransactionServiceStub(object):
                 request_serializer=transaction__pb2.TransactionRequest.SerializeToString,
                 response_deserializer=transaction__pb2.TransactionResponse.FromString,
                 )
-        self.getTransactions = channel.unary_unary(
-                '/TransactionService/getTransactions',
+        self.getTransactionsHistory = channel.unary_unary(
+                '/TransactionService/getTransactionsHistory',
                 request_serializer=transaction__pb2.GetALLTransactionsRequest.SerializeToString,
                 response_deserializer=transaction__pb2.GetALLTransactionsResponse.FromString,
                 )
@@ -35,7 +35,7 @@ class TransactionServiceServicer(object):
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
-    def getTransactions(self, request, context):
+    def getTransactionsHistory(self, request, context):
         """Missing associated documentation comment in .proto file."""
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
@@ -49,8 +49,8 @@ def add_TransactionServiceServicer_to_server(servicer, server):
                     request_deserializer=transaction__pb2.TransactionRequest.FromString,
                     response_serializer=transaction__pb2.TransactionResponse.SerializeToString,
             ),
-            'getTransactions': grpc.unary_unary_rpc_method_handler(
-                    servicer.getTransactions,
+            'getTransactionsHistory': grpc.unary_unary_rpc_method_handler(
+                    servicer.getTransactionsHistory,
                     request_deserializer=transaction__pb2.GetALLTransactionsRequest.FromString,
                     response_serializer=transaction__pb2.GetALLTransactionsResponse.SerializeToString,
             ),
@@ -82,7 +82,7 @@ class TransactionService(object):
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 
     @staticmethod
-    def getTransactions(request,
+    def getTransactionsHistory(request,
             target,
             options=(),
             channel_credentials=None,
@@ -92,7 +92,7 @@ class TransactionService(object):
             wait_for_ready=None,
             timeout=None,
             metadata=None):
-        return grpc.experimental.unary_unary(request, target, '/TransactionService/getTransactions',
+        return grpc.experimental.unary_unary(request, target, '/TransactionService/getTransactionsHistory',
             transaction__pb2.GetALLTransactionsRequest.SerializeToString,
             transaction__pb2.GetALLTransactionsResponse.FromString,
             options, channel_credentials,
