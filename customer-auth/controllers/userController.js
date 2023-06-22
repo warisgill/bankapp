@@ -1,12 +1,30 @@
 import asyncHandler from 'express-async-handler';
+// import { Worker } from 'worker_threads';
 import User from '../models/userModel.js';
 import generateToken from '../utils/generateToken.js';
 
 // @desc    Auth user & get token
-// @route   POST /auth/users/auth
+// @route   POST /api/users/auth
 // @access  Public
 const authUser = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
+
+  // const worker = new Worker('./workers/authWorker.js');
+
+  // worker.on('message', (result) => {
+  //   if (result.valid) {
+  //     generateToken(res, result.user._id);
+  //     res.json({
+  //       _id: result.user._id,
+  //       name: result.user.name,
+  //       email: result.user.email,
+  //     });
+  //   } else {
+  //     res.status(401);
+  //     throw new Error('Invalid email or password');
+  //   }
+  // });
+  // worker.postMessage({ email, password });
 
   const user = await User.findOne({ email });
 
@@ -25,7 +43,7 @@ const authUser = asyncHandler(async (req, res) => {
 });
 
 // @desc    Register a new user
-// @route   POST /auth/users
+// @route   POST /auth/users/
 // @access  Public
 const registerUser = asyncHandler(async (req, res) => {
   const { name, email, password } = req.body;
@@ -57,8 +75,8 @@ const registerUser = asyncHandler(async (req, res) => {
   }
 });
 
-// @desc    Logout user / clear cookie
-// @route   POST /auth/users/logout
+// @desc    Logout user and clear cookie
+// @route   POST /api/users/logout
 // @access  Public
 const logoutUser = (req, res) => {
   res.cookie('jwt', '', {
@@ -69,7 +87,7 @@ const logoutUser = (req, res) => {
 };
 
 // @desc    Get user profile
-// @route   GET /auth/users/profile
+// @route   GET api/users/profile
 // @access  Private
 const getUserProfile = asyncHandler(async (req, res) => {
   const user = await User.findById(req.user._id);
@@ -87,7 +105,7 @@ const getUserProfile = asyncHandler(async (req, res) => {
 });
 
 // @desc    Update user profile
-// @route   PUT /auth/users/profile
+// @route   PUT /api/users/profile
 // @access  Private
 const updateUserProfile = asyncHandler(async (req, res) => {
   const user = await User.findById(req.user._id);
@@ -112,6 +130,7 @@ const updateUserProfile = asyncHandler(async (req, res) => {
     throw new Error('User not found');
   }
 });
+
 export {
   authUser,
   registerUser,

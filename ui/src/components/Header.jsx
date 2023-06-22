@@ -6,6 +6,18 @@ import { useNavigate } from "react-router-dom";
 import { useLogoutMutation } from "../slices/usersApiSlice";
 import { logout } from "../slices/authSlice";
 
+const CustomNavItems = ({name, link}) => {
+  return (
+    <Nav.Item style={{ marginRight: 20 }}>
+      <LinkContainer to={link}>
+        <Nav.Link className="text-white">
+          <span style={{ fontSize: "2.2vh" }}>{name}</span>
+        </Nav.Link>
+      </LinkContainer>
+    </Nav.Item>
+  );
+};
+
 const Header = () => {
   const { userInfo } = useSelector((state) => state.auth);
 
@@ -43,20 +55,18 @@ const Header = () => {
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="ms-auto">
-              <Nav.Item style={{ marginRight: 40 }}>
-                <LinkContainer to="/find-atm">
-                  <Nav.Link className="text-white">
-                    <span style={{ fontSize: "2.5vh" }}>Find ATMs</span>
-                  </Nav.Link>
-                </LinkContainer>
-              </Nav.Item>
+            <CustomNavItems name="Accounts" link="/" />
+            <CustomNavItems name="Transfer" link="/transfer" />
+            <CustomNavItems name="Transactions" link="/transactions" />
+            <CustomNavItems name="Loans" link="/loan" />
+            <CustomNavItems name="Find ATMs" link="/find-atm" />
               {userInfo ? (
                 <>
                   <NavDropdown
                     title={userInfo.name}
                     id="username"
                     className="custom-nav-dropdown"
-                    style={{ fontSize: "2.5vh" }}
+                    style={{ fontSize: "2.2vh" }}
                   >
                     <LinkContainer to="/profile">
                       <NavDropdown.Item>
