@@ -1,9 +1,10 @@
 from concurrent import futures
 import random
+import datetime
 
 import grpc
 
-from transaction_pb2 import TransactionResponse # type: ignore
+from transaction_pb2 import * 
 
 import transaction_pb2_grpc 
 
@@ -12,7 +13,9 @@ from pymongo.mongo_client import MongoClient
 uri = "mongodb+srv://waris:test1122@cluster0.jk2md4w.mongodb.net/?retryWrites=true&w=majority"
 client = MongoClient(uri)
 db = client['bank']
-collection = db['accounts']
+collection_accounts = db['accounts']
+collection_transactions = db['transactions']
+
 
 
 
@@ -22,7 +25,7 @@ class TransactionService(transaction_pb2_grpc.TransactionServiceServicer):
     def getAccount(self, account_num):
         r = None
 
-        accounts = collection.find()
+        accounts = collection_accounts.find()
         # print(f"Accounts: {list(accounts)}") 
         for acc in accounts:
             if acc['account_number'] == account_num:
@@ -31,7 +34,7 @@ class TransactionService(transaction_pb2_grpc.TransactionServiceServicer):
         # print(f"Account {r}")
         return r
     
-    def doTransaction(self, sender, receiver, amount):
+    def doTransaction(self, sender, receiver, amount, reason=""):
         if sender['balance'] < amount:
             return False
         
@@ -39,10 +42,13 @@ class TransactionService(transaction_pb2_grpc.TransactionServiceServicer):
         receiver['balance'] += amount
 
         # update sender account
-        collection.update_one({"account_number": sender['account_number']}, {"$set": {"balance": sender['balance']}})
+        collection_accounts.update_one({"account_number": sender['account_number']}, {"$set": {"balance": sender['balance']}})
         
         # update receiver account
-        collection.update_one({"account_number": receiver['account_number']}, {"$set": {"balance": receiver['balance']}})
+        collection_accounts.update_one({"account_number": receiver['account_number']}, {"$set": {"balance": receiver['balance']}})
+
+        # add transaction
+        collection_transactions.insert_one({"sender": sender['account_number'], "receiver": receiver['account_number'], "amount": amount, "reason":reason, 'time_stamp': datetime.datetime.now()})
 
 
         return True
@@ -52,24 +58,35 @@ class TransactionService(transaction_pb2_grpc.TransactionServiceServicer):
         
         sender_account =  self.getAccount(request.sender_account_number)
         receiver_account = self.getAccount(request.receiver_account_number)
-
         
-
         if sender_account is not None or receiver_account is not None:
-            result = self.doTransaction(sender_account, receiver_account, request.amount)
+            result = self.doTransaction(sender_account, receiver_account, request.amount, reason=request.reason)
             
             print(f"---> sender: {sender_account}" )
             print(f"--->receiver: {receiver_account}")
 
             if result: 
                 return TransactionResponse(success=result, message="Transaction Successful")
-            else:
-                return TransactionResponse(success=result, message="Transaction Failed")
+            
+        return TransactionResponse(success=False, message="Transaction Failed")
+
+    def getAllTransactions(self, request, context):
+        account_number = request.account_number 
         
-        # handle if sender or receiver account is not found
-        return TransactionResponse()
+        # find based on account number only based on sender
+        transactions_itr = collection_transactions.find({"sender":account_number})
 
 
+        transactions_list = []
+        for t in transactions_itr:
+            
+            temp_t = Transaction(receiver_account_number=t['receiver'], amount=t['amount'], reason=t['reason'], time_stamp=t['time_stamp'])
+            transactions_list.append(temp_t)
+        
+        return GetALLTransactionsResponse(transactions=transactions_list)
+        
+        
+    
 
 def serve():
     server = grpc.server(futures.ThreadPoolExecutor(max_workers=10))

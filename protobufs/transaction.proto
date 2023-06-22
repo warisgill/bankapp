@@ -14,6 +14,26 @@ message TransactionResponse {
   string message = 2;
 }
 
+message GetALLTransactionsRequest{
+  string account_number = 1;
+}
+
+message Transaction{
+  string receiver_account_number=1;
+  double amount = 2;
+  string reason=3;
+  string time_stamp = 4;
+}
+
+
+
+message GetALLTransactionsResponse{
+  repeated Transaction transactions = 1;
+}
+
+
+
 service TransactionService {
   rpc SendMoney(TransactionRequest) returns (TransactionResponse);
+  rpc getTransactions(GetALLTransactionsRequest) returns (GetALLTransactionsResponse);
 }
