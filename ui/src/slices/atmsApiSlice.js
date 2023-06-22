@@ -1,10 +1,10 @@
 import { apiSlice } from "./usersApiSlice";
-const ATM_URL = "http://localhost:8001/api/atm";
+const atmUrl = import.meta.env.VITE_ATM_URL;
 
 export const atmApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     getAtms: builder.mutation({
-      query: () => ATM_URL,
+      query: () => atmUrl,
       method: "GET",
     }),
   }),

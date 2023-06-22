@@ -9,7 +9,7 @@ const store = configureStore({
     [apiSlice.reducerPath]: apiSlice.reducer,
     atm: atmReducer,
     auth: authReducer,
-    new_account: accountReducer,
+    account: accountReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat([apiSlice.middleware]),
