@@ -6,7 +6,8 @@
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
-    "auth": "nodemon server.js"
+    "auth": "nodemon server.js",
+    "lint": "npx eslint --fix ."
   },
   "author": "Jash Mehta",
   "license": "MIT",
@@ -24,6 +25,9 @@
   },
   "devDependencies": {
     "concurrently": "^8.0.1",
+    "eslint": "^8.43.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-plugin-import": "^2.27.5",
     "nodemon": "^2.0.22"
   }
 }
