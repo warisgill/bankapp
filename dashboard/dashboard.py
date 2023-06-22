@@ -23,41 +23,6 @@ db = client['bank']
 collection = db['accounts']
 
 
-@dataclass
-class Account:
-    def __init__(self):
-        self.account_number = ""
-        self.account_holder_name = ""
-        self.balance = 0.0
-        self.currency = ""
-
-    def __str__(self):
-        return f"Account Number: {self.account_number}, Account Holder Name: {self.account_holder_name}, Balance: {self.balance}, Currency: {self.currency}"
-
-
-
-# list ten random English names for account holders  
-names = ["John", "Mary", "James", "Patricia", "Robert", "Jennifer", "Michael", "Linda", "William", "Elizabeth"]
-
-# # create index on account_number field
-# collection.create_index("account_number", unique=True)
-
-
-# for i in range(1, 10):
-#     account = Account()
-#     account.account_number = f"IBAN00000-{i}"
-#     account.account_holder_name = f"User{i}"
-#     account.balance = 100
-#     account.currency = "USD"
-
-#     if collection.find_one({"account_number": account.account_number}) is None:
-
-#         collection.insert_one(account.__dict__)
-
-# print(collection.find_one({"account_number": "IBAN00000-1"}))
-    
-
-
 
 
 
@@ -170,24 +135,10 @@ def get_all_accounts():
 
         get_req = GetAccountsRequest(email_id=email_id)
         response = client.getAccounts(get_req)
-        # print(response.accounts)
-        # accounts = []
-        # for acc in response.accounts:
-        #    temp_account = {} 
-        # for acc in response.accounts:
-        #     print("balance", acc.balance)
-
+       
         
         return json.dumps({"response":[MessageToDict(acc) for acc in response.accounts]}) #response
     return jsonify({"response": None})
-
-
-
-
-
-        
-
-        
 
 
 @app.route('/transaction', methods=['GET', 'POST'])
@@ -196,6 +147,10 @@ def transaction_form():
         sender_account_number = request.form['sender_account_number'] # type: ignore
         receiver_account_number = request.form['receiver_account_number'] # type: ignore
         amount = float(request.form['amount']) # type: ignore
+        sender_account_type = request.form['sender_account_type'] # type: ignore
+        receiver_account_type = request.form['receiver_account_type'] # type: ignore
+        reason = request.form['reason'] # type: ignore
+
 
         channel = grpc.insecure_channel('localhost:50052')
         client = TransactionServiceStub(channel)
@@ -203,14 +158,18 @@ def transaction_form():
         req = TransactionRequest(
             sender_account_number=sender_account_number,
             receiver_account_number=receiver_account_number,
-            amount=amount
+            amount=amount,
+            sender_account_type=sender_account_type,
+            receiver_account_type=receiver_account_type,
+            reason=reason
         )
 
         print("Sending transaction request...")
 
         response = client.SendMoney(req)
 
-        return f"Transaction successful. Transaction ID: {response}"
+        # return f"Transaction successful. Transaction ID: {response}"
+        return json.dumps({"response": MessageToDict(response)})
     
     return render_template('transaction.html')
 

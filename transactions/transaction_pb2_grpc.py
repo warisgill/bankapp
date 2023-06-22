@@ -19,12 +19,23 @@ class TransactionServiceStub(object):
                 request_serializer=transaction__pb2.TransactionRequest.SerializeToString,
                 response_deserializer=transaction__pb2.TransactionResponse.FromString,
                 )
+        self.getTransactions = channel.unary_unary(
+                '/TransactionService/getTransactions',
+                request_serializer=transaction__pb2.GetALLTransactionsRequest.SerializeToString,
+                response_deserializer=transaction__pb2.GetALLTransactionsResponse.FromString,
+                )
 
 
 class TransactionServiceServicer(object):
     """Missing associated documentation comment in .proto file."""
 
     def SendMoney(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def getTransactions(self, request, context):
         """Missing associated documentation comment in .proto file."""
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
@@ -37,6 +48,11 @@ def add_TransactionServiceServicer_to_server(servicer, server):
                     servicer.SendMoney,
                     request_deserializer=transaction__pb2.TransactionRequest.FromString,
                     response_serializer=transaction__pb2.TransactionResponse.SerializeToString,
+            ),
+            'getTransactions': grpc.unary_unary_rpc_method_handler(
+                    servicer.getTransactions,
+                    request_deserializer=transaction__pb2.GetALLTransactionsRequest.FromString,
+                    response_serializer=transaction__pb2.GetALLTransactionsResponse.SerializeToString,
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
@@ -62,5 +78,22 @@ class TransactionService(object):
         return grpc.experimental.unary_unary(request, target, '/TransactionService/SendMoney',
             transaction__pb2.TransactionRequest.SerializeToString,
             transaction__pb2.TransactionResponse.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
+    def getTransactions(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(request, target, '/TransactionService/getTransactions',
+            transaction__pb2.GetALLTransactionsRequest.SerializeToString,
+            transaction__pb2.GetALLTransactionsResponse.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
