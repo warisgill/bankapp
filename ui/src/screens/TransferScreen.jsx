@@ -9,15 +9,15 @@ import {
   Dropdown,
 } from "react-bootstrap";
 import FormContainer from "../components/FormContainer";
-import { useSelector } from "react-redux";
-import { useCreateAccountMutation } from "../slices/accountApiSlice";
-import { createAccount } from "../slices/accountSlice";
+import { useSelector, useDispatch } from "react-redux";
+import { usePostTransferMutation } from "../slices/transferApiSlice";
+import { createTransfer } from "../slices/transferSlice";
 import { toast } from "react-toastify";
 import Loader from "../components/Loader";
 
 const TransferScreen = () => {
   const [accType, setAccType] = useState("Checking");
-  const [accNo, setAccNo] = useState("12345678987654321");
+  const [accNo, setAccNo] = useState("");
   const [receiverAcc, setReceiverAcc] = useState("");
   const [receiverAccNo, setReceiverAccNo] = useState("");
   const [accBalance, setAccBalance] = useState("$ 1,217.53");
@@ -25,8 +25,9 @@ const TransferScreen = () => {
   const [reason, setReason] = useState("");
 
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
-  const [createNewAccount, { isLoading }] = useCreateAccountMutation();
+  const [postTransfer, { isLoading }] = usePostTransferMutation();
 
   const { userInfo } = useSelector((state) => state.auth);
 
@@ -35,39 +36,18 @@ const TransferScreen = () => {
 
     try {
       const data = new FormData();
-      data.append("name", userInfo.name);
-      data.append("email_id", userInfo.email);
-      data.append("address", address);
-      data.append("government_id_type", govtId);
-      data.append("govt_id_number", govtIdNo);
-      data.append("account_type", accType);
+      data.append("sender_account_number", accNo);
+      data.append("receiver_account_number", receiverAccNo);
+      data.append("sender_account_type", accType);
+      data.append("receiver_account_type", receiverAcc);
+      data.append("reason", reason);
+      data.append("amount", transferAmount);
 
-      // const data = {
-      //   "name": userInfo.name,
-      //   "email_id": userInfo.email,
-      //   "address": address,
-      //   "government_id_type": govtId,
-      //   "govt_id_number": govtIdNo,
-      //   "account_type": accType
-      // }
-
-      // console.log(data)
-
-      // fetch('http://127.0.0.1:5000/', {
-      //   method: 'POST',
-      //   headers: {
-      //     'Content-Type': 'multipart/form-data',
-      //     'Access-Control-Allow-Origin': '*',
-      //   },
-      //   body: data,
-      // })
-      // .then(response => response.json())
-      // .then(data => console.log(data));
-
-      const res = await createNewAccount(data).unwrap();
-      console.log(res);
-      dispatch(createAccount({ ...res }));
-      toast.success("Successfully created a new account!");
+      console.log(data)
+      const res = await postTransfer(data).unwrap();
+      console.log("Transfer response: ", res)
+      dispatch(createTransfer({ ...res }));
+      toast.success("Transfer successful!");
       navigate("/");
     } catch (err) {
       console.log(err);
@@ -112,6 +92,7 @@ const TransferScreen = () => {
               <Form.Control
                 type="text"
                 min="0"
+                onChange={(e) => setAccNo(e.target.value)}
                 placeholder="Enter your account number"
                 value={accNo}
               />
@@ -148,13 +129,13 @@ const TransferScreen = () => {
         </Row>
 
         <Row className="mt-4">
-          <Col md={3}>
+          {/* <Col md={3}>
             <Form.Group className="my-3" controlId="balance">
               <Form.Label>Your balance</Form.Label>
               <Form.Control value={accBalance} multiple={false} disabled />
             </Form.Group>
-          </Col>
-          <Col md={9}>
+          </Col> */}
+          <Col md={12}>
             <Form.Group className="my-3" controlId="transfer_amount">
               <Form.Label>Amount to be transfered</Form.Label>
               <Form.Control
@@ -176,7 +157,7 @@ const TransferScreen = () => {
               type="text"
               placeholder="Enter the reason for transfer (Optional)"
               value={reason}
-              onChange={(e) => setAddress(e.target.value)}
+              onChange={(e) => setReason(e.target.value)}
             ></Form.Control>
           </Form.Group>
         </Row>
