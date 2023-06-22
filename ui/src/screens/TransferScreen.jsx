@@ -12,15 +12,26 @@ import FormContainer from "../components/FormContainer";
 import { useSelector, useDispatch } from "react-redux";
 import { usePostTransferMutation } from "../slices/transferApiSlice";
 import { createTransfer } from "../slices/transferSlice";
+import { deleteSelectedAccount } from "../slices/accountSlice";
 import { toast } from "react-toastify";
 import Loader from "../components/Loader";
 
 const TransferScreen = () => {
-  const [accType, setAccType] = useState("Checking");
-  const [accNo, setAccNo] = useState("");
+
+  let selectedAccount = useSelector((state) => state.account.selected_account);
+
+  if (!selectedAccount) {
+    selectedAccount = {
+      accountType: "",
+      accountNumber: "",
+      balance: "",
+    }
+  }
+
+  const [accType, setAccType] = useState(selectedAccount.accountType);
+  const [accNo, setAccNo] = useState(selectedAccount.accountNumber);
   const [receiverAcc, setReceiverAcc] = useState("");
   const [receiverAccNo, setReceiverAccNo] = useState("");
-  const [accBalance, setAccBalance] = useState("$ 1,217.53");
   const [transferAmount, setTransferAmount] = useState("");
   const [reason, setReason] = useState("");
 
@@ -28,8 +39,6 @@ const TransferScreen = () => {
   const dispatch = useDispatch();
 
   const [postTransfer, { isLoading }] = usePostTransferMutation();
-
-  const { userInfo } = useSelector((state) => state.auth);
 
   const submitHandler = async (e) => {
     e.preventDefault();
@@ -48,6 +57,7 @@ const TransferScreen = () => {
       console.log("Transfer response: ", res)
       dispatch(createTransfer({ ...res }));
       toast.success("Transfer successful!");
+      dispatch(deleteSelectedAccount());
       navigate("/");
     } catch (err) {
       console.log(err);
@@ -94,7 +104,8 @@ const TransferScreen = () => {
                 min="0"
                 onChange={(e) => setAccNo(e.target.value)}
                 placeholder="Enter your account number"
-                value={accNo}
+                disabled={accNo ? true : false}
+                value={accNo ? accNo : ""}
               />
             </Form.Group>
           </Col>
@@ -129,19 +140,19 @@ const TransferScreen = () => {
         </Row>
 
         <Row className="mt-4">
-          {/* <Col md={3}>
+          <Col md={3}>
             <Form.Group className="my-3" controlId="balance">
               <Form.Label>Your balance</Form.Label>
-              <Form.Control value={accBalance} multiple={false} disabled />
+              <Form.Control value={'$ ' + `${selectedAccount.balance}`} multiple={false} disabled />
             </Form.Group>
-          </Col> */}
-          <Col md={12}>
+          </Col>
+          <Col md={9}>
             <Form.Group className="my-3" controlId="transfer_amount">
               <Form.Label>Amount to be transfered</Form.Label>
               <Form.Control
                 type="number"
                 min="0"
-                placeholder="Enter amount to be transfered"
+                placeholder="Enter amount to be transfered (in USD)"
                 value={transferAmount}
                 onChange={(e) => setTransferAmount(e.target.value)}
                 onWheel={(e) => e.target.blur()}
