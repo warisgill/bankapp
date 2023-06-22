@@ -1,12 +1,30 @@
 import asyncHandler from 'express-async-handler';
 import User from '../models/userModel.js';
 import generateToken from '../utils/generateToken.js';
+import { Worker } from 'worker_threads';
 
 // @desc    Auth user & get token
-// @route   POST /auth/users/auth
+// @route   POST /api/users/auth
 // @access  Public
 const authUser = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
+
+  // const worker = new Worker('./workers/authWorker.js');
+
+  // worker.on('message', (result) => {
+  //   if (result.valid) {
+  //     generateToken(res, result.user._id);
+  //     res.json({
+  //       _id: result.user._id,
+  //       name: result.user.name,
+  //       email: result.user.email,
+  //     });
+  //   } else {
+  //     res.status(401);
+  //     throw new Error('Invalid email or password');
+  //   }
+  // });
+  // worker.postMessage({ email, password });
 
   const user = await User.findOne({ email });
 
