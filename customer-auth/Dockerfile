@@ -1,7 +1,7 @@
-FROM node:18-alpine
+FROM node:10.16-alpine
 WORKDIR /bankapp
-EXPOSE 8000
 COPY package.json package-lock.json ./
 RUN npm install
 COPY . ./
-CMD ["npm", "run", "auth"]
+EXPOSE 8000
+CMD ["npm", "start"]

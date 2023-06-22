@@ -9,6 +9,8 @@ services:
     env_file:
       - ./customer-auth/.env
     restart: always
+    networks:
+      - app-network
 
   atm-locator:
     build: ./atm-locator
@@ -17,6 +19,8 @@ services:
     env_file:
       - ./atm-locator/.env
     restart: always
+    networks:
+      - app-network
 
   ui:
     build: ./ui
@@ -28,3 +32,9 @@ services:
     depends_on:
       - customer-auth
     restart: always
+    networks:
+      - app-network
+
+networks:
+    app-network:
+        driver: bridge

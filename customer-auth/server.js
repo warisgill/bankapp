@@ -21,6 +21,10 @@ app.use(cors());
 
 app.use(cookieParser());
 
+if (process.env.NODE_ENV === 'development') {
+  app.use(morgan('dev'));
+}
+
 app.use('/api/auth/users', userRoutes);
 
 if (process.env.NODE_ENV === 'production') {
