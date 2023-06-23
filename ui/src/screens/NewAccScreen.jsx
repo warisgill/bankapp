@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { Form, Button, Row, Col} from "react-bootstrap";
+import { Form, Button, Row, Col, Modal } from "react-bootstrap";
 import FormContainer from "../components/FormContainer";
 import { useDispatch, useSelector } from "react-redux";
 import { useCreateAccountMutation } from "../slices/accountApiSlice";
@@ -9,10 +9,10 @@ import { toast } from "react-toastify";
 import Loader from "../components/Loader";
 
 const NewAccScreen = () => {
-  const [address, setAddress] = useState('');
-  const [govtId, setGovtId] = useState('');
-  const [govtIdNo, setGovtIdNo] = useState('');
-  const [accType, setAccType] = useState('');
+  const [address, setAddress] = useState("");
+  const [govtId, setGovtId] = useState("");
+  const [govtIdNo, setGovtIdNo] = useState("");
+  const [accType, setAccType] = useState("");
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -24,8 +24,7 @@ const NewAccScreen = () => {
   const submitHandler = async (e) => {
     e.preventDefault();
 
-    try{
-
+    try {
       const data = new FormData();
       data.append("name", userInfo.name);
       data.append("email_id", userInfo.email);
@@ -55,14 +54,13 @@ const NewAccScreen = () => {
       // })
       // .then(response => response.json())
       // .then(data => console.log(data));
-      
+
       const res = await createNewAccount(data).unwrap();
       console.log(res);
       dispatch(createAccount(res));
-      toast.success('Successfully created a new account!')
-      navigate('/');
-    }
-    catch(err){
+      toast.success("Successfully created a new account!");
+      navigate("/");
+    } catch (err) {
       console.log(err);
       toast.error(err?.data?.message || err.error);
     }
@@ -78,71 +76,74 @@ const NewAccScreen = () => {
           paddingBottom: "1.5vh",
         }}
       >
-        <strong>NEW <span>&nbsp;</span> ACCOUNT</strong>
+        <strong>
+          NEW <span>&nbsp;</span> ACCOUNT
+        </strong>
       </h2>
-      {isLoading? <Loader /> : 
-      <Form onSubmit={submitHandler}>
+      {isLoading ? (
+        <Loader />
+      ) : (
+        <Form>
+          <Row className="mt-4">
+            <Col md={6}>
+              <Form.Group className="my-3" controlId="name">
+                <Form.Label>Name</Form.Label>
+                <Form.Control
+                  type="text"
+                  placeholder="Enter your name"
+                  value={userInfo.name}
+                  disabled
+                ></Form.Control>
+              </Form.Group>
+            </Col>
+            <Col md={6}>
+              <Form.Group className="my-3" controlId="email">
+                <Form.Label>Email address</Form.Label>
+                <Form.Control
+                  type="email"
+                  placeholder="Enter your email address"
+                  value={userInfo.email}
+                  disabled
+                ></Form.Control>
+              </Form.Group>
+            </Col>
+          </Row>
 
-        <Row className="mt-4">
-          <Col md={6}>
-            <Form.Group className="my-3" controlId="name">
-              <Form.Label>Name</Form.Label>
-              <Form.Control
-                type="text"
-                placeholder="Enter your name"
-                value={userInfo.name}
-                disabled
-              ></Form.Control>
-            </Form.Group>
-          </Col>
-          <Col md={6}>
-            <Form.Group className="my-3" controlId="email">
-              <Form.Label>Email address</Form.Label>
-              <Form.Control
-                type="email"
-                placeholder="Enter your email address"
-                value={userInfo.email}
-                disabled
-              ></Form.Control>
-            </Form.Group>
-          </Col>
-        </Row>
-        
-        <Row>
-          <Form.Group className="my-3" controlId="acc_type">
-            <Form.Label>Account type</Form.Label>
-            <Form.Select
-              value={accType}
-              multiple={false}
-              onChange={(e) => setAccType(e.target.value)}
-              aria-label="Select account type"
-            >
-              <option value="">Select your account type</option>
-              <option value="Savings">Savings</option>
-              <option value="Checking">Checking</option>
-            </Form.Select>
-          </Form.Group>
-        </Row>
-
-        <Row>
-          <Col md={6}>
-            <Form.Group className="my-3" controlId="govt_id">
-              <Form.Label>Govt. ID</Form.Label>
+          <Row>
+            <Form.Group className="my-3" controlId="acc_type">
+              <Form.Label>Account type</Form.Label>
               <Form.Select
-                value={govtId}
+                value={accType}
                 multiple={false}
-                onChange={(e) => setGovtId(e.target.value)}
-                aria-label="Select your govt. ID"
+                onChange={(e) => setAccType(e.target.value)}
+                aria-label="Select account type"
               >
-                <option value="">Select your govt. ID</option>
-                <option value="Passport">Passport</option>
-                <option value="DriverLicense">Driver's License</option>
-                <option value="AadharCard">SSN</option>
+                <option value="">Select your account type</option>
+                <option value="Savings">Savings</option>
+                <option value="Checking">Checking</option>
               </Form.Select>
             </Form.Group>
-          </Col>
-          <Col md={6}>
-            <Form.Group className="my-3" controlId="govt_id_no">
+          </Row>
+
+          <Row>
+            <Col md={6}>
+              <Form.Group className="my-3" controlId="govt_id">
+                <Form.Label>Govt. ID</Form.Label>
+                <Form.Select
+                  value={govtId}
+                  multiple={false}
+                  onChange={(e) => setGovtId(e.target.value)}
+                  aria-label="Select your govt. ID"
+                >
+                  <option value="">Select your govt. ID</option>
+                  <option value="Passport">Passport</option>
+                  <option value="DriverLicense">Driver's License</option>
+                  <option value="AadharCard">SSN</option>
+                </Form.Select>
+              </Form.Group>
+            </Col>
+            <Col md={6}>
+              <Form.Group className="my-3" controlId="govt_id_no">
                 <Form.Label>Govt. ID number</Form.Label>
                 <Form.Control
                   type="text"
@@ -150,49 +151,37 @@ const NewAccScreen = () => {
                   value={govtIdNo}
                   onChange={(e) => setGovtIdNo(e.target.value)}
                 />
+              </Form.Group>
+            </Col>
+          </Row>
+
+          <Row>
+            <Form.Group className="my-3" controlId="address">
+              <Form.Label>Address</Form.Label>
+              <Form.Control
+                type="text"
+                placeholder="Enter your residential address"
+                value={address}
+                onChange={(e) => setAddress(e.target.value)}
+              ></Form.Control>
             </Form.Group>
-          </Col>
-        </Row>
+          </Row>
 
-        <Row>
-          <Form.Group className="my-3" controlId="address">
-            <Form.Label>Address</Form.Label>
-            <Form.Control
-              type="text"
-              placeholder="Enter your residential address"
-              value={address}
-              onChange={(e) => setAddress(e.target.value)}
-            ></Form.Control>
-          </Form.Group>
-        </Row>
-
-        <Row>
-          <Col md={8}>
-            <Button
-            style={{ width: "100%" }}
-            type="submit"
-            variant="dark"
-            className="mt-5 mr-3"
-            >
-              Create Account
-            </Button>
-          </Col>
-          <Col md={4}>
-            <Link to="/">
-                <Button
-                  style={{ width: "100%" }}
-                  type="submit"
-                  variant="dark"
-                  className="mt-5 mr-3"
-                >
-                  Go Back
-                </Button>
-              </Link>
-          </Col>
-        </Row>
-        
-      </Form>
-      }
+          <Row>
+            <Col md={12}>
+              <Button
+                style={{ width: "100%" }}
+                type="submit"
+                variant="dark"
+                className="mt-5 mr-3"
+                onClick={submitHandler}
+              >
+                Create Account
+              </Button>
+            </Col>
+          </Row>
+        </Form>
+      )}
     </FormContainer>
   );
 };

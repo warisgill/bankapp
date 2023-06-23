@@ -11,7 +11,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { toast } from "react-toastify";
 import { useGetAllAccountsMutation } from "../slices/accountApiSlice";
-import { getAccounts, selectedAccount } from "../slices/accountSlice";
+import { getAccounts, selectedAccount, currentAccount } from "../slices/accountSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 
@@ -88,6 +88,7 @@ const HomeScreen = () => {
   useEffect(() => {
     try {
       dispatch(selectedAccount());
+      dispatch(currentAccount());
       fetchAccounts();
     } catch (err) {
       console.log(err);
@@ -102,7 +103,7 @@ const HomeScreen = () => {
           <Col md={3}>
             {/* New Account Card */}
             <CustomCard
-              link="/new-accr"
+              link="/new-account"
               title="New Account"
               text="Create a new checking or savings account with Cisco Bank."
               icon={faBuildingColumns}
@@ -199,7 +200,7 @@ const HomeScreen = () => {
                       </Card.Text>
                     </Card.Body>
                     <Card.Footer>
-                      <Link to="/acc-info" style={{ textDecoration: "none" }}>
+                      <Link to="/acc-info" style={{ textDecoration: "none" }} onClick={() => dispatch(currentAccount(account))}>
                         <Button variant="dark" className="float-end">
                           Account info
                         </Button>

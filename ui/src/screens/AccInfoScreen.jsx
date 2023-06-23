@@ -1,23 +1,38 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { Form, Button, Row, Col } from "react-bootstrap";
+import { Form, Button, Row, Col, DropdownButton } from "react-bootstrap";
 import FormContainer from "../components/FormContainer";
-import { useSelector } from "react-redux";
-// import { useLoginMutation } from "../slices/usersApiSlice";
-// import { setCredentials } from "../slices/authSlice";
-// import { toast } from "react-toastify";
 import Loader from "../components/Loader";
+import { useSelector, useDispatch } from "react-redux";
 
 const AccInfoScreen = () => {
-  const [done, setDone] = useState(false);
-  const [address, setAddress] = useState("dummy address");
-  const [govtId, setGovtId] = useState(["passport"]);
-  const [govtIdNo, setGovtIdNo] = useState(12345);
-  const [accType, setAccType] = useState(["savings"]);
+
+  let currentAccount = useSelector((state) => state.account.current_account);
+  const { userInfo } = useSelector((state) => state.auth);
+
+  console.log("Current account: ", currentAccount)
+
+  if (!currentAccount) {
+    currentAccount = {
+      accountType: "",
+      accountNumber: "",
+      balance: "",
+      address: "",
+      govtId: "",
+      govtIdNo: "",
+    }
+  }
+
+  const [accType, setAccType] = useState(currentAccount.accountType);
+  const [accNo, setAccNo] = useState(currentAccount.accountNumber);
+  const [balance, setBalance] = useState(currentAccount.balance);
+  const [address, setAddress] = useState(currentAccount.address);
+  const [govtId, setGovtId] = useState(currentAccount.governmentId);
+  const [govtIdNo, setGovtIdNo] = useState(currentAccount.govtIdNumber);
 
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
-  const { userInfo } = useSelector((state) => state.auth);
   const isLoading = false;
 
   const submitHandler = async (e) => {
@@ -40,13 +55,38 @@ const AccInfoScreen = () => {
           textAlign: "center",
           paddingTop: "1.5vh",
           paddingBottom: "1.5vh",
+          marginBottom: "3vh",
         }}
       >
         <strong>ACCOUNT &nbsp; DETAILS</strong>
       </h2>
 
-      <Form onSubmit={submitHandler}>
-        <Row className="mt-4">
+      <Form>
+        <Row>
+          <Col md={3}>
+            <DropdownButton
+              id="acc_type"
+              className="mt-5"
+              variant="dark"
+              title={accType ? accType : 'Error'}
+              disabled
+              style={{ width: "100%" }}
+            />
+          </Col>
+          <Col md={9}>
+            <Form.Group className="my-3" controlId="acc_no">
+              <Form.Label>Account number</Form.Label>
+              <Form.Control
+                type="text"
+                placeholder="Enter your account number"
+                value={accNo? accNo : "Error"}
+                disabled
+              ></Form.Control>
+            </Form.Group>
+          </Col>
+        </Row>
+
+        <Row className="m3-4">
           <Col md={6}>
             <Form.Group className="my-3" controlId="name">
               <Form.Label>Name</Form.Label>
@@ -72,35 +112,18 @@ const AccInfoScreen = () => {
         </Row>
 
         <Row>
-          <Form.Group className="my-3" controlId="acc_type">
-            <Form.Label>Account type</Form.Label>
-            <Form.Select
-              value={accType}
-              multiple={false}
-              disabled
-              aria-label="Select account type"
-            >
-              <option value="">Select your account type</option>
-              <option value="savings">Savings</option>
-              <option value="checking">Checking</option>
-            </Form.Select>
-          </Form.Group>
-        </Row>
-
-        <Row>
           <Col md={6}>
             <Form.Group className="my-3" controlId="govt_id">
               <Form.Label>Govt. ID</Form.Label>
               <Form.Select
-                value={govtId}
+                value={govtId? govtId : "Error"}
                 multiple={false}
                 onChange={(e) => setGovtId(e.target.value)}
-                aria-label="Select your govt. ID"
               >
                 <option value="">Select your govt. ID</option>
-                <option value="passport">Passport</option>
-                <option value="driverLicense">Driver's License</option>
-                <option value="aadharCard">SSN</option>
+                <option value="Rassport">Passport</option>
+                <option value="Driver License">Driver's License</option>
+                <option value="Aadhar Card">SSN</option>
               </Form.Select>
             </Form.Group>
           </Col>
@@ -111,7 +134,7 @@ const AccInfoScreen = () => {
                 type="text"
                 min="0"
                 placeholder="Enter your Govt. ID number"
-                value={govtIdNo}
+                value={govtIdNo? govtIdNo : "Error"}
                 onChange={(e) => setGovtIdNo(e.target.value)}
               />
             </Form.Group>
@@ -136,6 +159,7 @@ const AccInfoScreen = () => {
               disabled={isLoading}
               style={{ width: "100%" }}
               type="submit"
+              onClick={submitHandler}
               variant="dark"
               className="mt-3 mr-3"
             >

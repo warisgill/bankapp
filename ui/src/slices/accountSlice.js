@@ -4,6 +4,7 @@ const initialState = {
   new_account: [],
   all_accounts: [],
   selected_account: [],
+  current_account: [],
   isLoading: false,
   error: null,
 };
@@ -23,10 +24,23 @@ const accountSlice = createSlice({
     },
     deleteSelectedAccount: (state, action) => {
       state.selected_account = [];
-    }
+    },
+    currentAccount: (state, action) => {
+      state.current_account = action.payload;
+    },
+    deleteCurrentAccount: (state, action) => {
+      state.current_account = [];
+    },
   },
 });
 
-export const { createAccount, getAccounts, selectedAccount, deleteSelectedAccount } = accountSlice.actions;
+export const {
+  createAccount,
+  getAccounts,
+  selectedAccount,
+  deleteSelectedAccount,
+  currentAccount,
+  deleteCurrentAccount,
+} = accountSlice.actions;
 
 export default accountSlice.reducer;
