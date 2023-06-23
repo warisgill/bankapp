@@ -75,16 +75,20 @@ class TransactionService(transaction_pb2_grpc.TransactionServiceServicer):
         # print(f"Account Number: {account_number}")
         
         # find based on account number only based on sender
-        transactions_itr = collection_transactions.find({"sender":account_number})
+        transactions_credit = collection_transactions.find({"sender":account_number})
+        transactions_debit = collection_transactions.find({"receiver":account_number})
+        
         # print(f"--------T: {transactions_itr}")
         t = Transaction()
         # print(f"--- t: {t}")
 
         transactions_list = []
-        for t in transactions_itr:
-            # print(f"t: {t}")
-            temp_t = Transaction(receiver_account_number=t['receiver'], amount=t['amount'], reason=t['reason'], time_stamp=f"{t['time_stamp']}")
-            # print(f"temp_t: {temp_t}")
+        for t in transactions_credit:
+            temp_t = Transaction(account_number=t['receiver'], amount=t['amount'], reason=t['reason'], time_stamp=f"{t['time_stamp']}", type= "credit")
+            transactions_list.append(temp_t)
+        
+        for t in transactions_debit:
+            temp_t = Transaction(account_number=t['sender'], amount=t['amount'], reason=t['reason'], time_stamp=f"{t['time_stamp']}", type= "debit")
             transactions_list.append(temp_t)
         
         # print(transactions_list)
