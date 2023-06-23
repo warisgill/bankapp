@@ -177,7 +177,7 @@ def transaction_form():
 @app.route('/transaction/history', methods=['GET', 'POST'])
 def get_all_transactions():
     if request.method == 'POST':
-        sender_account_number = request.form['account_number'] # type: ignore
+        account_number = request.form['account_number'] # type: ignore
         
 
         channel = grpc.insecure_channel('localhost:50052')
@@ -186,7 +186,7 @@ def get_all_transactions():
 
 
         req = GetALLTransactionsRequest(
-            account_number=sender_account_number)
+            account_number=account_number)
 
         # print("Sending transaction request... +++++++++++++++++++++++++++++++")    
 
