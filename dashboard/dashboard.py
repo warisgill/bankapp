@@ -188,13 +188,13 @@ def get_all_transactions():
         req = GetALLTransactionsRequest(
             account_number=sender_account_number)
 
-        print("Sending transaction request... +++++++++++++++++++++++++++++++")    
+        # print("Sending transaction request... +++++++++++++++++++++++++++++++")    
 
         response = client.getTransactionsHistory(req)
 
-        print("After transaction request... +++++++++++++++++++++++++++++++")
+        # print("After transaction request... +++++++++++++++++++++++++++++++")
 
-        # return f"Transaction successful. Transaction ID: {response}"
+        # # return f"Transaction successful. Transaction ID: {response}"
         return json.dumps({"response": MessageToDict(response)})
     
     return json.dumps({"response": None})

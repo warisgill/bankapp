@@ -72,22 +72,22 @@ class TransactionService(transaction_pb2_grpc.TransactionServiceServicer):
 
     def getTransactionsHistory(self, request, context):
         account_number = request.account_number 
-        print(f"Account Number: {account_number}")
+        # print(f"Account Number: {account_number}")
         
         # find based on account number only based on sender
         transactions_itr = collection_transactions.find({"sender":account_number})
-        print(f"--------T: {transactions_itr}")
+        # print(f"--------T: {transactions_itr}")
         t = Transaction()
-        print(f"--- t: {t}")
+        # print(f"--- t: {t}")
 
         transactions_list = []
         for t in transactions_itr:
-            print(f"t: {t}")
+            # print(f"t: {t}")
             temp_t = Transaction(receiver_account_number=t['receiver'], amount=t['amount'], reason=t['reason'], time_stamp=f"{t['time_stamp']}")
-            print(f"temp_t: {temp_t}")
+            # print(f"temp_t: {temp_t}")
             transactions_list.append(temp_t)
         
-        print(transactions_list)
+        # print(transactions_list)
         
         
         return GetALLTransactionsResponse(transactions=transactions_list)
