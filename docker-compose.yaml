@@ -21,9 +21,24 @@ services:
     container_name: atm-locator
     hostname: atm-locator
     ports:
-      - "8081:8081"
+      - "8001:8001"
     env_file:
       - ./atm-locator/.env
+    restart: always
+    networks:
+      - bankapp-network
+
+  nginx:
+    build: 
+      context: ./nginx
+    container_name: nginx
+    hostname: nginx
+    ports:
+      - "80:80"
+    depends_on:
+      - customer-auth
+      - atm-locator
+      - ui
     restart: always
     networks:
       - bankapp-network
@@ -32,7 +47,7 @@ services:
     build: 
       context: ./ui
     container_name: ui
-    hostname: ui
+    hostname: martianbank
     ports:
       - "3000:3000"
     env_file:

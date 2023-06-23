@@ -4,6 +4,7 @@ import authReducer from "./slices/authSlice";
 import atmReducer from "./slices/atmSlice";
 import accountReducer from "./slices/accountSlice";
 import transferReducer from "./slices/transferSlice";
+import transactionReducer from "./slices/transactionSlice";
 
 const store = configureStore({
   reducer: {
@@ -12,6 +13,7 @@ const store = configureStore({
     auth: authReducer,
     account: accountReducer,
     transfer: transferReducer,
+    transaction: transactionReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat([apiSlice.middleware]),

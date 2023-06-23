@@ -1,6 +1,5 @@
 import { apiSlice } from "./usersApiSlice";
 const transferUrl = import.meta.env.VITE_TRANSFER_URL;
-console.log(transferUrl);
 
 export const transferApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
