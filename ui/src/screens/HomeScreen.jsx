@@ -11,7 +11,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { toast } from "react-toastify";
 import { useGetAllAccountsMutation } from "../slices/accountApiSlice";
-import { getAccounts } from "../slices/accountSlice";
+import { getAccounts, selectedAccount, currentAccount } from "../slices/accountSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 
@@ -72,6 +72,7 @@ const HomeScreen = () => {
   const accountInfo = useSelector(
     (state) => state.account.all_accounts
   ).response;
+
   const dispatch = useDispatch();
 
   const [getAllAccounts, { isLoading }] = useGetAllAccountsMutation();
@@ -86,6 +87,8 @@ const HomeScreen = () => {
 
   useEffect(() => {
     try {
+      dispatch(selectedAccount());
+      dispatch(currentAccount());
       fetchAccounts();
     } catch (err) {
       console.log(err);
@@ -100,7 +103,7 @@ const HomeScreen = () => {
           <Col md={3}>
             {/* New Account Card */}
             <CustomCard
-              link="/new-accr"
+              link="/new-account"
               title="New Account"
               text="Create a new checking or savings account with Cisco Bank."
               icon={faBuildingColumns}
@@ -178,7 +181,7 @@ const HomeScreen = () => {
                             <div
                               style={{ fontSize: "1.5vh", marginTop: "1vh" }}
                             >
-                              Account Number:{" "}
+                              Account Number:
                               <span className="text-primary">
                                 <span>&nbsp;</span>
                                 <strong>{account.accountNumber}</strong>
@@ -197,12 +200,12 @@ const HomeScreen = () => {
                       </Card.Text>
                     </Card.Body>
                     <Card.Footer>
-                      <Link to="/acc-info" style={{ textDecoration: "none" }}>
+                      <Link to="/acc-info" style={{ textDecoration: "none" }} onClick={() => dispatch(currentAccount(account))}>
                         <Button variant="dark" className="float-end">
                           Account info
                         </Button>
                       </Link>
-                      <Link to="/transfer" style={{ textDecoration: "none" }}>
+                      <Link to="/transfer" style={{ textDecoration: "none" }} onClick={() => dispatch(selectedAccount(account))}>
                         <Button variant="dark" className="float-end me-2">
                           Transfer money
                         </Button>

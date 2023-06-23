@@ -9,65 +9,55 @@ import {
   Dropdown,
 } from "react-bootstrap";
 import FormContainer from "../components/FormContainer";
-import { useSelector } from "react-redux";
-import { useCreateAccountMutation } from "../slices/accountApiSlice";
-import { createAccount } from "../slices/accountSlice";
+import { useSelector, useDispatch } from "react-redux";
+import { usePostTransferMutation } from "../slices/transferApiSlice";
+import { createTransfer } from "../slices/transferSlice";
+import { deleteSelectedAccount } from "../slices/accountSlice";
 import { toast } from "react-toastify";
 import Loader from "../components/Loader";
 
 const TransferScreen = () => {
-  const [accType, setAccType] = useState("Checking");
-  const [accNo, setAccNo] = useState("12345678987654321");
+
+  let selectedAccount = useSelector((state) => state.account.selected_account);
+
+  if (!selectedAccount) {
+    selectedAccount = {
+      accountType: "",
+      accountNumber: "",
+      balance: "",
+    }
+  }
+
+  const [accType, setAccType] = useState(selectedAccount.accountType);
+  const [accNo, setAccNo] = useState(selectedAccount.accountNumber);
   const [receiverAcc, setReceiverAcc] = useState("");
   const [receiverAccNo, setReceiverAccNo] = useState("");
-  const [accBalance, setAccBalance] = useState("$ 1,217.53");
   const [transferAmount, setTransferAmount] = useState("");
   const [reason, setReason] = useState("");
 
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
-  const [createNewAccount, { isLoading }] = useCreateAccountMutation();
-
-  const { userInfo } = useSelector((state) => state.auth);
+  const [postTransfer, { isLoading }] = usePostTransferMutation();
 
   const submitHandler = async (e) => {
     e.preventDefault();
 
     try {
       const data = new FormData();
-      data.append("name", userInfo.name);
-      data.append("email_id", userInfo.email);
-      data.append("address", address);
-      data.append("government_id_type", govtId);
-      data.append("govt_id_number", govtIdNo);
-      data.append("account_type", accType);
+      data.append("sender_account_number", accNo);
+      data.append("receiver_account_number", receiverAccNo);
+      data.append("sender_account_type", accType);
+      data.append("receiver_account_type", receiverAcc);
+      data.append("reason", reason);
+      data.append("amount", transferAmount);
 
-      // const data = {
-      //   "name": userInfo.name,
-      //   "email_id": userInfo.email,
-      //   "address": address,
-      //   "government_id_type": govtId,
-      //   "govt_id_number": govtIdNo,
-      //   "account_type": accType
-      // }
-
-      // console.log(data)
-
-      // fetch('http://127.0.0.1:5000/', {
-      //   method: 'POST',
-      //   headers: {
-      //     'Content-Type': 'multipart/form-data',
-      //     'Access-Control-Allow-Origin': '*',
-      //   },
-      //   body: data,
-      // })
-      // .then(response => response.json())
-      // .then(data => console.log(data));
-
-      const res = await createNewAccount(data).unwrap();
-      console.log(res);
-      dispatch(createAccount({ ...res }));
-      toast.success("Successfully created a new account!");
+      console.log(data)
+      const res = await postTransfer(data).unwrap();
+      console.log("Transfer response: ", res)
+      dispatch(createTransfer({ ...res }));
+      toast.success("Transfer successful!");
+      dispatch(deleteSelectedAccount());
       navigate("/");
     } catch (err) {
       console.log(err);
@@ -112,8 +102,10 @@ const TransferScreen = () => {
               <Form.Control
                 type="text"
                 min="0"
+                onChange={(e) => setAccNo(e.target.value)}
                 placeholder="Enter your account number"
-                value={accNo}
+                disabled={accNo ? true : false}
+                value={accNo ? accNo : ""}
               />
             </Form.Group>
           </Col>
@@ -151,7 +143,7 @@ const TransferScreen = () => {
           <Col md={3}>
             <Form.Group className="my-3" controlId="balance">
               <Form.Label>Your balance</Form.Label>
-              <Form.Control value={accBalance} multiple={false} disabled />
+              <Form.Control value={'$ ' + `${selectedAccount.balance}`} multiple={false} disabled />
             </Form.Group>
           </Col>
           <Col md={9}>
@@ -160,7 +152,7 @@ const TransferScreen = () => {
               <Form.Control
                 type="number"
                 min="0"
-                placeholder="Enter amount to be transfered"
+                placeholder="Enter amount to be transfered (in USD)"
                 value={transferAmount}
                 onChange={(e) => setTransferAmount(e.target.value)}
                 onWheel={(e) => e.target.blur()}
@@ -176,7 +168,7 @@ const TransferScreen = () => {
               type="text"
               placeholder="Enter the reason for transfer (Optional)"
               value={reason}
-              onChange={(e) => setAddress(e.target.value)}
+              onChange={(e) => setReason(e.target.value)}
             ></Form.Control>
           </Form.Group>
         </Row>
