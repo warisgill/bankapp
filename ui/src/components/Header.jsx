@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { useLogoutMutation } from "../slices/usersApiSlice";
 import { logout } from "../slices/authSlice";
 
-const CustomNavItems = ({name, link}) => {
+const CustomNavItems = ({ name, link }) => {
   return (
     <Nav.Item style={{ marginRight: 20 }}>
       <LinkContainer to={link}>
@@ -55,13 +55,13 @@ const Header = () => {
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="ms-auto">
-            <CustomNavItems name="Accounts" link="/" />
-            <CustomNavItems name="Transfer" link="/transfer" />
-            <CustomNavItems name="Transactions" link="/transactions" />
-            <CustomNavItems name="Loans" link="/loan" />
-            <CustomNavItems name="Find ATMs" link="/find-atm" />
               {userInfo ? (
                 <>
+                  <CustomNavItems name="Accounts" link="/" />
+                  <CustomNavItems name="Transfer" link="/transfer" />
+                  <CustomNavItems name="Transactions" link="/transactions" />
+                  <CustomNavItems name="Loans" link="/loan" />
+                  <CustomNavItems name="Find ATMs" link="/find-atm" />
                   <NavDropdown
                     title={userInfo.name}
                     id="username"
