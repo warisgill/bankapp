@@ -1,6 +1,6 @@
-FROM node:10.16-alpine
-WORKDIR /bankapp
-COPY package.json package-lock.json ./
+FROM node:14
+WORKDIR /usr/src/app
+COPY ./package*.json /usr/src/app
 RUN npm install
 COPY . ./
 EXPOSE 8000

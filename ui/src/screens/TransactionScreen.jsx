@@ -34,8 +34,6 @@ const TransactionScreen = () => {
             <Form.Control
               type="text"
               placeholder="Enter enter a ZIP code, or an address, city, and state."
-              value={location}
-              onChange={handleLocationChange}
               className="py-3 px-2"
             />
           </Col>
