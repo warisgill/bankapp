@@ -99,7 +99,7 @@ const TransactionScreen = () => {
           <Col md={3} />
         </Form.Group>
       </Form>
-      <MDBTable align="middle" striped hover style={{ marginTop: "4vh" }}>
+      <MDBTable align="middle" striped hover style={{ marginTop: "4vh"}}>
         <MDBTableHead dark>
           <tr
             className="text-center text-uppercase"
@@ -165,6 +165,7 @@ const TransactionScreen = () => {
           )}
         </MDBTableBody>
       </MDBTable>
+      
     </Container>
   );
 };
