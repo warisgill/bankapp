@@ -28,7 +28,7 @@ export const userApiSlice = apiSlice.injectEndpoints({
         method: "POST",
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `${jwtCookie}`,
+          'Authorization': jwtCookie,
         },
       }),
     }),

@@ -111,16 +111,19 @@ const logoutUser = (req, res) => {
     const jwtCookie = req.headers.authorization;
 
     // Check if the JWT cookie exists
-    if (!jwtCookie) {
+    if (jwtCookie === undefined) {
       res.status(400);
       throw new Error("No JWT cookie found");
     }
+    else{
+      res.status(200).json({ message: "Logged out successfully" });
+    }
 
-    res.cookie("jwt", "", {
-      httpOnly: true,
-      expires: new Date(0),
-    });
-    res.status(200).json({ message: "Logged out successfully" });
+    // res.cookie("jwt", "", {
+    //   httpOnly: true,
+    //   expires: new Date(0),
+    // });
+    // res.status(200).json({ message: "Logged out successfully" });
   } catch (error) {
     // Handle any errors
     res.status(res.statusCode === 200 ? 500 : res.statusCode);
