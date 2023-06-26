@@ -1,8 +1,17 @@
 syntax = "proto3";
 
 message LoanRequest {
-  string account_number = 1;
-  double amount = 2;
+  string name = 1;
+  string email = 2;
+  string account_type = 3;
+  string account_number = 4;
+  string govt_id_type = 5;
+  string govt_id_number = 6;
+  string loan_type = 7;
+  double loan_amount = 8;
+  double interest_rate = 9;
+  string time_period = 10;
+
 }
 
 message LoanResponse {
