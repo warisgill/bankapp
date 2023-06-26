@@ -43,7 +43,16 @@ export const userApiSlice = apiSlice.injectEndpoints({
       query: (data) => ({
         url: `${usersUrl}/profile`,
         method: "PUT",
-        body: data,
+        body: {
+          _id: data._id,
+          name: data.name,
+          email: data.email,
+          password: data.password,
+        },
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': data.token
+        },
       }),
     }),
   }),
