@@ -5,6 +5,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { useLogoutMutation } from "../slices/usersApiSlice";
 import { logout } from "../slices/authSlice";
+import Cookies from 'js-cookie';
 
 const CustomNavItems = ({ name, link }) => {
   return (
@@ -28,7 +29,8 @@ const Header = () => {
 
   const logoutHandler = async () => {
     try {
-      await logoutApiCall().unwrap();
+      const jwtCookie = Cookies.get('jwt');
+      await logoutApiCall(jwtCookie).unwrap();
       dispatch(logout());
       toast.success("Logged out!");
       navigate("/login");

@@ -29,8 +29,16 @@ const LoginScreen = () => {
     e.preventDefault();
     try {
       const res = await login({ email, password }).unwrap();
+      console.log(res)
       dispatch(setCredentials({ ...res }));
-      toast.success("Successfully logged in!");
+      toast.success("Successfully logged in!", {
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
       navigate("/");
     } catch (err) {
       toast.error(err?.data?.message || err.error);

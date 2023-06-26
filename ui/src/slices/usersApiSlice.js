@@ -19,12 +19,17 @@ export const userApiSlice = apiSlice.injectEndpoints({
         url: `${usersUrl}/auth`,
         method: "POST",
         body: data,
+        credentials: 'include',
       }),
     }),
     logout: builder.mutation({
-      query: () => ({
+      query: (jwtCookie) => ({
         url: `${usersUrl}/logout`,
         method: "POST",
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `${jwtCookie}`,
+        },
       }),
     }),
     register: builder.mutation({
