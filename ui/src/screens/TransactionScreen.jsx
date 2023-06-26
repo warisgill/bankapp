@@ -10,6 +10,8 @@ import { Container, Form, Button, Row, Col } from "react-bootstrap";
 import { toast } from "react-toastify";
 import { useGetTransactionsMutation } from "../slices/transactionApiSlice";
 import { storeTransaction } from "../slices/transactionSlice";
+import { useGetAllAccountsMutation } from "../slices/accountApiSlice";
+import { getAccounts } from "../slices/accountSlice";
 import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
@@ -31,6 +33,7 @@ const TransactionScreen = () => {
   const [history, setHistory] = useState([]);
 
   const [getTransactions, { isLoading }] = useGetTransactionsMutation();
+  // const [getAllAccounts, { isLoading1 }] = useGetAllAccountsMutation();
 
   const fetchHistory = async (e) => {
     setSelectedAccount(e.target.value);
@@ -47,6 +50,18 @@ const TransactionScreen = () => {
       toast.error(err?.data?.message || err.error);
     }
   };
+
+  // useEffect(async () => {
+  //   try {
+  //     const data = new FormData();
+  //     data.append("email_id", userInfo.email);
+  //     const res = await getAllAccounts(data).unwrap();
+  //     dispatch(getAccounts(res));
+  //   } catch (err) {
+  //     console.log(err);
+  //     toast.error("Error in fetching existing accounts!");
+  //   }
+  // }, []);
 
   return (
     <Container fluid style={{ overflowY: "auto", marginTop: "10vh" }}>
@@ -84,7 +99,7 @@ const TransactionScreen = () => {
           <Col md={3} />
         </Form.Group>
       </Form>
-      <MDBTable align="middle" striped hover style={{ marginTop: "4vh" }}>
+      <MDBTable align="middle" striped hover style={{ marginTop: "4vh"}}>
         <MDBTableHead dark>
           <tr
             className="text-center text-uppercase"
@@ -121,7 +136,6 @@ const TransactionScreen = () => {
           </tr>
         </MDBTableHead>
         <MDBTableBody>
-          {console.log("Here", history)}
           {history !== [] ? (
             history.map((transaction) => (
               <tr key={transaction.id}>
@@ -136,8 +150,8 @@ const TransactionScreen = () => {
                   <p className="text-muted mb-0">{transaction.reason}</p>
                 </td>
                 <td className="text-center">
-                  <MDBBadge color="danger" pill>
-                    Debit
+                  <MDBBadge color={(transaction.type === 'debit')? 'danger': 'success'} pill>
+                    {transaction.type}
                   </MDBBadge>
                 </td>
               </tr>
@@ -151,6 +165,7 @@ const TransactionScreen = () => {
           )}
         </MDBTableBody>
       </MDBTable>
+      
     </Container>
   );
 };

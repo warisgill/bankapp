@@ -81,7 +81,6 @@ const HomeScreen = () => {
     const data = new FormData();
     data.append("email_id", userInfo.email);
     const res = await getAllAccounts(data).unwrap();
-    console.log("Fetched accounts: ", res);
     dispatch(getAccounts(res));
   };
 
