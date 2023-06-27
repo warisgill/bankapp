@@ -201,17 +201,38 @@ def get_all_transactions():
 
 
 
+# string name = 1;
+#   string email = 2;
+#   string account_type = 3;
+#   string account_number = 4;
+#   string govt_id_type = 5;
+#   string govt_id_number = 6;
+#   string loan_type = 7;
+#   double loan_amount = 8;
+#   double interest_rate = 9;
+#   string time_period = 10;
+
+
 @app.route('/loan', methods=['GET', 'POST'])
 def loan_form():
     # gRPC setup
     channel = grpc.insecure_channel('localhost:50053')
     client = LoanServiceStub(channel)
     if request.method == 'POST':
+        name = request.form['name']
+        email = request.form['email']
+        account_type = request.form['account_type']
         account_number = request.form['account_number']
-        amount = float(request.form['amount'])
+        govt_id_type = request.form['govt_id_type']
+        govt_id_number = request.form['govt_id_number']
+        loan_type = request.form['loan_type']
+        loan_amount = float(request.form['loan_amount'])
+        interest_rate = float(request.form['interest_rate'])
+        time_period = request.form['time_period']
+
 
         # Create a gRPC request
-        loan_request = LoanRequest(account_number=account_number, amount=amount)
+        loan_request = LoanRequest(name=name, email=email, account_type=account_type, account_number=account_number, govt_id_type=govt_id_type, govt_id_number=govt_id_number, loan_type=loan_type, loan_amount=loan_amount, interest_rate=interest_rate, time_period=time_period)
 
         # Send the gRPC request to the Loan Microservice
         response = client.ProcessLoanRequest(loan_request)
@@ -219,7 +240,7 @@ def loan_form():
 
         print(f"Loan response: {response.approved}")
 
-        return f"Loan Response: {response}"   #render_template('loan_result.html', response=response)
+        return json.dumps({"response": MessageToDict(response)})
 
     return render_template('loan_form.html')
 
