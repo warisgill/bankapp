@@ -175,7 +175,7 @@ const HomeScreen = () => {
                             <Col md={5} className="text-center">
                               <div>
                                 <strong style={{ fontSize: "5vh" }}>
-                                  ${account.balance}
+                                  ${account.balance.toFixed(2)}
                                 </strong>
                               </div>
                               <div className="text-muted">

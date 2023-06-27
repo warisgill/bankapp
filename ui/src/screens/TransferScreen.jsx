@@ -17,7 +17,6 @@ import { toast } from "react-toastify";
 import Loader from "../components/Loader";
 
 const TransferScreen = () => {
-
   let selectedAccount = useSelector((state) => state.account.selected_account);
 
   if (!selectedAccount) {
@@ -25,7 +24,7 @@ const TransferScreen = () => {
       accountType: "",
       accountNumber: "",
       balance: "",
-    }
+    };
   }
 
   const [accType, setAccType] = useState(selectedAccount.accountType);
@@ -52,9 +51,9 @@ const TransferScreen = () => {
       data.append("reason", reason);
       data.append("amount", transferAmount);
 
-      console.log(data)
+      console.log(data);
       const res = await postTransfer(data).unwrap();
-      console.log("Transfer response: ", res)
+      console.log("Transfer response: ", res);
       dispatch(createTransfer({ ...res }));
       toast.success("Transfer successful!");
       dispatch(deleteSelectedAccount());
@@ -140,25 +139,48 @@ const TransferScreen = () => {
         </Row>
 
         <Row className="mt-4">
-          <Col md={3}>
-            <Form.Group className="my-3" controlId="balance">
-              <Form.Label>Your balance</Form.Label>
-              <Form.Control value={'$ ' + `${selectedAccount.balance}`} multiple={false} disabled />
-            </Form.Group>
-          </Col>
-          <Col md={9}>
-            <Form.Group className="my-3" controlId="transfer_amount">
-              <Form.Label>Amount to be transfered</Form.Label>
-              <Form.Control
-                type="number"
-                min="0"
-                placeholder="Enter amount to be transfered (in USD)"
-                value={transferAmount}
-                onChange={(e) => setTransferAmount(e.target.value)}
-                onWheel={(e) => e.target.blur()}
-              />
-            </Form.Group>
-          </Col>
+          {console.log("Selected account: ", selectedAccount)}
+          {selectedAccount.balance !== "" ? (
+            <>
+              <Col md={3}>
+                <Form.Group className="my-3" controlId="balance">
+                  <Form.Label>Your balance</Form.Label>
+                  <Form.Control
+                    value={`$ ${selectedAccount.balance.toFixed(2)}`}
+                    multiple={false}
+                    disabled
+                  />
+                </Form.Group>
+              </Col>
+              <Col md={9}>
+                <Form.Group className="my-3" controlId="transfer_amount">
+                  <Form.Label>Amount to be transferred</Form.Label>
+                  <Form.Control
+                    type="text"
+                    pattern="^(?!0\d)\d*(\.\d+)?$"
+                    placeholder="Enter amount to be transferred (in USD)"
+                    value={transferAmount}
+                    onChange={(e) => setTransferAmount(e.target.value)}
+                    onWheel={(e) => e.target.blur()}
+                  />
+                </Form.Group>
+              </Col>
+            </>
+          ) : (
+            <Col md={12}>
+              <Form.Group className="my-3" controlId="transfer_amount">
+                <Form.Label>Amount to be transferred</Form.Label>
+                <Form.Control
+                  type="text"
+                  pattern="^(?!0\d)\d*(\.\d+)?$"
+                  placeholder="Enter amount to be transferred (in USD)"
+                  value={transferAmount}
+                  onChange={(e) => setTransferAmount(e.target.value)}
+                  onWheel={(e) => e.target.blur()}
+                />
+              </Form.Group>
+            </Col>
+          )}
         </Row>
 
         <Row>

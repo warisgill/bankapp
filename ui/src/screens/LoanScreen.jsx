@@ -90,7 +90,6 @@ const LoanScreen = () => {
         data.append("interest_rate", intRate);
         data.append("time_period", loanTime);;
         const res = await postLoanAPI(data).unwrap();
-        console.log(res);
         dispatch(createLoan(res));
         toast.success("Your loan has been approved!");
     } catch (err) {
