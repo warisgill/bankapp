@@ -61,6 +61,7 @@ const RegisterScreen = () => {
           <Form.Label>Name</Form.Label>
           <Form.Control
             type="name"
+            required
             placeholder="Enter name"
             value={name}
             onChange={(e) => setName(e.target.value)}
@@ -73,18 +74,33 @@ const RegisterScreen = () => {
             type="email"
             placeholder="Enter email"
             value={email}
+            required
+            pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}"
             onChange={(e) => setEmail(e.target.value)}
           ></Form.Control>
+          <Form.Text muted>
+            Please enter a valid email address.
+          </Form.Text>
         </Form.Group>
 
         <Form.Group className="my-4" controlId="password">
           <Form.Label>Password</Form.Label>
           <Form.Control
             type="password"
+            required
+            pattern="^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$"
             placeholder="Enter password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           ></Form.Control>
+          <Form.Text muted>
+            Password must include:
+            <div>1. at least 8 characters</div>
+            <div>2. at least one uppercase letter</div>
+            <div>3. at least one lowercase letter</div>
+            <div>4. at least one digit</div>
+            <div>5. at least one special character (@$!%*#?&)</div>
+          </Form.Text>
         </Form.Group>
         <Form.Group className="my-4" controlId="confirmPassword">
           <Form.Label>Confirm Password</Form.Label>
@@ -92,6 +108,7 @@ const RegisterScreen = () => {
             type="password"
             placeholder="Confirm password"
             value={confirmPassword}
+            required
             onChange={(e) => setConfirmPassword(e.target.value)}
           ></Form.Control>
         </Form.Group>
@@ -103,7 +120,7 @@ const RegisterScreen = () => {
         {isLoading && <Loader />}
       </Form>
 
-      <Row className="py-4">
+      <Row className="pt-4">
         <Col>
           Already have an account? <Link to={`/login`}>Login</Link>
         </Col>

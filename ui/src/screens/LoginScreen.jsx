@@ -29,8 +29,16 @@ const LoginScreen = () => {
     e.preventDefault();
     try {
       const res = await login({ email, password }).unwrap();
+      console.log(res);
       dispatch(setCredentials({ ...res }));
-      toast.success("Successfully logged in!");
+      toast.success("Successfully logged in!", {
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
       navigate("/");
     } catch (err) {
       toast.error(err?.data?.message || err.error);
@@ -57,8 +65,13 @@ const LoginScreen = () => {
             type="email"
             placeholder="Enter email"
             value={email}
+            required
+            pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}"
             onChange={(e) => setEmail(e.target.value)}
           ></Form.Control>
+          <Form.Text muted>
+            Please enter a valid email address.
+          </Form.Text>
         </Form.Group>
 
         <Form.Group className="my-4" controlId="password">
@@ -67,8 +80,18 @@ const LoginScreen = () => {
             type="password"
             placeholder="Enter password"
             value={password}
+            required
+            pattern="^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$"
             onChange={(e) => setPassword(e.target.value)}
           ></Form.Control>
+          <Form.Text muted>
+            Password must include:
+            <div>1. at least 8 characters</div>
+            <div>2. at least one uppercase letter</div>
+            <div>3. at least one lowercase letter</div>
+            <div>4. at least one digit</div>
+            <div>5. at least one special character (@$!%*#?&)</div>
+          </Form.Text>
         </Form.Group>
 
         <Button
@@ -83,7 +106,7 @@ const LoginScreen = () => {
 
       {isLoading && <Loader />}
 
-      <Row className="py-4">
+      <Row className="pt-4">
         <Col>
           New Customer? <Link to="/register">Create new account</Link>
         </Col>

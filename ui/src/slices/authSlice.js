@@ -1,4 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
+import Cookies from 'js-cookie';
 
 const initialState = {
   userInfo: localStorage.getItem('userInfo')
@@ -16,6 +17,7 @@ const authSlice = createSlice({
     },
     logout: (state) => {
       state.userInfo = null;
+      Cookies.remove('jwt');
       localStorage.removeItem('userInfo');
     },
   },

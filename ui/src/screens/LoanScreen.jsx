@@ -12,8 +12,8 @@ import {
 } from "react-bootstrap";
 import FormContainer from "../components/FormContainer";
 import { useDispatch, useSelector } from "react-redux";
-import { useCreateAccountMutation } from "../slices/accountApiSlice";
-import { createAccount } from "../slices/accountSlice";
+import { usePostLoanMutation } from "../slices/loanApiSlice";
+import { createLoan } from "../slices/loanSlice";
 import { toast } from "react-toastify";
 import Loader from "../components/Loader";
 
@@ -50,42 +50,52 @@ const CustomCard = ({ title, text, icon, link }) => {
 
 const LoanScreen = () => {
   const [accNo, setAccNo] = useState("");
-  const [address, setAddress] = useState("");
+  const [accType, setAccType] = useState("");
+
   const [govtId, setGovtId] = useState("");
   const [govtIdNo, setGovtIdNo] = useState("");
-  const [accType, setAccType] = useState("");
-  const [loanAmount, setLoanAmount] = useState("");
+
   const [loanType, setLoanType] = useState("");
+  const [loanAmount, setLoanAmount] = useState("");
+  
   const [intRate, setIntRate] = useState("");
   const [loanTime, setLoanTime] = useState("");
 
-  const navigate = useNavigate();
+  const [isCheckboxChecked, setIsCheckboxChecked] = useState(false);
+
   const dispatch = useDispatch();
 
-  //   const [createNewAccount, { isLoading }] = useCreateAccountMutation();
-  const isLoading = false;
+    const [postLoanAPI, { isLoading }] = usePostLoanMutation();
 
   const { userInfo } = useSelector((state) => state.auth);
 
   const submitHandler = async (e) => {
     e.preventDefault();
 
+    if (!isCheckboxChecked) {
+      toast.error("Please agree to the Terms and Conditions");
+      return;
+    }
+
     try {
-      //   const data = new FormData();
-      //   data.append("name", userInfo.name);
-      //   data.append("email_id", userInfo.email);
-      //   data.append("address", address);
-      //   data.append("government_id_type", govtId);
-      //   data.append("govt_id_number", govtIdNo);
-      //   data.append("account_type", accType);
-      //   const res = await createNewAccount(data).unwrap();
-      //   console.log(res);
-      //   dispatch(createAccount(res));
-      //   toast.success("Successfully created a new account!");
-      //   navigate("/");
+        const data = new FormData();
+        data.append("name", userInfo.name);
+        data.append("email", userInfo.email);
+        data.append("account_number", accNo);
+        data.append("account_type", accType);
+        data.append("govt_id_number", govtIdNo);
+        data.append("govt_id_type", govtId);
+        data.append("loan_type", loanType);
+        data.append("loan_amount", loanAmount);
+        data.append("interest_rate", intRate);
+        data.append("time_period", loanTime);;
+        const res = await postLoanAPI(data).unwrap();
+        console.log(res);
+        dispatch(createLoan(res));
+        toast.success("Your loan has been approved!");
     } catch (err) {
-      //   console.log(err);
-      //   toast.error(err?.data?.message || err.error);
+        console.log(err);
+        toast.error(err?.data?.message || err.error);
     }
   };
 
@@ -175,6 +185,7 @@ const LoanScreen = () => {
                     <Form.Control
                       type="text"
                       placeholder="Enter your account number"
+                      required
                       value={accNo}
                       onChange={(e) => setAccNo(e.target.value)}
                     ></Form.Control>
@@ -205,6 +216,7 @@ const LoanScreen = () => {
                     <Form.Control
                       type="text"
                       placeholder="Enter your Govt. ID number"
+                      required
                       value={govtIdNo}
                       onChange={(e) => setGovtIdNo(e.target.value)}
                     />
@@ -235,6 +247,7 @@ const LoanScreen = () => {
                     <Form.Control
                       type="number"
                       min="0"
+                      required
                       placeholder="Enter the loan amount"
                       value={loanAmount}
                       onChange={(e) => setLoanAmount(e.target.value)}
@@ -251,7 +264,8 @@ const LoanScreen = () => {
                     <Form.Control
                       value={intRate}
                       type="number"
-                      min="0"
+                      min="5"
+                      required
                       placeholder="Enter the interest rate"
                       onWheel={(e) => e.target.blur()}
                       onChange={(e) => setIntRate(e.target.value)}
@@ -265,6 +279,7 @@ const LoanScreen = () => {
                     <Form.Control
                       type="number"
                       min="0"
+                      required
                       placeholder="Enter the time period in years"
                       value={loanTime}
                       onChange={(e) => setLoanTime(e.target.value)}
@@ -276,13 +291,23 @@ const LoanScreen = () => {
 
               <Row>
                 <Col>
+                <div style={{ display: "flex", alignItems: "center" }}>
+                <Form.Group controlId="checkbox">
+                  <Form.Check
+                    type="checkbox"
+                    label="I have read the "
+                    checked={isCheckboxChecked}
+                    onChange={(e) => setIsCheckboxChecked(e.target.checked)}
+                    required
+                  />
+                </Form.Group>
                   <div
                     onClick={handleModalOpen}
                     style={{ textDecoration: "underline", color: "blue" }}
                   >
-                    *Terms and Conditions
+                   <span>&nbsp;</span> Terms and Conditions
                   </div>
-                  <Modal show={showModal} onHide={handleModalClose} centered>
+                  <Modal show={showModal} onHide={handleModalClose} centered size='xl'>
                     <Modal.Header closeButton>
                       <Modal.Title>Terms and Conditions</Modal.Title>
                     </Modal.Header>
@@ -350,6 +375,7 @@ const LoanScreen = () => {
                       </Button>
                     </Modal.Footer>
                   </Modal>
+                  </div>
                 </Col>
               </Row>
 
@@ -374,7 +400,7 @@ const LoanScreen = () => {
                     className="mt-5 mr-3"
                     onClick={submitHandler}
                   >
-                    Create Account
+                    Apply
                   </Button>
                 </Col>
               </Row>

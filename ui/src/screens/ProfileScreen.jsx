@@ -7,6 +7,7 @@ import { toast } from "react-toastify";
 import Loader from "../components/Loader";
 import { useUpdateUserMutation } from "../slices/usersApiSlice";
 import { setCredentials } from "../slices/authSlice";
+import Cookies from "js-cookie";
 
 const ProfileScreen = () => {
   const [email, setEmail] = useState("");
@@ -37,6 +38,7 @@ const ProfileScreen = () => {
           name,
           email,
           password,
+          token: Cookies.get("jwt"),
         }).unwrap();
         dispatch(setCredentials(res));
         toast.success("Profile updated!");
