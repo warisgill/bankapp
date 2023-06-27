@@ -11,9 +11,14 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { toast } from "react-toastify";
 import { useGetAllAccountsMutation } from "../slices/accountApiSlice";
-import { getAccounts, selectedAccount, currentAccount } from "../slices/accountSlice";
+import {
+  getAccounts,
+  selectedAccount,
+  currentAccount,
+} from "../slices/accountSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
+import Loader from "../components/Loader";
 
 const CustomCard = ({ title, text, icon, link }) => {
   return (
@@ -33,7 +38,7 @@ const CustomCard = ({ title, text, icon, link }) => {
           <Card.Text style={{ fontSize: "1.5vh" }}>{text}</Card.Text>
         </Card.Body>
         <Badge
-          circle
+          circle="true"
           bg="dark"
           className="position-absolute top-0 end-0"
           style={{
@@ -131,7 +136,6 @@ const HomeScreen = () => {
               text="Apply for a loan at the best interest rates in the market."
               icon={faLandmarkFlag}
             />
-
           </Col>
 
           <Col md={1} />
@@ -146,8 +150,86 @@ const HomeScreen = () => {
               </Card.Header>
             </Card>
             {accountInfo ? (
-              accountInfo.map((account) => {
-                return (
+              accountInfo.length > 0 ? (
+                accountInfo.map((account) => {
+                  return (
+                    <Card
+                      style={{
+                        marginTop: "2vh",
+                        backgroundColor: "rgba(255, 255, 255, 0.5)",
+                        backdropFilter: "invert(2%)",
+                      }}
+                    >
+                      <Card.Header className="bg-dark text-uppercase text-white">
+                        <strong>
+                          {account.accountType} Account
+                          <FontAwesomeIcon
+                            icon={faArrowRightFromBracket}
+                            style={{ marginLeft: "1rem" }}
+                          />
+                        </strong>
+                      </Card.Header>
+                      <Card.Body>
+                        <Card.Text>
+                          <Row>
+                            <Col md={5} className="text-center">
+                              <div>
+                                <strong style={{ fontSize: "5vh" }}>
+                                  ${account.balance}
+                                </strong>
+                              </div>
+                              <div className="text-muted">
+                                Available balance
+                              </div>
+                            </Col>
+                            <Col md={1} />
+                            <Col md={6}>
+                              <div
+                                style={{ fontSize: "1.5vh", marginTop: "1vh" }}
+                              >
+                                Account Number:
+                                <span className="text-primary">
+                                  <span>&nbsp;</span>
+                                  <strong>{account.accountNumber}</strong>
+                                </span>
+                                <br />
+                                <div
+                                  style={{ fontSize: "1.5vh" }}
+                                  className="text-muted"
+                                >
+                                  Name: {account.name} <br />
+                                  Email ID: {account.emailId}
+                                </div>
+                              </div>
+                            </Col>
+                          </Row>
+                        </Card.Text>
+                      </Card.Body>
+                      <Card.Footer>
+                        <Link
+                          to="/acc-info"
+                          style={{ textDecoration: "none" }}
+                          onClick={() => dispatch(currentAccount(account))}
+                        >
+                          <Button variant="dark" className="float-end">
+                            Account info
+                          </Button>
+                        </Link>
+                        <Link
+                          to="/transfer"
+                          style={{ textDecoration: "none" }}
+                          onClick={() => dispatch(selectedAccount(account))}
+                        >
+                          <Button variant="dark" className="float-end me-2">
+                            Transfer money
+                          </Button>
+                        </Link>
+                      </Card.Footer>
+                    </Card>
+                  );
+                })
+              ) : (
+                <>
                   <Card
                     style={{
                       marginTop: "2vh",
@@ -156,65 +238,28 @@ const HomeScreen = () => {
                     }}
                   >
                     <Card.Header className="bg-dark text-uppercase text-white">
-                      <strong>
-                        {account.accountType} Account
-                        <FontAwesomeIcon
-                          icon={faArrowRightFromBracket}
-                          style={{ marginLeft: "1rem" }}
-                        />
-                      </strong>
+                      <strong>No Accounts Found</strong>
                     </Card.Header>
                     <Card.Body>
                       <Card.Text>
-                        <Row>
-                          <Col md={5} className="text-center">
-                            <div>
-                              <strong style={{ fontSize: "5vh" }}>
-                                ${account.balance}
-                              </strong>
-                            </div>
-                            <div className="text-muted">Available balance</div>
-                          </Col>
-                          <Col md={1} />
-                          <Col md={6}>
-                            <div
-                              style={{ fontSize: "1.5vh", marginTop: "1vh" }}
-                            >
-                              Account Number:
-                              <span className="text-primary">
-                                <span>&nbsp;</span>
-                                <strong>{account.accountNumber}</strong>
-                              </span>
-                              <br />
-                              <div
-                                style={{ fontSize: "1.5vh" }}
-                                className="text-muted"
-                              >
-                                Name: {account.name} <br />
-                                Email ID: {account.emailId}
-                              </div>
-                            </div>
-                          </Col>
-                        </Row>
+                        Would you like to create a new account with us?
                       </Card.Text>
                     </Card.Body>
                     <Card.Footer>
-                      <Link to="/acc-info" style={{ textDecoration: "none" }} onClick={() => dispatch(currentAccount(account))}>
+                      <Link
+                        to="/new-account"
+                        style={{ textDecoration: "none" }}
+                      >
                         <Button variant="dark" className="float-end">
-                          Account info
-                        </Button>
-                      </Link>
-                      <Link to="/transfer" style={{ textDecoration: "none" }} onClick={() => dispatch(selectedAccount(account))}>
-                        <Button variant="dark" className="float-end me-2">
-                          Transfer money
+                          Create Account
                         </Button>
                       </Link>
                     </Card.Footer>
                   </Card>
-                );
-              })
+                </>
+              )
             ) : (
-              <></>
+              <Loader />
             )}
           </Col>
         </Row>

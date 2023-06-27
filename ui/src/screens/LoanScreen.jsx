@@ -257,7 +257,7 @@ const LoanScreen = () => {
                     <Form.Control
                       value={intRate}
                       type="number"
-                      min="0"
+                      min="5"
                       placeholder="Enter the interest rate"
                       onWheel={(e) => e.target.blur()}
                       onChange={(e) => setIntRate(e.target.value)}
