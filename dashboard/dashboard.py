@@ -14,7 +14,7 @@ from transaction_pb2_grpc import TransactionServiceStub
 from transaction_pb2 import * 
 
 from loan_pb2_grpc import LoanServiceStub
-from loan_pb2 import LoanRequest # type: ignore
+from loan_pb2 import * 
 
 from pymongo.mongo_client import MongoClient
 uri = "mongodb+srv://waris:test1122@cluster0.jk2md4w.mongodb.net/?retryWrites=true&w=majority"
@@ -243,6 +243,21 @@ def loan_form():
         return json.dumps({"response": MessageToDict(response)})
 
     return render_template('loan_form.html')
+
+@app.route('/loan/history', methods=['GET', 'POST'])
+def loan_history():
+    # getLoanHistory
+    channel = grpc.insecure_channel('localhost:50053')
+    client = LoanServiceStub(channel)
+    if request.method == 'POST':
+        print("+++++++++++++++++++++++++++++++++++++++++")
+        print(request.form['email'])
+        req =  LoansHistoryRequest(email = request.form['email']) 
+        response = client.getLoanHistory(req)
+        print("After transaction request... +++++++++++++++++++++++++++++++")
+        return json.dumps({"response": MessageToDict(response)})
+    return json.dumps({"response": None})
+
 
 
 if __name__ == "__main__":

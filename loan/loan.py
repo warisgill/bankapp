@@ -4,7 +4,7 @@ import datetime
 
 import grpc
 
-from loan_pb2 import LoanResponse
+from loan_pb2 import * 
 import loan_pb2_grpc
 
 from pymongo.mongo_client import MongoClient
@@ -30,6 +30,8 @@ collection_loans = db['loans']
 
 
 class LoanService(loan_pb2_grpc.LoanServiceServicer):
+
+    
     def ProcessLoanRequest(self, request, context):
         
         name = request.name
@@ -62,6 +64,8 @@ class LoanService(loan_pb2_grpc.LoanServiceServicer):
 
 
 
+
+
         user_account = self.getAccount(account_number) 
 
         if user_account is None:
@@ -79,6 +83,15 @@ class LoanService(loan_pb2_grpc.LoanServiceServicer):
         print(f"Response: {response}")
         return response
     
+    def getLoanHistory(self, request, context):
+        email = request.email
+        loans = collection_loans.find({"email": email})
+        loan_history = []
+
+        for l in loans:
+            loan_history.append(Loan(name=l['name'], email=l['email'], account_type=l['account_type'], account_number=l['account_number'], govt_id_type=l['govt_id_type'], govt_id_number=l['govt_id_number'], loan_type=l['loan_type'], loan_amount=l['loan_amount'], interest_rate=l['interest_rate'], time_period=l['time_period'], status=l['status'], timestamp=f"{l['timestamp']}"))
+        return LoansHistoryResponse(loans=loan_history)
+
     def getAccount(self, account_num):
         r = None
         accounts = collection_accounts.find()

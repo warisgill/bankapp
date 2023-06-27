@@ -19,6 +19,37 @@ message LoanResponse {
   string message = 2;
 }
 
+message LoansHistoryRequest{
+  string email=1;
+}
+
+
+
+message Loan {
+    string name = 1;
+    string email = 2;
+    string account_type = 3;
+    string account_number = 4;
+    string govt_id_type = 5;
+    string govt_id_number = 6;
+    string loan_type = 7;
+    double loan_amount = 8;
+    double interest_rate = 9;
+    string time_period = 10;
+    string status = 11;
+    string timestamp = 12;
+}
+
+message LoansHistoryResponse{
+  repeated Loan loans = 1;
+}
+
+
+
+
+
+
 service LoanService {
   rpc ProcessLoanRequest(LoanRequest) returns (LoanResponse);
+  rpc getLoanHistory(LoansHistoryRequest) returns (LoansHistoryResponse);
 }
