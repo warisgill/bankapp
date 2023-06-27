@@ -58,6 +58,7 @@ const LoanScreen = () => {
   const [loanType, setLoanType] = useState("");
   const [intRate, setIntRate] = useState("");
   const [loanTime, setLoanTime] = useState("");
+  const [isCheckboxChecked, setIsCheckboxChecked] = useState(false);
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -69,6 +70,11 @@ const LoanScreen = () => {
 
   const submitHandler = async (e) => {
     e.preventDefault();
+
+    if (!isCheckboxChecked) {
+      toast.error("Please agree to the Terms and Conditions");
+      return;
+    }
 
     try {
       //   const data = new FormData();
@@ -276,13 +282,23 @@ const LoanScreen = () => {
 
               <Row>
                 <Col>
+                <div style={{ display: "flex", alignItems: "center" }}>
+                <Form.Group controlId="checkbox">
+                  <Form.Check
+                    type="checkbox"
+                    label="I have read the "
+                    checked={isCheckboxChecked}
+                    onChange={(e) => setIsCheckboxChecked(e.target.checked)}
+                    required
+                  />
+                </Form.Group>
                   <div
                     onClick={handleModalOpen}
                     style={{ textDecoration: "underline", color: "blue" }}
                   >
-                    *Terms and Conditions
+                   <span>&nbsp;</span> Terms and Conditions
                   </div>
-                  <Modal show={showModal} onHide={handleModalClose} centered>
+                  <Modal show={showModal} onHide={handleModalClose} centered size='xl'>
                     <Modal.Header closeButton>
                       <Modal.Title>Terms and Conditions</Modal.Title>
                     </Modal.Header>
@@ -350,6 +366,7 @@ const LoanScreen = () => {
                       </Button>
                     </Modal.Footer>
                   </Modal>
+                  </div>
                 </Col>
               </Row>
 

@@ -39,28 +39,6 @@ const NewAccScreen = () => {
       data.append("govt_id_number", govtIdNo);
       data.append("account_type", accType);
 
-      // const data = {
-      //   "name": userInfo.name,
-      //   "email_id": userInfo.email,
-      //   "address": address,
-      //   "government_id_type": govtId,
-      //   "govt_id_number": govtIdNo,
-      //   "account_type": accType
-      // }
-
-      // console.log(data)
-
-      // fetch('http://127.0.0.1:5000/', {
-      //   method: 'POST',
-      //   headers: {
-      //     'Content-Type': 'multipart/form-data',
-      //     'Access-Control-Allow-Origin': '*',
-      //   },
-      //   body: data,
-      // })
-      // .then(response => response.json())
-      // .then(data => console.log(data));
-
       const res = await createNewAccount(data).unwrap();
       console.log(res);
       dispatch(createAccount(res));
@@ -201,7 +179,7 @@ const NewAccScreen = () => {
                 >
                   <span>&nbsp;</span> Terms and Conditions
                 </div>
-                <Modal show={showModal} onHide={handleModalClose} centered>
+                <Modal show={showModal} onHide={handleModalClose} centered size='xl'>
                   <Modal.Header closeButton>
                     <Modal.Title> Terms and Conditions</Modal.Title>
                   </Modal.Header>
