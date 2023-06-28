@@ -115,6 +115,8 @@ const NewAccScreen = () => {
                 <option value="">Select your account type</option>
                 <option value="Savings">Savings</option>
                 <option value="Checking">Checking</option>
+                <option value="Investment">Investment</option>
+                <option value="Money Market">Money Market</option>
               </Form.Select>
             </Form.Group>
           </Row>
@@ -122,14 +124,14 @@ const NewAccScreen = () => {
           <Row>
             <Col md={6}>
               <Form.Group className="my-3" controlId="govt_id">
-                <Form.Label>Govt. ID</Form.Label>
+                <Form.Label>ID type</Form.Label>
                 <Form.Select
                   value={govtId}
                   multiple={false}
                   onChange={(e) => setGovtId(e.target.value)}
-                  aria-label="Select your govt. ID"
+                  aria-label="Select your ID type"
                 >
-                  <option value="">Select your govt. ID</option>
+                  <option value="">Select your ID type</option>
                   <option value="Passport">Passport</option>
                   <option value="DriverLicense">Driver's License</option>
                   <option value="AadharCard">SSN</option>
@@ -138,10 +140,10 @@ const NewAccScreen = () => {
             </Col>
             <Col md={6}>
               <Form.Group className="my-3" controlId="govt_id_no">
-                <Form.Label>Govt. ID number</Form.Label>
+                <Form.Label>ID number</Form.Label>
                 <Form.Control
                   type="text"
-                  placeholder="Enter your Govt. ID number"
+                  placeholder="Enter your ID number"
                   value={govtIdNo}
                   onChange={(e) => setGovtIdNo(e.target.value)}
                 />
