@@ -20,56 +20,56 @@ import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import Loader from "../components/Loader";
 
-const CustomCard = ({ title, text, icon, link }) => {
-  return (
-    <Link to={link} style={{ textDecoration: "none" }}>
-      <Card
-        className="custom-card"
-        style={{
-          marginTop: "6vh",
-          backgroundColor: "rgba(255, 255, 255, 0.5)",
-          backdropFilter: "invert(2%)",
-        }}
-      >
-        <Card.Body>
-          <Card.Title style={{ fontSize: "2.5vh" }}>
-            <strong>{title}</strong>
-          </Card.Title>
-          <Card.Text style={{ fontSize: "1.5vh" }}>{text}</Card.Text>
-        </Card.Body>
-        <Badge
-          circle="true"
-          bg="dark"
-          className="position-absolute top-0 end-0"
-          style={{
-            transform: "translate(-20%, -50%)",
-            height: "5vh",
-            width: "5vw",
-          }}
-        >
-          <FontAwesomeIcon
-            icon={icon}
-            className="p-2"
-            style={{
-              fontSize: "24px",
-              color: "white",
-            }}
-          />
-        </Badge>
-        <style>
-          {`
-              .custom-card:hover .card-body{
-                box-shadow: 0 10px 10px rgba(0, 0, 0, 0.5);
-              }
-              .custom-card:hover .position-absolute{
-                box-shadow: 0 10px 10px rgba(0, 0, 0, 0.5);
-              }
-            `}
-        </style>
-      </Card>
-    </Link>
-  );
-};
+// const CustomCard = ({ title, text, icon, link }) => {
+//   return (
+//     <Link to={link} style={{ textDecoration: "none" }}>
+//       <Card
+//         className="custom-card"
+//         style={{
+//           marginTop: "6vh",
+//           backgroundColor: "rgba(255, 255, 255, 0.5)",
+//           backdropFilter: "invert(2%)",
+//         }}
+//       >
+//         <Card.Body>
+//           <Card.Title style={{ fontSize: "2.5vh" }}>
+//             <strong>{title}</strong>
+//           </Card.Title>
+//           <Card.Text style={{ fontSize: "1.5vh" }}>{text}</Card.Text>
+//         </Card.Body>
+//         <Badge
+//           circle="true"
+//           bg="dark"
+//           className="position-absolute top-0 end-0"
+//           style={{
+//             transform: "translate(-20%, -50%)",
+//             height: "5vh",
+//             width: "5vw",
+//           }}
+//         >
+//           <FontAwesomeIcon
+//             icon={icon}
+//             className="p-2"
+//             style={{
+//               fontSize: "24px",
+//               color: "white",
+//             }}
+//           />
+//         </Badge>
+//         <style>
+//           {`
+//               .custom-card:hover .card-body{
+//                 box-shadow: 0 10px 10px rgba(0, 0, 0, 0.5);
+//               }
+//               .custom-card:hover .position-absolute{
+//                 box-shadow: 0 10px 10px rgba(0, 0, 0, 0.5);
+//               }
+//             `}
+//         </style>
+//       </Card>
+//     </Link>
+//   );
+// };
 
 const HomeScreen = () => {
   const { userInfo } = useSelector((state) => state.auth);
@@ -104,43 +104,7 @@ const HomeScreen = () => {
     return (
       <Container fluid style={{ overflowY: "auto" }}>
         <Row>
-          <Col md={3}>
-            {/* New Account Card */}
-            <CustomCard
-              link="/new-account"
-              title="New Account"
-              text="Create a new checking or savings account with Cisco Bank."
-              icon={faBuildingColumns}
-            />
-
-            {/* Transfer Card */}
-            <CustomCard
-              link="/transfer"
-              title="Transfer"
-              text="Make a payment to an external or internal bank account."
-              icon={faCreditCard}
-            />
-
-            {/* Transactions Card */}
-            <CustomCard
-              link="/transactions"
-              title="Transactions"
-              text="Check all your pending and completed transactions here."
-              icon={faMoneyBillTransfer}
-            />
-
-            {/* Loan Card */}
-            <CustomCard
-              link="/loan"
-              title="Loan"
-              text="Apply for a loan at the best interest rates in the market."
-              icon={faLandmarkFlag}
-            />
-          </Col>
-
-          <Col md={1} />
-
-          <Col md={8} style={{ marginTop: "5vh" }}>
+          <Col md={7} style={{ marginTop: "5vh" }}>
             <Card>
               <Card.Header
                 style={{ fontSize: "3vh" }}
@@ -190,7 +154,9 @@ const HomeScreen = () => {
                                 Account Number:
                                 <span className="text-primary">
                                   <span>&nbsp;</span>
-                                  <strong>{account.accountNumber}</strong>
+                                  <strong>
+                                    ...{account.accountNumber.slice(-4)}
+                                  </strong>
                                 </span>
                                 <br />
                                 <div
@@ -261,6 +227,68 @@ const HomeScreen = () => {
             ) : (
               <Loader />
             )}
+          </Col>
+          <Col md={1} />
+          <Col md={4} style={{ marginTop: "5vh" }}>
+            <Card>
+              <Card.Header
+                style={{ fontSize: "3vh" }}
+                className="bg-dark text-white"
+              >
+                <strong>Account Disclosures</strong>
+              </Card.Header>
+            </Card>
+
+            <Card
+              style={{
+                marginTop: "2vh",
+                backgroundColor: "rgba(255, 255, 255, 0.5)",
+                backdropFilter: "invert(2%)",
+              }}
+            >
+              <Card.Body>
+                <Card.Text style={{ fontSize: "1.5vh" }}>
+                  <Card.Body>
+                    <p>
+                      <strong>Account Disclosures</strong>
+                    </p>
+                    <p>Investment and Insurance Products are:</p>
+                    <ul>
+                      <li>
+                        Not Insured by the MFIC (Martian Financial Institutions
+                        Commission) or Any Martian Government Agency
+                      </li>
+                      <li>
+                        Not a Deposit or Other Obligation of, or Guaranteed by,
+                        the Bank or Any Bank Affiliate
+                      </li>
+                      <li>
+                        Subject to Investment Risks, Including Possible Loss of
+                        the Principal Amount Invested
+                      </li>
+                    </ul>
+                    <p>
+                      Investment products and services are offered through
+                      Martian Bank Advisors. Martian Bank Advisors is a trade
+                      name used by Martian Clearing Services, LLC (MCSC) and
+                      Martian Bank Advisors Financial Network, LLC, Members MPIC
+                      (Martian Planetary Investment Commission), separate
+                      registered broker-dealers and non-bank affiliates of
+                      Martian Bank Corporation.
+                    </p>
+                    <p>
+                      Deposit products offered by Martian Bank, M.A. Member
+                      MFDIC (Martian Financial Deposit Insurance Corporation).
+                    </p>
+                    <p>Equal Planetary Habitat Lender</p>
+                    <p>
+                      MFICO is a registered trademark of Martian Isaac
+                      Corporation in Mars and other celestial bodies.
+                    </p>
+                  </Card.Body>
+                </Card.Text>
+              </Card.Body>
+            </Card>
           </Col>
         </Row>
       </Container>
