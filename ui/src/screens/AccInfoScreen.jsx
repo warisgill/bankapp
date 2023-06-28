@@ -27,7 +27,7 @@ const AccInfoScreen = () => {
   const [accNo, setAccNo] = useState(currentAccount.accountNumber);
   const [balance, setBalance] = useState(currentAccount.balance);
   const [address, setAddress] = useState(currentAccount.address);
-  const [govtId, setGovtId] = useState(currentAccount.governmentId);
+  const [govtId, setGovtId] = useState(currentAccount.governmentIdType);
   const [govtIdNo, setGovtIdNo] = useState(currentAccount.govtIdNumber);
 
   const navigate = useNavigate();
@@ -118,10 +118,11 @@ const AccInfoScreen = () => {
               <Form.Select
                 value={govtId? govtId : "Error"}
                 multiple={false}
-                onChange={(e) => setGovtId(e.target.value)}
+                disabled
               >
+                {console.log(govtId)}
                 <option value="">Select your govt. ID</option>
-                <option value="Rassport">Passport</option>
+                <option value="Passport">Passport</option>
                 <option value="Driver License">Driver's License</option>
                 <option value="Aadhar Card">SSN</option>
               </Form.Select>
@@ -132,10 +133,9 @@ const AccInfoScreen = () => {
               <Form.Label>Govt. ID number</Form.Label>
               <Form.Control
                 type="text"
-                min="0"
                 placeholder="Enter your Govt. ID number"
                 value={govtIdNo? govtIdNo : "Error"}
-                onChange={(e) => setGovtIdNo(e.target.value)}
+                disabled
               />
             </Form.Group>
           </Col>
