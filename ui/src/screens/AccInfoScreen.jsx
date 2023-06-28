@@ -142,6 +142,19 @@ const AccInfoScreen = () => {
         </Row>
 
         <Row>
+          <Col md={3}>
+            <Form.Group className="my-3" controlId="balance">
+              <Form.Label>Balance</Form.Label>
+              <Form.Control
+
+                type="text"
+                placeholder="Enter your balance"
+                value={balance? `$ ${balance}` : "Error"}
+                disabled
+              ></Form.Control>
+            </Form.Group>
+          </Col>
+          <Col md={9}>
           <Form.Group className="my-3" controlId="address">
             <Form.Label>Address</Form.Label>
             <Form.Control
@@ -151,6 +164,7 @@ const AccInfoScreen = () => {
               onChange={(e) => setAddress(e.target.value)}
             ></Form.Control>
           </Form.Group>
+          </Col>
         </Row>
 
         <Row className="my-4">
