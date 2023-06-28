@@ -146,7 +146,6 @@ const AccInfoScreen = () => {
             <Form.Group className="my-3" controlId="balance">
               <Form.Label>Balance</Form.Label>
               <Form.Control
-
                 type="text"
                 placeholder="Enter your balance"
                 value={balance? `$ ${balance}` : "Error"}

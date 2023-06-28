@@ -21,6 +21,8 @@ const AtmScreen = () => {
   const [finalLocation, setFinalLocation] = useState("");
   const [atmsList, setAtmsList] = useState([]);
 
+  const shuffledAtmsList = [...atmsList].sort(() => Math.random() - 0.5).slice(0, 5);;
+
   const dispatch = useDispatch();
 
   const [getAtmsList, { isLoading }] = useGetAtmsMutation();
@@ -55,6 +57,10 @@ const AtmScreen = () => {
               value={location}
               onChange={handleLocationChange}
               className="py-3 px-2"
+              style={{
+                backgroundColor: "rgba(255, 255, 255, 0.5)",
+                backdropFilter: "invert(2%)",
+              }}
             />
           </Col>
           <Col md={2}>
@@ -70,30 +76,47 @@ const AtmScreen = () => {
         </Form.Group>
       </Form>
 
-      {atmsList.length > 0 ? (
+      {shuffledAtmsList.length > 0 ? (
         <div className="mt-5">
           <h5 className="mb-4 mt-5">Showing results for {finalLocation}:</h5>
           <Row>
             <Col md={6}>
               <div className="card-container">
-                {atmsList.map((atm, index) => (
+                {shuffledAtmsList.map((atm, index) => (
                   <Card
                     key={index}
                     className="mb-4"
-                    style={{ height: "12.5vh" }}
                     onClick={() => setSelectedCard(atm)}
+                    style={{
+                      backgroundColor: "rgba(255, 255, 255, 0.5)",
+                      backdropFilter: "invert(2%)",
+                    }}
                   >
-                    <Badge
-                      bg="success"
-                      style={{
-                        position: "absolute",
-                        top: "1rem",
-                        right: "1rem",
-                        fontSize: "15px",
-                      }}
-                    >
-                      Open
-                    </Badge>
+                    {Math.random() > 0.15 ? (
+                      <Badge
+                        bg="success"
+                        style={{
+                          position: "absolute",
+                          top: "1rem",
+                          right: "1rem",
+                          fontSize: "15px",
+                        }}
+                      >
+                        Open
+                      </Badge>
+                    ) : (
+                      <Badge
+                        bg="danger"
+                        style={{
+                          position: "absolute",
+                          top: "1rem",
+                          right: "1rem",
+                          fontSize: "15px",
+                        }}
+                      >
+                        Closed
+                      </Badge>
+                    )}
                     <div className="flex-grow-1">
                       <Card.Body style={{ marginTop: "0" }}>
                         <Card.Title
@@ -120,11 +143,11 @@ const AtmScreen = () => {
               <div className="map-container">
                 <MapContainer
                   center={[37.77528, -81.19197]}
-                  zoom={17}
+                  zoom={15}
                   scrollWheelZoom={false}
                 >
                   <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
-                  {atmsList.map((atm, index) => (
+                  {shuffledAtmsList.map((atm, index) => (
                     <Marker
                       key={index}
                       position={[

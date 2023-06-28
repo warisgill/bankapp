@@ -74,6 +74,10 @@ const TransactionScreen = () => {
               multiple={false}
               onChange={(e) => setSelectedAccount(e.target.value)}
               className="py-3 px-2 text-center"
+              style={{
+                backgroundColor: "rgba(255, 255, 255, 0.5)",
+                backdropFilter: "invert(2%)",
+              }}
             >
               <option value="Select Account">Select Account</option>
               {allAccounts.map((account) => (
