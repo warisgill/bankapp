@@ -37,10 +37,12 @@ const AtmScreen = () => {
 
     try {
       const res = await getAtmsList().unwrap();
+      console.log(res)
       dispatch(setAtms(res));
       setAtmsList(res);
       toast.success("You ATM list is here!");
-    } catch (err) {
+    } catch (err) { 
+      console.log(err)
       toast.error(err?.data?.message || err.error);
     }
   };

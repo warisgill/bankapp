@@ -1,5 +1,6 @@
 import { fetchBaseQuery, createApi } from "@reduxjs/toolkit/query/react";
 const usersUrl = import.meta.env.VITE_USERS_URL;
+console.log("usersUrl: ", usersUrl)
 
 // const baseQuery = fetchBaseQuery({ baseUrl: 'http://host.docker.internal:8000/' });
 const baseQuery = fetchBaseQuery({ 

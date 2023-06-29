@@ -36,10 +36,12 @@ const RegisterScreen = () => {
     } else {
       try {
         const res = await register({ name, email, password }).unwrap();
+        console.log(res)
         dispatch(setCredentials({ ...res }));
         toast.success("Account created!");
         navigate("/");
       } catch (err) {
+        console.log(err)
         toast.error(err?.data?.message || err.error);
       }
     }
