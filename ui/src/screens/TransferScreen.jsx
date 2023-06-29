@@ -15,6 +15,7 @@ import { createTransfer } from "../slices/transferSlice";
 import { deleteSelectedAccount } from "../slices/accountSlice";
 import { toast } from "react-toastify";
 import Loader from "../components/Loader";
+import "../index.css";
 
 const TransferScreen = () => {
   let selectedAccount = useSelector((state) => state.account.selected_account);
@@ -53,7 +54,16 @@ const TransferScreen = () => {
 
       const res = await postTransfer(data).unwrap();
       dispatch(createTransfer({ ...res }));
-      toast.success("Transfer successful!");
+      toast.success("Money transfered!", {
+        className: "toast-container-custom",
+        autoClose: false,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+      });
       dispatch(deleteSelectedAccount());
       navigate("/");
     } catch (err) {

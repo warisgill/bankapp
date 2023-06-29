@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useRegisterMutation } from "../slices/usersApiSlice";
 import { setCredentials } from "../slices/authSlice";
 import { toast } from "react-toastify";
+import "../index.css";
 
 const RegisterScreen = () => {
   const [name, setName] = useState("");
@@ -38,7 +39,16 @@ const RegisterScreen = () => {
         const res = await register({ name, email, password }).unwrap();
         console.log(res)
         dispatch(setCredentials({ ...res }));
-        toast.success("Account created!");
+        toast.success("Congratulations! Your account with Martian Bank has been created.", {
+          className: "toast-container-custom",
+          autoClose: false,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "dark",
+        });
         navigate("/");
       } catch (err) {
         console.log(err)
