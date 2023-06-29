@@ -93,7 +93,7 @@ services:
       context: .
       dockerfile: transactions/Dockerfile
     image: transactions
-    
+
     networks:
       - bankapp-network 
 
