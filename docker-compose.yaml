@@ -78,6 +78,22 @@ services:
       dockerfile: accounts/Dockerfile
     image: accounts
     networks:
+      - bankapp-network
+
+  loan:
+    build: 
+      context: .
+      dockerfile: loan/Dockerfile
+    image: loan
+    networks:
+      - bankapp-network
+
+  transactions:
+    build: 
+      context: .
+      dockerfile: transactions/Dockerfile
+    image: transactions
+    networks:
       - bankapp-network 
 
 
