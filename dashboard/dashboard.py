@@ -136,6 +136,7 @@ def create_account():
 
 @app.route('/account/allaccounts', methods=['GET', 'POST'])
 def get_all_accounts():
+    accounts_host = os.getenv("ACCOUNT_HOST", "localhost")
     channel = grpc.insecure_channel('localhost:50051')
     client = AccountDetailsServiceStub(channel)
     if request.method == 'POST':
@@ -154,6 +155,7 @@ def get_all_accounts():
 
 @app.route('/transaction', methods=['GET', 'POST'])
 def transaction_form():
+    accounts_host = os.getenv("ACCOUNT_HOST", "localhost")
     channel = grpc.insecure_channel('localhost:50052')
     client = TransactionServiceStub(channel)
 
@@ -224,6 +226,7 @@ def get_all_transactions():
 
 @app.route('/loan', methods=['GET', 'POST'])
 def loan_form():
+    accounts_host = os.getenv("ACCOUNT_HOST", "localhost")
     # gRPC setup
     channel = grpc.insecure_channel('localhost:50053')
     client = LoanServiceStub(channel)
