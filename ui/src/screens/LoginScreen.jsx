@@ -7,6 +7,7 @@ import { useLoginMutation } from "../slices/usersApiSlice";
 import { setCredentials } from "../slices/authSlice";
 import { toast } from "react-toastify";
 import Loader from "../components/Loader";
+import "../index.css";
 
 const LoginScreen = () => {
   const [email, setEmail] = useState("");
@@ -32,12 +33,14 @@ const LoginScreen = () => {
       console.log(res);
       dispatch(setCredentials({ ...res }));
       toast.success("Successfully logged in!", {
-        autoClose: 2000,
-        hideProgressBar: false,
+        className: "toast-container-custom",
+        autoClose: false,
+        hideProgressBar: true,
         closeOnClick: true,
         pauseOnHover: true,
         draggable: true,
         progress: undefined,
+        theme: "dark",
       });
       navigate("/");
     } catch (err) {
@@ -69,9 +72,7 @@ const LoginScreen = () => {
             pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}"
             onChange={(e) => setEmail(e.target.value)}
           ></Form.Control>
-          <Form.Text muted>
-            Please enter a valid email address.
-          </Form.Text>
+          <Form.Text muted>Please enter a valid email address.</Form.Text>
         </Form.Group>
 
         <Form.Group className="my-4" controlId="password">

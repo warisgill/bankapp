@@ -10,12 +10,22 @@ export const loanApiSlice = apiSlice.injectEndpoints({
         body: data,
         prepareHeaders: (headers) => {
           headers.set("Content-Type", "multipart/form-data");
-          headers.set("Access-Control-Allow-Origin", "*");
           return headers;
         },
       }),
     }),
+    getApprovedLoans: builder.mutation({
+      query: (data) => ({
+        url: loanUrl + "/history",
+        method: "POST",
+        body: data,
+        prepareHeaders: (headers) => {
+          headers.set("Content-Type", "application/json");
+          return headers;
+        },
+      }), 
+    }),
   }),
 });
 
-export const { usePostLoanMutation } = loanApiSlice;
+export const { usePostLoanMutation, useGetApprovedLoansMutation } = loanApiSlice;

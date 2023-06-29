@@ -6,6 +6,8 @@ import cors from 'cors';
 import morgan from 'morgan';
 import cookieParser from 'cookie-parser';
 
+import { swaggerDocs } from './utils/swagger.js';
+
 import { notFound, errorHandler } from './middleware/errorMiddleware.js';
 
 import userRoutes from './routes/userRoutes.js';
@@ -32,6 +34,9 @@ if (process.env.NODE_ENV === 'development') {
 // mounting routes
 app.use('/api/users', userRoutes);
 
+// Swagger documentation
+swaggerDocs(app, port);
+
 // Serve static files and handle client-side routing in production mode
 if (process.env.NODE_ENV === 'production') {
   const __dirname = path.resolve();
@@ -48,4 +53,6 @@ if (process.env.NODE_ENV === 'production') {
 app.use(notFound);
 app.use(errorHandler);
 
-app.listen(port, () => console.log(`customer-api server started on port ${port}`));
+app.listen(port, () => {
+  console.log(`customer-api server started on port ${port}`);
+});

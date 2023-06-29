@@ -27,7 +27,7 @@ const AccInfoScreen = () => {
   const [accNo, setAccNo] = useState(currentAccount.accountNumber);
   const [balance, setBalance] = useState(currentAccount.balance);
   const [address, setAddress] = useState(currentAccount.address);
-  const [govtId, setGovtId] = useState(currentAccount.governmentId);
+  const [govtId, setGovtId] = useState(currentAccount.governmentIdType);
   const [govtIdNo, setGovtIdNo] = useState(currentAccount.govtIdNumber);
 
   const navigate = useNavigate();
@@ -63,7 +63,7 @@ const AccInfoScreen = () => {
 
       <Form>
         <Row>
-          <Col md={3}>
+          <Col md={4}>
             <DropdownButton
               id="acc_type"
               className="mt-5"
@@ -73,7 +73,7 @@ const AccInfoScreen = () => {
               style={{ width: "100%" }}
             />
           </Col>
-          <Col md={9}>
+          <Col md={8}>
             <Form.Group className="my-3" controlId="acc_no">
               <Form.Label>Account number</Form.Label>
               <Form.Control
@@ -118,10 +118,11 @@ const AccInfoScreen = () => {
               <Form.Select
                 value={govtId? govtId : "Error"}
                 multiple={false}
-                onChange={(e) => setGovtId(e.target.value)}
+                disabled
               >
+                {console.log(govtId)}
                 <option value="">Select your govt. ID</option>
-                <option value="Rassport">Passport</option>
+                <option value="Passport">Passport</option>
                 <option value="Driver License">Driver's License</option>
                 <option value="Aadhar Card">SSN</option>
               </Form.Select>
@@ -132,16 +133,27 @@ const AccInfoScreen = () => {
               <Form.Label>Govt. ID number</Form.Label>
               <Form.Control
                 type="text"
-                min="0"
                 placeholder="Enter your Govt. ID number"
                 value={govtIdNo? govtIdNo : "Error"}
-                onChange={(e) => setGovtIdNo(e.target.value)}
+                disabled
               />
             </Form.Group>
           </Col>
         </Row>
 
         <Row>
+          <Col md={4}>
+            <Form.Group className="my-3" controlId="balance">
+              <Form.Label>Balance</Form.Label>
+              <Form.Control
+                type="text"
+                placeholder="Enter your balance"
+                value={balance? `$ ${balance}` : "Error"}
+                disabled
+              ></Form.Control>
+            </Form.Group>
+          </Col>
+          <Col md={8}>
           <Form.Group className="my-3" controlId="address">
             <Form.Label>Address</Form.Label>
             <Form.Control
@@ -151,6 +163,7 @@ const AccInfoScreen = () => {
               onChange={(e) => setAddress(e.target.value)}
             ></Form.Control>
           </Form.Group>
+          </Col>
         </Row>
 
         <Row className="my-4">
