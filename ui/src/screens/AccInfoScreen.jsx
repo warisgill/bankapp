@@ -63,7 +63,7 @@ const AccInfoScreen = () => {
 
       <Form>
         <Row>
-          <Col md={3}>
+          <Col md={4}>
             <DropdownButton
               id="acc_type"
               className="mt-5"
@@ -73,7 +73,7 @@ const AccInfoScreen = () => {
               style={{ width: "100%" }}
             />
           </Col>
-          <Col md={9}>
+          <Col md={8}>
             <Form.Group className="my-3" controlId="acc_no">
               <Form.Label>Account number</Form.Label>
               <Form.Control
@@ -142,7 +142,7 @@ const AccInfoScreen = () => {
         </Row>
 
         <Row>
-          <Col md={3}>
+          <Col md={4}>
             <Form.Group className="my-3" controlId="balance">
               <Form.Label>Balance</Form.Label>
               <Form.Control
@@ -153,7 +153,7 @@ const AccInfoScreen = () => {
               ></Form.Control>
             </Form.Group>
           </Col>
-          <Col md={9}>
+          <Col md={8}>
           <Form.Group className="my-3" controlId="address">
             <Form.Label>Address</Form.Label>
             <Form.Control
