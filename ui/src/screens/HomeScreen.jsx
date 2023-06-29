@@ -4,10 +4,6 @@ import Hero from "../components/Hero";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faArrowRightFromBracket,
-  faBuildingColumns,
-  faMoneyBillTransfer,
-  faCreditCard,
-  faLandmarkFlag,
 } from "@fortawesome/free-solid-svg-icons";
 import { toast } from "react-toastify";
 import { useGetAllAccountsMutation } from "../slices/accountApiSlice";
@@ -20,56 +16,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import Loader from "../components/Loader";
 
-// const CustomCard = ({ title, text, icon, link }) => {
-//   return (
-//     <Link to={link} style={{ textDecoration: "none" }}>
-//       <Card
-//         className="custom-card"
-//         style={{
-//           marginTop: "6vh",
-//           backgroundColor: "rgba(255, 255, 255, 0.5)",
-//           backdropFilter: "invert(2%)",
-//         }}
-//       >
-//         <Card.Body>
-//           <Card.Title style={{ fontSize: "2.5vh" }}>
-//             <strong>{title}</strong>
-//           </Card.Title>
-//           <Card.Text style={{ fontSize: "1.5vh" }}>{text}</Card.Text>
-//         </Card.Body>
-//         <Badge
-//           circle="true"
-//           bg="dark"
-//           className="position-absolute top-0 end-0"
-//           style={{
-//             transform: "translate(-20%, -50%)",
-//             height: "5vh",
-//             width: "5vw",
-//           }}
-//         >
-//           <FontAwesomeIcon
-//             icon={icon}
-//             className="p-2"
-//             style={{
-//               fontSize: "24px",
-//               color: "white",
-//             }}
-//           />
-//         </Badge>
-//         <style>
-//           {`
-//               .custom-card:hover .card-body{
-//                 box-shadow: 0 10px 10px rgba(0, 0, 0, 0.5);
-//               }
-//               .custom-card:hover .position-absolute{
-//                 box-shadow: 0 10px 10px rgba(0, 0, 0, 0.5);
-//               }
-//             `}
-//         </style>
-//       </Card>
-//     </Link>
-//   );
-// };
 
 const HomeScreen = () => {
   const { userInfo } = useSelector((state) => state.auth);

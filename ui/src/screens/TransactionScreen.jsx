@@ -15,6 +15,7 @@ import { getAccounts } from "../slices/accountSlice";
 import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
+import "../index.css";
 
 const TransactionScreen = () => {
   const navigate = useNavigate();
@@ -45,23 +46,10 @@ const TransactionScreen = () => {
       const res = await getTransactions(data).unwrap();
       dispatch(storeTransaction(res));
       setHistory(res.response.transactions);
-      toast.success("Your transactions are here!");
     } catch (err) {
       toast.error(err?.data?.message || err.error);
     }
   };
-
-  // useEffect(async () => {
-  //   try {
-  //     const data = new FormData();
-  //     data.append("email_id", userInfo.email);
-  //     const res = await getAllAccounts(data).unwrap();
-  //     dispatch(getAccounts(res));
-  //   } catch (err) {
-  //     console.log(err);
-  //     toast.error("Error in fetching existing accounts!");
-  //   }
-  // }, []);
 
   return (
     <Container fluid style={{ overflowY: "auto", marginTop: "10vh" }}>
@@ -103,7 +91,7 @@ const TransactionScreen = () => {
           <Col md={3} />
         </Form.Group>
       </Form>
-      <MDBTable align="middle" striped hover style={{ marginTop: "4vh"}}>
+      <MDBTable align="middle" striped hover style={{ marginTop: "4vh" }}>
         <MDBTableHead dark>
           <tr
             className="text-center text-uppercase"
@@ -154,7 +142,10 @@ const TransactionScreen = () => {
                   <p className="text-muted mb-0">{transaction.reason}</p>
                 </td>
                 <td className="text-center">
-                  <MDBBadge color={(transaction.type === 'debit')? 'danger': 'success'} pill>
+                  <MDBBadge
+                    color={transaction.type === "debit" ? "danger" : "success"}
+                    pill
+                  >
                     {transaction.type}
                   </MDBBadge>
                 </td>
@@ -169,7 +160,6 @@ const TransactionScreen = () => {
           )}
         </MDBTableBody>
       </MDBTable>
-      
     </Container>
   );
 };

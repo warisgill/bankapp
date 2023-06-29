@@ -7,6 +7,7 @@ import { useCreateAccountMutation } from "../slices/accountApiSlice";
 import { createAccount } from "../slices/accountSlice";
 import { toast } from "react-toastify";
 import Loader from "../components/Loader";
+import "../index.css";
 
 const NewAccScreen = () => {
   const [address, setAddress] = useState("");
@@ -42,7 +43,16 @@ const NewAccScreen = () => {
       const res = await createNewAccount(data).unwrap();
       console.log(res);
       dispatch(createAccount(res));
-      toast.success("Successfully created a new account!");
+      toast.success('Congratulations, your account has been created! We have also given you a $100 joining bonus', {
+        className: "toast-container-custom",
+        autoClose: false,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+        });
       navigate("/");
     } catch (err) {
       console.log(err);

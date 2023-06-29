@@ -447,7 +447,7 @@ const LoanScreen = () => {
             <strong>Approved Loans</strong>
           </Card.Header>
         </Card>
-        {loanInfo? (
+        {(loanInfo && loanInfo.loans)? (
           loanInfo.loans.length > 0 ? (
             loanInfo.loans.map((loan) => (
               <CustomCard
@@ -466,7 +466,9 @@ const LoanScreen = () => {
             </h3>
           )
           ) : (
-          <Loader />
+            <h3 className="mt-5" style={{ textAlign: "center" }}>
+            No loans to show
+          </h3>
           )}
       </Col>
     </Row>
