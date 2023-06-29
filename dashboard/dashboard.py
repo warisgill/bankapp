@@ -137,7 +137,7 @@ def create_account():
 @app.route('/account/allaccounts', methods=['GET', 'POST'])
 def get_all_accounts():
     accounts_host = os.getenv("ACCOUNT_HOST", "localhost")
-    channel = grpc.insecure_channel('localhost:50051')
+    channel = grpc.insecure_channel(f'{accounts_host}:50051')
     client = AccountDetailsServiceStub(channel)
     if request.method == 'POST':
         print("+++++++++++++++++++++++++++++++++++++++++")
@@ -155,8 +155,8 @@ def get_all_accounts():
 
 @app.route('/transaction', methods=['GET', 'POST'])
 def transaction_form():
-    accounts_host = os.getenv("ACCOUNT_HOST", "localhost")
-    channel = grpc.insecure_channel('localhost:50052')
+    transaction_host = os.getenv("TRANSACTION_HOST", "localhost")
+    channel = grpc.insecure_channel(f'{transaction_host}:50052')
     client = TransactionServiceStub(channel)
 
     if request.method == 'POST':
@@ -190,8 +190,9 @@ def get_all_transactions():
     if request.method == 'POST':
         account_number = request.form['account_number'] # type: ignore
         
-
-        channel = grpc.insecure_channel('localhost:50052')
+        transaction_host = os.getenv("TRANSACTION_HOST", "localhost")
+        channel = grpc.insecure_channel(f'{transaction_host}:50052')
+        # channel = grpc.insecure_channel('localhost:50052')
         client = TransactionServiceStub(channel)
 
 
@@ -226,9 +227,8 @@ def get_all_transactions():
 
 @app.route('/loan', methods=['GET', 'POST'])
 def loan_form():
-    accounts_host = os.getenv("ACCOUNT_HOST", "localhost")
-    # gRPC setup
-    channel = grpc.insecure_channel('localhost:50053')
+    loan_host = os.getenv("LOAN_HOST", "localhost")
+    channel = grpc.insecure_channel(f'{loan_host}:50053')
     client = LoanServiceStub(channel)
     if request.method == 'POST':
         name = request.form['name']
@@ -260,7 +260,10 @@ def loan_form():
 @app.route('/loan/history', methods=['GET', 'POST'])
 def loan_history():
     # getLoanHistory
-    channel = grpc.insecure_channel('localhost:50053')
+    
+    loan_host = os.getenv("LOAN_HOST", "localhost")
+    channel = grpc.insecure_channel(f'{loan_host}:50053')
+    # channel = grpc.insecure_channel('localhost:50053')
     client = LoanServiceStub(channel)
     if request.method == 'POST':
         print("+++++++++++++++++++++++++++++++++++++++++")
