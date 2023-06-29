@@ -16,19 +16,6 @@ collection_loans = db['loans']
 
 
 
-
-#  name = request.form['name']
-#         email = request.form['email']
-#         account_type = request.form['account_type']
-#         account_number = request.form['account_number']
-#         govt_id_type = request.form['govt_id_type']
-#         govt_id_number = request.form['govt_id_number']
-#         loan_type = request.form['loan_type']
-#         loan_amount = float(request.form['loan_amount'])
-#         interest_rate = float(request.form['interest_rate'])
-#         time_period = request.form['time_period']
-
-
 class LoanService(loan_pb2_grpc.LoanServiceServicer):
 
     

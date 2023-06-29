@@ -59,6 +59,27 @@ services:
     restart: always
     networks:
       - bankapp-network
+  
+  dashboard:
+    build: 
+      context: .
+      dockerfile: dashboard/Dockerfile
+    environment:
+      ACCOUNT_HOST: accounts
+    image: dashboard
+    networks:
+      - bankapp-network 
+    ports:
+      - 5000:5000
+    
+  accounts:
+    build: 
+      context: .
+      dockerfile: accounts/Dockerfile
+    image: accounts
+    networks:
+      - bankapp-network 
+
 
 networks:
     bankapp-network:

@@ -7,8 +7,8 @@ from flask import Flask, render_template, request, jsonify
 import grpc
 from dataclasses import dataclass
 
-from account_details_pb2 import * 
-from account_details_pb2_grpc import AccountDetailsServiceStub
+from accounts_pb2 import * 
+from accounts_pb2_grpc import AccountDetailsServiceStub
 
 from transaction_pb2_grpc import TransactionServiceStub
 from transaction_pb2 import * 
@@ -29,6 +29,13 @@ collection = db['accounts']
 
 app = Flask(__name__)
 CORS(app)
+
+
+
+@app.route("/")
+def render_homepage():
+    return f"Dashboard is running..."
+
 
 
 
@@ -67,9 +74,13 @@ CORS(app)
 #     return render_template('detail_form.html')
 
 
+
+
 @app.route('/account/create', methods=['GET', 'POST'])
 def create_account():
-    channel = grpc.insecure_channel('localhost:50051')
+    accounts_host = os.getenv("ACCOUNT_HOST", "localhost")
+    print(f"host account {accounts_host}")
+    channel = grpc.insecure_channel(f'{accounts_host}:50051')
     client = AccountDetailsServiceStub(channel)
     if request.method == 'POST':
         print("+++++++++++++++++++++++++++++++++++++++++")
@@ -143,6 +154,9 @@ def get_all_accounts():
 
 @app.route('/transaction', methods=['GET', 'POST'])
 def transaction_form():
+    channel = grpc.insecure_channel('localhost:50052')
+    client = TransactionServiceStub(channel)
+
     if request.method == 'POST':
         sender_account_number = request.form['sender_account_number'] # type: ignore
         receiver_account_number = request.form['receiver_account_number'] # type: ignore
@@ -150,11 +164,6 @@ def transaction_form():
         sender_account_type = request.form['sender_account_type'] # type: ignore
         receiver_account_type = request.form['receiver_account_type'] # type: ignore
         reason = request.form['reason'] # type: ignore
-
-
-        channel = grpc.insecure_channel('localhost:50052')
-        client = TransactionServiceStub(channel)
-
         req = TransactionRequest(
             sender_account_number=sender_account_number,
             receiver_account_number=receiver_account_number,
@@ -232,7 +241,8 @@ def loan_form():
 
 
         # Create a gRPC request
-        loan_request = LoanRequest(name=name, email=email, account_type=account_type, account_number=account_number, govt_id_type=govt_id_type, govt_id_number=govt_id_number, loan_type=loan_type, loan_amount=loan_amount, interest_rate=interest_rate, time_period=time_period)
+        loan_request = LoanRequest(name=name, email=email, account_type=account_type, account_number=account_number,  govt_id_type=govt_id_type,  
+                                   govt_id_number=govt_id_number, loan_type=loan_type, loan_amount=loan_amount, interest_rate=interest_rate, time_period=time_period)
 
         # Send the gRPC request to the Loan Microservice
         response = client.ProcessLoanRequest(loan_request)

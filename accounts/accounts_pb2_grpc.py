@@ -2,7 +2,7 @@
 """Client and server classes corresponding to protobuf-defined services."""
 import grpc
 
-import account_details_pb2 as account__details__pb2
+import accounts_pb2 as accounts__pb2
 
 
 class AccountDetailsServiceStub(object):
@@ -16,18 +16,18 @@ class AccountDetailsServiceStub(object):
         """
         self.getAccountDetails = channel.unary_unary(
                 '/AccountDetailsService/getAccountDetails',
-                request_serializer=account__details__pb2.GetAccountDetailRequest.SerializeToString,
-                response_deserializer=account__details__pb2.GetAccountDetailResponse.FromString,
+                request_serializer=accounts__pb2.GetAccountDetailRequest.SerializeToString,
+                response_deserializer=accounts__pb2.GetAccountDetailResponse.FromString,
                 )
         self.createAccount = channel.unary_unary(
                 '/AccountDetailsService/createAccount',
-                request_serializer=account__details__pb2.CreateAccountRequest.SerializeToString,
-                response_deserializer=account__details__pb2.CreateAccountResponse.FromString,
+                request_serializer=accounts__pb2.CreateAccountRequest.SerializeToString,
+                response_deserializer=accounts__pb2.CreateAccountResponse.FromString,
                 )
         self.getAccounts = channel.unary_unary(
                 '/AccountDetailsService/getAccounts',
-                request_serializer=account__details__pb2.GetAccountsRequest.SerializeToString,
-                response_deserializer=account__details__pb2.GetAccountsResponse.FromString,
+                request_serializer=accounts__pb2.GetAccountsRequest.SerializeToString,
+                response_deserializer=accounts__pb2.GetAccountsResponse.FromString,
                 )
 
 
@@ -57,18 +57,18 @@ def add_AccountDetailsServiceServicer_to_server(servicer, server):
     rpc_method_handlers = {
             'getAccountDetails': grpc.unary_unary_rpc_method_handler(
                     servicer.getAccountDetails,
-                    request_deserializer=account__details__pb2.GetAccountDetailRequest.FromString,
-                    response_serializer=account__details__pb2.GetAccountDetailResponse.SerializeToString,
+                    request_deserializer=accounts__pb2.GetAccountDetailRequest.FromString,
+                    response_serializer=accounts__pb2.GetAccountDetailResponse.SerializeToString,
             ),
             'createAccount': grpc.unary_unary_rpc_method_handler(
                     servicer.createAccount,
-                    request_deserializer=account__details__pb2.CreateAccountRequest.FromString,
-                    response_serializer=account__details__pb2.CreateAccountResponse.SerializeToString,
+                    request_deserializer=accounts__pb2.CreateAccountRequest.FromString,
+                    response_serializer=accounts__pb2.CreateAccountResponse.SerializeToString,
             ),
             'getAccounts': grpc.unary_unary_rpc_method_handler(
                     servicer.getAccounts,
-                    request_deserializer=account__details__pb2.GetAccountsRequest.FromString,
-                    response_serializer=account__details__pb2.GetAccountsResponse.SerializeToString,
+                    request_deserializer=accounts__pb2.GetAccountsRequest.FromString,
+                    response_serializer=accounts__pb2.GetAccountsResponse.SerializeToString,
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
@@ -92,8 +92,8 @@ class AccountDetailsService(object):
             timeout=None,
             metadata=None):
         return grpc.experimental.unary_unary(request, target, '/AccountDetailsService/getAccountDetails',
-            account__details__pb2.GetAccountDetailRequest.SerializeToString,
-            account__details__pb2.GetAccountDetailResponse.FromString,
+            accounts__pb2.GetAccountDetailRequest.SerializeToString,
+            accounts__pb2.GetAccountDetailResponse.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 
@@ -109,8 +109,8 @@ class AccountDetailsService(object):
             timeout=None,
             metadata=None):
         return grpc.experimental.unary_unary(request, target, '/AccountDetailsService/createAccount',
-            account__details__pb2.CreateAccountRequest.SerializeToString,
-            account__details__pb2.CreateAccountResponse.FromString,
+            accounts__pb2.CreateAccountRequest.SerializeToString,
+            accounts__pb2.CreateAccountResponse.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 
@@ -126,7 +126,7 @@ class AccountDetailsService(object):
             timeout=None,
             metadata=None):
         return grpc.experimental.unary_unary(request, target, '/AccountDetailsService/getAccounts',
-            account__details__pb2.GetAccountsRequest.SerializeToString,
-            account__details__pb2.GetAccountsResponse.FromString,
+            accounts__pb2.GetAccountsRequest.SerializeToString,
+            accounts__pb2.GetAccountsResponse.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)

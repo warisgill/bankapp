@@ -1,13 +1,13 @@
 from concurrent import futures
 import random
 import datetime
-
+import os
 import grpc
 
 
-from account_details_pb2 import *
+from accounts_pb2 import *
 
-import account_details_pb2_grpc
+import accounts_pb2_grpc
 
 
 # creat a list of accounts and fill with dummy data
@@ -22,7 +22,7 @@ collection = db['accounts']
 
 
 
-class AccountDetailsService(account_details_pb2_grpc.AccountDetailsServiceServicer):
+class AccountDetailsService(accounts_pb2_grpc.AccountDetailsServiceServicer):
 
     def getAccountDetails(self, request, context):
         accounts = collection.find()
@@ -71,9 +71,12 @@ class AccountDetailsService(account_details_pb2_grpc.AccountDetailsServiceServic
     
 
 def serve():
+    
+    # recommendations_host = os.getenv("RECOMMENDATIONS_HOST", "localhost")
     server = grpc.server(futures.ThreadPoolExecutor(max_workers=10))
     account_details_pb2_grpc.add_AccountDetailsServiceServicer_to_server(AccountDetailsService(), server)
     server.add_insecure_port('[::]:50051')
+    # server.add_insecure_port(f"{recommendations_host}:50051")
     server.start()
     server.wait_for_termination()
 
