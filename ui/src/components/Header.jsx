@@ -63,11 +63,27 @@ const Header = () => {
             <Nav className="ms-auto">
               {userInfo ? (
                 <>
-                  <CustomNavItems name="Accounts" link="/" />
-                  <CustomNavItems name="Transfer" link="/transfer" />
-                  <CustomNavItems name="Transactions" link="/transactions" />
-                  <CustomNavItems name="Loans" link="/loan" />
-                  <CustomNavItems name="Find ATMs" link="/find-atm" />
+                  <NavDropdown
+                    title="Accounts"
+                    id="accounts"
+                    className="custom-nav-dropdown"
+                    style={{ fontSize: "2.2vh", marginRight: 30 }}
+                  >
+                    <LinkContainer to="/">
+                      <NavDropdown.Item>
+                        <span style={{ fontSize: "1.5vh" }}>My Accounts</span>
+                      </NavDropdown.Item>
+                    </LinkContainer>
+                    <LinkContainer to="/new-account">
+                      <NavDropdown.Item>
+                        <span style={{ fontSize: "1.5vh" }}>New Account</span>
+                      </NavDropdown.Item>
+                    </LinkContainer>
+                  </NavDropdown>
+                  <CustomNavItems style={{marginRight: 30}} name="Transfer" link="/transfer" />
+                  <CustomNavItems style={{marginRight: 30}} name="Transactions" link="/transactions" />
+                  <CustomNavItems style={{marginRight: 30}} name="Loans" link="/loan" />
+                  <CustomNavItems style={{marginRight: 30}} name="Find ATMs" link="/find-atm" />
                   <NavDropdown
                     title={userInfo.name}
                     id="username"

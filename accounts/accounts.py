@@ -74,7 +74,7 @@ def serve():
     
     # recommendations_host = os.getenv("RECOMMENDATIONS_HOST", "localhost")
     server = grpc.server(futures.ThreadPoolExecutor(max_workers=10))
-    account_details_pb2_grpc.add_AccountDetailsServiceServicer_to_server(AccountDetailsService(), server)
+    accounts_pb2_grpc.add_AccountDetailsServiceServicer_to_server(AccountDetailsService(), server)
     server.add_insecure_port('[::]:50051')
     # server.add_insecure_port(f"{recommendations_host}:50051")
     server.start()

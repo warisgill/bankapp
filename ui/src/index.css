@@ -10,3 +10,11 @@
 body {
     font-family: Roboto, Helvetica, Arial, sans-serif;
   }
+
+.toast-container-custom {
+    top: 10vh !important;
+    margin: 0;
+    background-color: #212529;
+}
+
+  

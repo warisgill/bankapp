@@ -7,6 +7,7 @@ import { useCreateAccountMutation } from "../slices/accountApiSlice";
 import { createAccount } from "../slices/accountSlice";
 import { toast } from "react-toastify";
 import Loader from "../components/Loader";
+import "../index.css";
 
 const NewAccScreen = () => {
   const [address, setAddress] = useState("");
@@ -42,7 +43,16 @@ const NewAccScreen = () => {
       const res = await createNewAccount(data).unwrap();
       console.log(res);
       dispatch(createAccount(res));
-      toast.success("Successfully created a new account!");
+      toast.success('Congratulations, your account has been created! We have also given you a $100 joining bonus', {
+        className: "toast-container-custom",
+        autoClose: false,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+        });
       navigate("/");
     } catch (err) {
       console.log(err);
@@ -115,6 +125,8 @@ const NewAccScreen = () => {
                 <option value="">Select your account type</option>
                 <option value="Savings">Savings</option>
                 <option value="Checking">Checking</option>
+                <option value="Investment">Investment</option>
+                <option value="Money Market">Money Market</option>
               </Form.Select>
             </Form.Group>
           </Row>
@@ -122,14 +134,14 @@ const NewAccScreen = () => {
           <Row>
             <Col md={6}>
               <Form.Group className="my-3" controlId="govt_id">
-                <Form.Label>Govt. ID</Form.Label>
+                <Form.Label>ID type</Form.Label>
                 <Form.Select
                   value={govtId}
                   multiple={false}
                   onChange={(e) => setGovtId(e.target.value)}
-                  aria-label="Select your govt. ID"
+                  aria-label="Select your ID type"
                 >
-                  <option value="">Select your govt. ID</option>
+                  <option value="">Select your ID type</option>
                   <option value="Passport">Passport</option>
                   <option value="DriverLicense">Driver's License</option>
                   <option value="AadharCard">SSN</option>
@@ -138,10 +150,10 @@ const NewAccScreen = () => {
             </Col>
             <Col md={6}>
               <Form.Group className="my-3" controlId="govt_id_no">
-                <Form.Label>Govt. ID number</Form.Label>
+                <Form.Label>ID number</Form.Label>
                 <Form.Control
                   type="text"
-                  placeholder="Enter your Govt. ID number"
+                  placeholder="Enter your ID number"
                   value={govtIdNo}
                   onChange={(e) => setGovtIdNo(e.target.value)}
                 />
