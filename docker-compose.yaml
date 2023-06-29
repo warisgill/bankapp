@@ -88,14 +88,14 @@ services:
     networks:
       - bankapp-network
 
-  transactions:
-    build: 
-      context: .
-      dockerfile: transactions/Dockerfile
-    image: transactions
+  # transactions:
+  #   build: 
+  #     context: .
+  #     dockerfile: transactions/Dockerfile
+  #   image: transactions
     
-    networks:
-      - bankapp-network 
+  #   networks:
+  #     - bankapp-network 
 
 
 networks:
