@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { useLogoutMutation } from "../slices/usersApiSlice";
 import { logout } from "../slices/authSlice";
 import Cookies from "js-cookie";
+import "../index.css";
 
 const CustomNavItems = ({ name, link }) => {
   return (
@@ -35,7 +36,16 @@ const Header = () => {
       } else {
         await logoutApiCall(jwtCookie).unwrap();
         dispatch(logout());
-        toast.success("Logged out!");
+        toast.success("Logged out", {
+          className: "toast-container-custom",
+          autoClose: false,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "dark",
+        });
         navigate("/login");
       }
     } catch (err) {

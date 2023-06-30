@@ -21,25 +21,21 @@ const AtmScreen = () => {
   const [finalLocation, setFinalLocation] = useState("");
   const [atmsList, setAtmsList] = useState([]);
 
-  const shuffledAtmsList = [...atmsList].sort(() => Math.random() - 0.5).slice(0, 5);;
-
   const dispatch = useDispatch();
 
   const [getAtmsList, { isLoading }] = useGetAtmsMutation();
 
-  const handleLocationChange = (event) => {
-    setLocation(event.target.value);
-  };
-
   const handleSubmit = async (e) => {
     setFinalLocation(location);
+    setIsSubmitted(true);
     e.preventDefault();
 
     try {
       const res = await getAtmsList().unwrap();
-      console.log(res)
-      dispatch(setAtms(res));
-      setAtmsList(res);
+      const shuffledRes = [...res].sort(() => Math.random() - 0.5).slice(0, 5);
+      console.log(res, shuffledRes);
+      dispatch(setAtms(shuffledRes));
+      setAtmsList(shuffledRes);
       toast.success("Found ATMs near you!", {
         className: "toast-container-custom",
         autoClose: false,
@@ -50,8 +46,8 @@ const AtmScreen = () => {
         progress: undefined,
         theme: "dark",
       });
-    } catch (err) { 
-      console.log(err)
+    } catch (err) {
+      console.log(err);
       toast.error(err?.data?.message || err.error);
     }
   };
@@ -65,9 +61,9 @@ const AtmScreen = () => {
             <Form.Control
               type="text"
               placeholder="Enter enter a ZIP code, or an address, city, and state."
-              value={location}
-              onChange={handleLocationChange}
               className="py-3 px-2"
+              value={location}
+              onChange={(e) => setLocation(e.target.value)}
               style={{
                 backgroundColor: "rgba(255, 255, 255, 0.5)",
                 backdropFilter: "invert(2%)",
@@ -87,13 +83,13 @@ const AtmScreen = () => {
         </Form.Group>
       </Form>
 
-      {shuffledAtmsList.length > 0 ? (
+      {atmsList.length > 0 ? (
         <div className="mt-5">
           <h5 className="mb-4 mt-5">Showing results for {finalLocation}:</h5>
           <Row>
             <Col md={6}>
               <div className="card-container">
-                {shuffledAtmsList.map((atm, index) => (
+                {atmsList.map((atm, index) => (
                   <Card
                     key={index}
                     className="mb-4"
@@ -103,31 +99,18 @@ const AtmScreen = () => {
                       backdropFilter: "invert(2%)",
                     }}
                   >
-                    {Math.random() > 0.15 ? (
-                      <Badge
-                        bg="success"
-                        style={{
-                          position: "absolute",
-                          top: "1rem",
-                          right: "1rem",
-                          fontSize: "15px",
-                        }}
-                      >
-                        Open
-                      </Badge>
-                    ) : (
-                      <Badge
-                        bg="danger"
-                        style={{
-                          position: "absolute",
-                          top: "1rem",
-                          right: "1rem",
-                          fontSize: "15px",
-                        }}
-                      >
-                        Closed
-                      </Badge>
-                    )}
+                    <Badge
+                      bg="success"
+                      style={{
+                        position: "absolute",
+                        top: "1rem",
+                        right: "1rem",
+                        fontSize: "15px",
+                      }}
+                    >
+                      Open
+                    </Badge>
+
                     <div className="flex-grow-1">
                       <Card.Body style={{ marginTop: "0" }}>
                         <Card.Title
@@ -158,7 +141,7 @@ const AtmScreen = () => {
                   scrollWheelZoom={false}
                 >
                   <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
-                  {shuffledAtmsList.map((atm, index) => (
+                  {atmsList.map((atm, index) => (
                     <Marker
                       key={index}
                       position={[
