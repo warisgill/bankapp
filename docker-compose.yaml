@@ -61,6 +61,11 @@ services:
       - bankapp-network
   
   dashboard:
+    container_name: dashboard
+    hostname: dashboard
+    ports:
+      - "5000:5000"
+    restart: always
     build: 
       context: .
       dockerfile: dashboard/Dockerfile
@@ -68,17 +73,15 @@ services:
       ACCOUNT_HOST: accounts
       TRANSACTION_HOST: transactions
       LOAN_HOST: loan
-    image: dashboard
     networks:
-      - bankapp-network 
-    ports:
-      - 5000:5000
+      - bankapp-network
     
   accounts:
     build: 
       context: .
       dockerfile: accounts/Dockerfile
-    image: accounts
+    container_name: accounts
+    hostname: accounts
     networks:
       - bankapp-network
 
@@ -86,7 +89,8 @@ services:
     build: 
       context: .
       dockerfile: loan/Dockerfile
-    image: loan
+    container_name: loan
+    hostname: loan
     networks:
       - bankapp-network
 
@@ -94,8 +98,8 @@ services:
     build: 
       context: .
       dockerfile: transactions/Dockerfile
-    image: transactions
-
+    container_name: transactions
+    hostname: transactions
     networks:
       - bankapp-network 
 

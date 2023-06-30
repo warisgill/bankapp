@@ -19,6 +19,7 @@ import {
 import { createLoan, storeLoanHistory } from "../slices/loanSlice";
 import { toast } from "react-toastify";
 import Loader from "../components/Loader";
+import "../index.css";
 
 const CustomCard = ({ title, text, icon, link }) => {
   return (
@@ -64,10 +65,12 @@ const LoanScreen = () => {
   const [loanTime, setLoanTime] = useState("");
 
   const [isCheckboxChecked, setIsCheckboxChecked] = useState(false);
+  const [loanAdded, setLoanAdded] = useState(false);
 
   const loanInfo = useSelector((state) => state.loan.loan_history).response;
 
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const [postLoanAPI, { isLoading }] = usePostLoanMutation();
   const [loanHistoryAPI, { isLoading: isLoading2 }] =
@@ -97,7 +100,17 @@ const LoanScreen = () => {
       data.append("time_period", loanTime);
       const res = await postLoanAPI(data).unwrap();
       dispatch(createLoan(res));
-      toast.success("Your loan has been approved!");
+      toast.success("Congratulations! Your loan is approved!", {
+        className: "toast-container-custom",
+        autoClose: false,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+      });
+      setLoanAdded(true);
     } catch (err) {
       console.log(err);
       toast.error(err?.data?.message || err.error);
@@ -129,7 +142,7 @@ const LoanScreen = () => {
       console.log(err);
       toast.error("Error in fetching loans!");
     }
-  }, [loanInfo]);
+  }, [loanAdded]);
 
   return (
     <Row fluid style={{ overflowY: "auto" }}>
@@ -198,6 +211,8 @@ const LoanScreen = () => {
                       <option value="">Select your account type</option>
                       <option value="Savings">Savings</option>
                       <option value="Checking">Checking</option>
+                      <option value="Investment">Investment</option>
+                      <option value="Money Market">Money Market</option>
                     </Form.Select>
                   </Form.Group>
                 </Col>
@@ -218,14 +233,14 @@ const LoanScreen = () => {
               <Row>
                 <Col md={4}>
                   <Form.Group className="my-3" controlId="govt_id">
-                    <Form.Label>Govt. ID</Form.Label>
+                    <Form.Label>ID Type</Form.Label>
                     <Form.Select
                       value={govtId}
                       multiple={false}
                       onChange={(e) => setGovtId(e.target.value)}
-                      aria-label="Select your govt. ID"
+                      aria-label="Select your ID type"
                     >
-                      <option value="">Select your govt. ID</option>
+                      <option value="">Select your ID type</option>
                       <option value="Passport">Passport</option>
                       <option value="DriverLicense">Driver's License</option>
                       <option value="AadharCard">SSN</option>
@@ -234,10 +249,10 @@ const LoanScreen = () => {
                 </Col>
                 <Col md={8}>
                   <Form.Group className="my-3" controlId="govt_id_no">
-                    <Form.Label>Govt. ID number</Form.Label>
+                    <Form.Label>ID number</Form.Label>
                     <Form.Control
                       type="text"
-                      placeholder="Enter your Govt. ID number"
+                      placeholder="Enter your ID number"
                       required
                       value={govtIdNo}
                       onChange={(e) => setGovtIdNo(e.target.value)}
@@ -447,15 +462,16 @@ const LoanScreen = () => {
             <strong>Approved Loans</strong>
           </Card.Header>
         </Card>
-        {(loanInfo && loanInfo.loans)? (
+        {loanInfo && loanInfo.loans ? (
           loanInfo.loans.length > 0 ? (
             loanInfo.loans.map((loan) => (
               <CustomCard
                 title={`${loan.loanType} Loan for $${loan.loanAmount}`}
                 text={
                   <>
-                  Interest Rate: {loan.interestRate}%, Time Period: ${loan.timePeriod} years <br />
-                  Account: {loan.accountNumber}
+                    Interest Rate: {loan.interestRate}%, Time Period: $
+                    {loan.timePeriod} years <br />
+                    Account: {loan.accountNumber}
                   </>
                 }
               />
@@ -465,11 +481,11 @@ const LoanScreen = () => {
               No loans to show
             </h3>
           )
-          ) : (
-            <h3 className="mt-5" style={{ textAlign: "center" }}>
+        ) : (
+          <h3 className="mt-5" style={{ textAlign: "center" }}>
             No loans to show
           </h3>
-          )}
+        )}
       </Col>
     </Row>
   );

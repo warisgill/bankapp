@@ -37,10 +37,21 @@ const AtmScreen = () => {
 
     try {
       const res = await getAtmsList().unwrap();
+      console.log(res)
       dispatch(setAtms(res));
       setAtmsList(res);
-      toast.success("You ATM list is here!");
-    } catch (err) {
+      toast.success("Found ATMs near you!", {
+        className: "toast-container-custom",
+        autoClose: false,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+      });
+    } catch (err) { 
+      console.log(err)
       toast.error(err?.data?.message || err.error);
     }
   };
