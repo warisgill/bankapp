@@ -16,7 +16,7 @@ export const loanApiSlice = apiSlice.injectEndpoints({
     }),
     getApprovedLoans: builder.mutation({
       query: (data) => ({
-        url: loanUrl + "/history",
+        url: loanUrl + "history",
         method: "POST",
         body: data,
         prepareHeaders: (headers) => {
