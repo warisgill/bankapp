@@ -8,6 +8,7 @@ import Loader from "../components/Loader";
 import { useUpdateUserMutation } from "../slices/usersApiSlice";
 import { setCredentials } from "../slices/authSlice";
 import Cookies from "js-cookie";
+import "../index.css";
 
 const ProfileScreen = () => {
   const [email, setEmail] = useState("");
@@ -41,7 +42,16 @@ const ProfileScreen = () => {
           token: Cookies.get("jwt"),
         }).unwrap();
         dispatch(setCredentials(res));
-        toast.success("Profile updated!");
+        toast.success("Your profile has been updated", {
+          className: "toast-container-custom",
+          autoClose: false,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "dark",
+        });
         navigate("/");
       } catch (err) {
         toast.error(err?.data?.message || err.error);
