@@ -1,0 +1,116 @@
+# You can tell Kubernetes how to identify your microservice by using labels
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+    name: dashboard
+    labels:
+        app: dashboard
+spec:
+    replicas: 1
+    selector:
+        matchLabels:
+            app: dashboard
+    template:
+        metadata:
+            labels:
+                app: dashboard
+        spec:
+            containers:
+                - name: dashboard
+                  image: waris95/bankapp-dashboard
+                  env:
+                      - name: ACCOUNT_HOST
+                        value: accounts
+                      - name: LOAN_HOST
+                        value: loan
+  
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+    name: accounts
+    labels:
+        app: accounts
+spec:
+    replicas: 1
+    selector:
+        matchLabels:
+            app: accounts
+    template:
+        metadata:
+            labels:
+                app: accounts
+        spec:
+            containers:
+                - name: accounts
+                  image: waris95/bankapp-accounts
+# loan 
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+    name: loan
+    labels:
+        app: loan
+spec: 
+    replicas: 1
+    selector:
+        matchLabels:
+            app: loan
+    template:
+        metadata:
+            labels:
+                app: loan
+        spec:
+            containers:
+                - name: loan
+                  image: waris95/bankapp-loan
+                  
+
+
+# Service 
+
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+    name: dashboard
+spec:
+    type: LoadBalancer # This is the only line that is different from the previous service that this is accessible from outside
+    selector:
+        app: dashboard
+    ports:
+        - protocol: TCP
+          port: 5000
+          targetPort: 5000
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+    name: accounts
+spec:
+    selector:
+        app: accounts
+    ports:
+        - protocol: TCP
+          port: 50051
+          targetPort: 50051
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+    name: loan
+spec:
+    selector:
+        app: loan
+    ports:
+        - protocol: TCP
+          port: 50053
+          targetPort: 50053
+
