@@ -89,7 +89,7 @@ services:
     build: 
       context: .
       dockerfile: loan/Dockerfile
-    container_name: loan
+    container_name: loan2
     hostname: loan
     networks:
       - bankapp-network

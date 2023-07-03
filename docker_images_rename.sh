@@ -10,6 +10,8 @@
 # harpooncorp/harpoon-ext   0.0.4     3c3609887f9d   4 months ago    12.8MB
 
 
+docker-compose build
+
 # bankapp-nginx
 docker tag bankapp-nginx waris95/bankapp-nginx
 

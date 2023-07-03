@@ -19,7 +19,7 @@ spec:
         spec:
             containers:
                 - name: dashboard
-                  image: waris95/bankapp-dashboard
+                  image: docker.io/waris95/bankapp-dashboard
                   env:
                       - name: ACCOUNT_HOST
                         value: accounts
@@ -48,7 +48,7 @@ spec:
         spec:
             containers:
                 - name: accounts
-                  image: waris95/bankapp-accounts
+                  image: docker.io/waris95/bankapp-accounts
 # loan 
 ---
 apiVersion: apps/v1
@@ -69,7 +69,8 @@ spec:
         spec:
             containers:
                 - name: loan
-                  image: waris95/bankapp-loan
+                #   registry: docker.io
+                  image: docker.io/waris95/bankapp-loan
 
 # transactions
 
@@ -92,7 +93,7 @@ spec:
         spec:
             containers:
                 - name: transactions
-                  image: waris95/bankapp-transactions
+                  image: docker.io/waris95/bankapp-transactions
 
 
 # Service 
