@@ -1,0 +1,249 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: customer-auth
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: customer-auth
+  template:
+    metadata:
+      labels:
+        app: customer-auth
+    spec:
+      containers:
+        - name: customer-auth
+          image: https://hub.docker.com/u/waris95/customer-auth:latest
+          ports:
+            - containerPort: 8000
+          env:
+            - name: ENV_VAR_NAME
+              value: value
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: atm-locator
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: atm-locator
+  template:
+    metadata:
+      labels:
+        app: atm-locator
+    spec:
+      containers:
+        - name: atm-locator
+          image: https://hub.docker.com/u/waris95/atm-locator:latest
+          ports:
+            - containerPort: 8001
+          env:
+            - name: ENV_VAR_NAME
+              value: value
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nginx
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      containers:
+        - name: nginx
+          image: https://hub.docker.com/u/waris95/nginx:latest
+          ports:
+            - containerPort: 80
+          env:
+            - name: ENV_VAR_NAME
+              value: value
+          volumeMounts:
+            - name: nginx-config
+              mountPath: /etc/nginx/conf.d
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dashboard
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: dashboard
+  template:
+    metadata:
+      labels:
+        app: dashboard
+    spec:
+      containers:
+        - name: dashboard
+          image: https://hub.docker.com/u/waris95/dashboard:latest
+          ports:
+            - containerPort: 5000
+          env:
+            - name: ACCOUNT_HOST
+              value: accounts
+            - name: TRANSACTION_HOST
+              value: transactions
+            - name: LOAN_HOST
+              value: loan
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: accounts
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: accounts
+  template:
+    metadata:
+      labels:
+        app: accounts
+    spec:
+      containers:
+        - name: accounts
+          image: https://hub.docker.com/u/waris95/accounts:latest
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: loan
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: loan
+  template:
+    metadata:
+      labels:
+        app: loan
+    spec:
+      containers:
+        - name: loan
+          image: https://hub.docker.com/u/waris95/loan:latest
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: transactions
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: transactions
+  template:
+    metadata:
+      labels:
+        app: transactions
+    spec:
+      containers:
+        - name: transactions
+          image: https://hub.docker.com/u/waris95/transactions:latest
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: customer-auth
+spec:
+  selector:
+    app: customer-auth
+  ports:
+    - protocol: TCP
+      port: 8000
+      targetPort: 8000
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: atm-locator
+spec:
+  selector:
+    app: atm-locator
+  ports:
+    - protocol: TCP
+      port: 8001
+      targetPort: 8001
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx
+spec:
+  selector:
+    app: nginx
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ui
+spec:
+  selector:
+    app: nginx
+  ports:
+    - protocol: TCP
+      port: 3000
+      targetPort: 3000
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: dashboard
+spec:
+  selector:
+    app: dashboard
+  ports:
+    - protocol: TCP
+      port: 5000
+      targetPort: 5000
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: accounts
+spec:
+  selector:
+    app: accounts
+  ports:
+    - protocol: TCP
+      port: 8080
+      targetPort: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: loan
+spec:
+  selector:
+    app: loan
+  ports:
+    - protocol: TCP
+      port: 8080
+      targetPort: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: transactions
+spec:
+  selector:
+    app: transactions
+  ports:
+    - protocol: TCP
+      port: 8080
+      targetPort: 8080
