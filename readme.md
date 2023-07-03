@@ -14,18 +14,24 @@ Add a `.env` file under /ui, /customer-auth and /atm-locator.
 For the `/customer-auth/.env` and `/atm-locator/.env`, add these details:
 
 ```
-NODE_ENV = development
+NODE_ENV = <development/production>
 PORT = <PORT NO>
 MONGO_URI = <your mongodb uri>
-JWT_SECRET = 'secret@123'
+JWT_SECRET = <your JWT secret>
 ```
+Here, JWT secret can be any string, which you want to use for generating JWT tokens.
+
 
 For `/ui/.env`, add these details:
 
 ```
-VITE_ACCOUNT_URL=<URL>
+VITE_ACCOUNTS_URL=<URL>
+VITE_NEW_ACCOUNT_URL=<URL>
 VITE_USERS_URL=<URL>
 VITE_ATM_URL=<URL>
+VITE_TRANSFER_URL=<URL>
+VITE_TRANSACTION_URL=<URL>
+VITE_LOAN_URL=<URL>
 ```
 
 ### Run on localhost
@@ -50,3 +56,10 @@ cd atm-locator
 npm install
 nodemon server.js
 ```
+
+### Run on Docker (locally)
+
+```
+docker compose up --build
+```
+Open http://localhost/ on any browser. 
