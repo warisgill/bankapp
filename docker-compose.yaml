@@ -7,6 +7,7 @@ services:
       context: ./ui
     container_name: ui
     hostname: martianbank
+    image: martian-bank-ui
     ports:
       - "3000:3000"
     env_file:
@@ -24,6 +25,7 @@ services:
       context: ./nginx
     container_name: nginx
     hostname: nginx
+    image: martian-bank-nginx
     ports:
       - "80:80"
     depends_on:
@@ -39,6 +41,7 @@ services:
       context: ./customer-auth
     container_name: customer-auth
     hostname: customer-auth
+    image: martian-bank-customer-auth
     ports:
       - "8000:8000"
     env_file:
@@ -51,7 +54,8 @@ services:
     build:
       context: ./atm-locator
     container_name: atm-locator
-    hostname: atm-locator
+    hostname: martian-bank-atm-locator
+    image: martian-bank-atm-locator
     ports:
       - "8001:8001"
     env_file:
@@ -66,6 +70,7 @@ services:
     ports:
       - "5000:5000"
     restart: always
+    image: martian-bank-dashboard
     build:
       context: .
       dockerfile: dashboard/Dockerfile
@@ -82,6 +87,7 @@ services:
       dockerfile: accounts/Dockerfile
     container_name: accounts
     hostname: accounts
+    image: martian-bank-accounts
     restart: always
     networks:
       - bankapp-network
@@ -92,6 +98,7 @@ services:
       dockerfile: loan/Dockerfile
     container_name: loan
     hostname: loan
+    image: martian-bank-loan
     restart: always
     networks:
       - bankapp-network
@@ -101,7 +108,8 @@ services:
       context: .
       dockerfile: transactions/Dockerfile
     container_name: transactions
-    hostname: transactions
+    hostname: martian-bank-transactions
+    image: transactions
     restart: always
     networks:
       - bankapp-network 
