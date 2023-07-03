@@ -2,49 +2,8 @@ version: "3.9"
 
 services:
 
-  customer-auth:
-    build: 
-      context: ./customer-auth
-    container_name: customer-auth
-    hostname: customer-auth
-    ports:
-      - "8000:8000"
-    env_file:
-      - ./customer-auth/.env
-    restart: always
-    networks:
-      - bankapp-network
-
-  atm-locator:
-    build: 
-      context: ./atm-locator
-    container_name: atm-locator
-    hostname: atm-locator
-    ports:
-      - "8001:8001"
-    env_file:
-      - ./atm-locator/.env
-    restart: always
-    networks:
-      - bankapp-network
-
-  nginx:
-    build: 
-      context: ./nginx
-    container_name: nginx
-    hostname: nginx
-    ports:
-      - "80:80"
-    depends_on:
-      - customer-auth
-      - atm-locator
-      - ui
-    restart: always
-    networks:
-      - bankapp-network
-
   ui:
-    build: 
+    build:
       context: ./ui
     container_name: ui
     hostname: martianbank
@@ -59,6 +18,47 @@ services:
     restart: always
     networks:
       - bankapp-network
+
+  nginx:
+    build:
+      context: ./nginx
+    container_name: nginx
+    hostname: nginx
+    ports:
+      - "80:80"
+    depends_on:
+      - customer-auth
+      - atm-locator
+      - ui
+    restart: always
+    networks:
+      - bankapp-network
+
+  customer-auth:
+    build:
+      context: ./customer-auth
+    container_name: customer-auth
+    hostname: customer-auth
+    ports:
+      - "8000:8000"
+    env_file:
+      - ./customer-auth/.env
+    restart: always
+    networks:
+      - bankapp-network
+
+  atm-locator:
+    build:
+      context: ./atm-locator
+    container_name: atm-locator
+    hostname: atm-locator
+    ports:
+      - "8001:8001"
+    env_file:
+      - ./atm-locator/.env
+    restart: always
+    networks:
+      - bankapp-network
   
   dashboard:
     container_name: dashboard
@@ -66,7 +66,7 @@ services:
     ports:
       - "5000:5000"
     restart: always
-    build: 
+    build:
       context: .
       dockerfile: dashboard/Dockerfile
     environment:
@@ -77,33 +77,35 @@ services:
       - bankapp-network
     
   accounts:
-    build: 
+    build:
       context: .
       dockerfile: accounts/Dockerfile
     container_name: accounts
     hostname: accounts
+    restart: always
     networks:
       - bankapp-network
 
   loan:
-    build: 
+    build:
       context: .
       dockerfile: loan/Dockerfile
     container_name: loan
     hostname: loan
+    restart: always
     networks:
       - bankapp-network
 
   transactions:
-    build: 
+    build:
       context: .
       dockerfile: transactions/Dockerfile
     container_name: transactions
     hostname: transactions
+    restart: always
     networks:
       - bankapp-network 
 
-
 networks:
-    bankapp-network:
-        driver: bridge
+  bankapp-network:
+    driver: bridge
