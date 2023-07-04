@@ -14,18 +14,18 @@ docker push jashmehta3300/martian-bank-customer-auth
 docker tag martian-bank-atm-locator jashmehta3300/martian-bank-atm-locator
 docker push jashmehta3300/martian-bank-atm-locator
 
-# dashboard
-docker tag martian-bank-dashboard jashmehta3300/martian-bank-dashboard
-docker push jashmehta3300/martian-bank-dashboard
+# # dashboard
+# docker tag martian-bank-dashboard jashmehta3300/martian-bank-dashboard
+# docker push jashmehta3300/martian-bank-dashboard
 
-# accounts
-docker tag martian-bank-accounts jashmehta3300/martian-bank-accounts
-docker push jashmehta3300/martian-bank-accounts
+# # accounts
+# docker tag martian-bank-accounts jashmehta3300/martian-bank-accounts
+# docker push jashmehta3300/martian-bank-accounts
 
-# transactions
-docker tag mb-transactions jashmehta3300/martian-bank-transactions
-docker push jashmehta3300/martian-bank-transactions
+# # transactions
+# docker tag mb-transactions jashmehta3300/martian-bank-transactions
+# docker push jashmehta3300/martian-bank-transactions
 
-# loan
-docker tag martian-bank-loan jashmehta3300/martian-bank-loan
-docker push jashmehta3300/martian-bank-loan
+# # loan
+# docker tag martian-bank-loan jashmehta3300/martian-bank-loan
+# docker push jashmehta3300/martian-bank-loan
