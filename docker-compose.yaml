@@ -2,41 +2,23 @@ version: "3.9"
 
 services:
 
-  customer-auth:
-    build: 
-      context: ./customer-auth
-      platforms:
-        - "linux/amd64"
-    container_name: customer-auth
-    hostname: customer-auth
+  ui:
+    build:
+      context: ./ui
+    container_name: ui
+    hostname: ui
+    image: martian-bank-ui
     ports:
-      - "8000:8000"
-    env_file:
-      - ./customer-auth/.env
+      - "3000:3000"
     restart: always
-    networks:
-      - bankapp-network
-
-  atm-locator:
-    build: 
-      context: ./atm-locator
-      platforms:
-        - "linux/amd64"
-    container_name: atm-locator
-    hostname: atm-locator
-    ports:
-      - "8001:8001"
     env_file:
-      - ./atm-locator/.env
-    restart: always
+      - ./ui/.env
     networks:
       - bankapp-network
 
   nginx:
     build: 
       context: ./nginx
-      platforms:
-        - "linux/amd64"
     container_name: nginx
     hostname: nginx
     ports:
@@ -49,21 +31,30 @@ services:
     networks:
       - bankapp-network
 
-  ui:
-    build: 
-      context: ./ui
-      platforms:
-        - "linux/amd64"
-    container_name: ui
-    hostname: martianbank
+  customer-auth:
+    build:
+      context: ./customer-auth
+    container_name: customer-auth
+    hostname: customer-auth
+    image: martian-bank-customer-auth
     ports:
-      - "3000:3000"
+      - "8000:8000"
     env_file:
-      - ./ui/.env
-    tty: true
-    depends_on:
-      - customer-auth
-      - atm-locator
+      - ./customer-auth/.env
+    restart: always
+    networks:
+      - bankapp-network
+
+  atm-locator:
+    build:
+      context: ./atm-locator
+    container_name: atm-locator
+    hostname: martian-bank-atm-locator
+    image: martian-bank-atm-locator
+    ports:
+      - "8001:8001"
+    env_file:
+      - ./atm-locator/.env
     restart: always
     networks:
       - bankapp-network
@@ -74,11 +65,10 @@ services:
     ports:
       - "5000:5000"
     restart: always
-    build: 
+    image: martian-bank-dashboard
+    build:
       context: .
       dockerfile: dashboard/Dockerfile
-      platforms:
-        - "linux/amd64"
     environment:
       ACCOUNT_HOST: accounts
       TRANSACTION_HOST: transactions
@@ -87,39 +77,38 @@ services:
       - bankapp-network
     
   accounts:
-    build: 
+    build:
       context: .
       dockerfile: accounts/Dockerfile
-      platforms:
-        - "linux/amd64"
     container_name: accounts
     hostname: accounts
+    image: martian-bank-accounts
+    restart: always
     networks:
       - bankapp-network
 
   loan:
-    build: 
+    build:
       context: .
       dockerfile: loan/Dockerfile
-      platforms:
-        - "linux/amd64"
     container_name: loan
     hostname: loan
+    image: martian-bank-loan
+    restart: always
     networks:
       - bankapp-network
 
   transactions:
-    build: 
+    build:
       context: .
       dockerfile: transactions/Dockerfile
-      platforms:
-        - "linux/amd64"
     container_name: transactions
-    hostname: transactions
+    hostname: martian-bank-transactions
+    image: martian-bank-transactions
+    restart: always
     networks:
       - bankapp-network 
 
-
 networks:
-    bankapp-network:
-        driver: bridge
+  bankapp-network:
+    driver: bridge
