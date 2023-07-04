@@ -106,7 +106,7 @@ spec:
         spec:
             containers:
                 - name: dashboard
-                  image: jashmehta3300/martian-bank-dashboard
+                  image: docker.io/waris95/bankapp-dashboard
                   env:
                       - name: ACCOUNT_HOST
                         value: accounts
@@ -135,8 +135,7 @@ spec:
         spec:
             containers:
                 - name: accounts
-                  image: jashmehta3300/martian-bank-accounts
-
+                  image: docker.io/waris95/bankapp-accounts
 # loan 
 ---
 apiVersion: apps/v1
@@ -157,7 +156,8 @@ spec:
         spec:
             containers:
                 - name: loan
-                  image: jashmehta3300/martian-bank-loan
+                #   registry: docker.io
+                  image: docker.io/waris95/bankapp-loan
 
 # transactions
 
@@ -180,7 +180,7 @@ spec:
         spec:
             containers:
                 - name: transactions
-                  image: jashmehta3300/martian-bank-transactions
+                  image: docker.io/waris95/bankapp-transactions
 
 
 # Service 

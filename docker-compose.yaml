@@ -2,40 +2,6 @@ version: "3.9"
 
 services:
 
-  ui:
-    build:
-      context: ./ui
-    container_name: ui
-    hostname: martianbank
-    image: martian-bank-ui
-    ports:
-      - "3000:3000"
-    env_file:
-      - ./ui/.env
-    tty: true
-    depends_on:
-      - customer-auth
-      - atm-locator
-    restart: always
-    networks:
-      - bankapp-network
-
-  nginx:
-    build:
-      context: ./nginx
-    container_name: nginx
-    hostname: nginx
-    image: martian-bank-nginx
-    ports:
-      - "80:80"
-    depends_on:
-      - customer-auth
-      - atm-locator
-      - ui
-    restart: always
-    networks:
-      - bankapp-network
-
   customer-auth:
     build:
       context: ./customer-auth
@@ -74,6 +40,8 @@ services:
     build:
       context: .
       dockerfile: dashboard/Dockerfile
+      platforms:
+        - "linux/amd64"
     environment:
       ACCOUNT_HOST: accounts
       TRANSACTION_HOST: transactions
@@ -85,6 +53,8 @@ services:
     build:
       context: .
       dockerfile: accounts/Dockerfile
+      platforms:
+        - "linux/amd64"
     container_name: accounts
     hostname: accounts
     image: martian-bank-accounts
@@ -96,6 +66,8 @@ services:
     build:
       context: .
       dockerfile: loan/Dockerfile
+      platforms:
+        - "linux/amd64"
     container_name: loan
     hostname: loan
     image: martian-bank-loan
@@ -107,6 +79,8 @@ services:
     build:
       context: .
       dockerfile: transactions/Dockerfile
+      platforms:
+        - "linux/amd64"
     container_name: transactions
     hostname: martian-bank-transactions
     image: martian-bank-transactions
