@@ -266,6 +266,7 @@ kind: Service
 metadata:
     name: nginx
 spec:
+    type: LoadBalancer
     selector:
         app: nginx
     ports:
@@ -305,6 +306,7 @@ kind: Service
 metadata:
     name: ui
 spec:
+    type: LoadBalancer
     selector:
         app: ui
     ports:
