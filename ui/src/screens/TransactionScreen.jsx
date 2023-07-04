@@ -10,8 +10,6 @@ import { Container, Form, Button, Row, Col } from "react-bootstrap";
 import { toast } from "react-toastify";
 import { useGetTransactionsMutation } from "../slices/transactionApiSlice";
 import { storeTransaction } from "../slices/transactionSlice";
-import { useGetAllAccountsMutation } from "../slices/accountApiSlice";
-import { getAccounts } from "../slices/accountSlice";
 import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";

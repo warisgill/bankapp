@@ -1,5 +1,92 @@
 # You can tell Kubernetes how to identify your microservice by using labels
 
+# UI
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+    name: ui
+    labels:
+        app: ui
+spec:
+    replicas: 1
+    selector:
+        matchLabels:
+            app: ui
+    template:
+        metadata:
+            labels:
+                app: ui
+        spec:
+            containers:
+                - name: ui
+                  image: jashmehta3300/martian-bank-ui
+---
+
+# UI
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+    name: nginx
+    labels:
+        app: nginx
+spec:
+    replicas: 1
+    selector:
+        matchLabels:
+            app: nginx
+    template:
+        metadata:
+            labels:
+                app: nginx
+        spec:
+            containers:
+                - name: nginx
+                  image: jashmehta3300/martian-bank-nginx
+---
+
+# Customer-auth
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+    name: customer-auth
+    labels:
+        app: customer-auth
+spec:
+    replicas: 1
+    selector:
+        matchLabels:
+            app: customer-auth
+    template:
+        metadata:
+            labels:
+                app: customer-auth
+        spec:
+            containers:
+                - name: customer-auth
+                  image: jashmehta3300/martian-bank-customer-auth
+---
+
+# ATM-locator
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+    name: atm-locator
+    labels:
+        app: atm-locator
+spec:
+    replicas: 1
+    selector:
+        matchLabels:
+            app: atm-locator
+    template:
+        metadata:
+            labels:
+                app: atm-locator
+        spec:
+            containers:
+                - name: atm-locator
+                  image: jashmehta3300/martian-bank-atm-locator
+
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -172,6 +259,71 @@ spec:
 
 
 # Service 
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+    name: nginx
+spec:
+    selector:
+        app: nginx
+    ports:
+        - protocol: TCP
+          port: 80
+          targetPort: 80
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+    name: customer-auth
+spec:
+    selector:
+        app: customer-auth
+    ports:
+        - protocol: TCP
+          port: 8000
+          targetPort: 8000
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+    name: atm-locator
+spec:
+    selector:
+        app: atm-locator
+    ports:
+        - protocol: TCP
+          port: 8001
+          targetPort: 8001
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+    name: ui
+spec:
+    selector:
+        app: ui
+    ports:
+        - protocol: TCP
+          port: 3000
+          targetPort: 3000
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+    name: customer-auth
+spec:
+    selector:
+        app: customer-auth
+    ports:
+        - protocol: TCP
+          port: 8000
+          targetPort: 8000
 
 
 ---
