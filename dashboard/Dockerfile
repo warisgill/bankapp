@@ -1,4 +1,4 @@
-FROM python
+FROM --platform=linux/amd64 python
 
 RUN mkdir /service
 COPY protobufs/ /service/protobufs/
