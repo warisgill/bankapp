@@ -22,26 +22,26 @@ spec:
                   image: jashmehta3300/martian-bank-ui
 ---
 
-# UI
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-    name: nginx
-    labels:
-        app: nginx
-spec:
-    replicas: 1
-    selector:
-        matchLabels:
-            app: nginx
-    template:
-        metadata:
-            labels:
-                app: nginx
-        spec:
-            containers:
-                - name: nginx
-                  image: jashmehta3300/martian-bank-nginx
+# Nginx
+# apiVersion: apps/v1
+# kind: Deployment
+# metadata:
+#     name: nginx
+#     labels:
+#         app: nginx
+# spec:
+#     replicas: 1
+#     selector:
+#         matchLabels:
+#             app: nginx
+#     template:
+#         metadata:
+#             labels:
+#                 app: nginx
+#         spec:
+#             containers:
+#                 - name: nginx
+#                   image: jashmehta3300/martian-bank-nginx
 ---
 
 # Customer-auth
@@ -185,18 +185,18 @@ spec:
 
 # Service 
 
----
-apiVersion: v1
-kind: Service
-metadata:
-    name: nginx
-spec:
-    selector:
-        app: nginx
-    ports:
-        - protocol: TCP
-          port: 80
-          targetPort: 80
+# ---
+# apiVersion: v1
+# kind: Service
+# metadata:
+#     name: nginx
+# spec:
+#     selector:
+#         app: nginx
+#     ports:
+#         - protocol: TCP
+#           port: 80
+#           targetPort: 80
 
 ---
 apiVersion: v1
@@ -255,6 +255,21 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
+    name: ui
+spec:
+    type: LoadBalancer # This is the only line that is different from the previous service that this is accessible from outside
+    selector:
+        app: ui
+    ports:
+        - protocol: TCP
+          name: http
+          port: 3000
+          targetPort: 3000
+
+---
+apiVersion: v1
+kind: Service
+metadata:
     name: dashboard
 spec:
     type: LoadBalancer # This is the only line that is different from the previous service that this is accessible from outside
@@ -303,6 +318,5 @@ spec:
         - protocol: TCP
           port: 50052
           targetPort: 50052
-
 
 

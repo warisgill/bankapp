@@ -27,13 +27,11 @@ const AtmScreen = () => {
 
   const handleSubmit = async (e) => {
     setFinalLocation(location);
-    setIsSubmitted(true);
     e.preventDefault();
 
     try {
       const res = await getAtmsList().unwrap();
       const shuffledRes = [...res].sort(() => Math.random() - 0.5).slice(0, 5);
-      console.log(res, shuffledRes);
       dispatch(setAtms(shuffledRes));
       setAtmsList(shuffledRes);
       toast.success("Found ATMs near you!", {
