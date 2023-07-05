@@ -2,14 +2,13 @@
 
 This repository contains the code for the Bank App.
 
-### API Documentation
+## How to run?
 
-Postman Documentation: https://documenter.getpostman.com/view/10335120/2s93z5A5NP
-(for customer-auth and atm microservice)
+### Make env files
 
-### Env Variables
+This step has to be done for running on localhost as well as on k8s. 
 
-Add a `.env` file under /ui, /customer-auth and /atm-locator.
+Make a `.env` file under /ui, /customer-auth and /atm-locator.
 
 For the `/customer-auth/.env` and `/atm-locator/.env`, add these details:
 
@@ -34,7 +33,7 @@ VITE_TRANSACTION_URL=<URL>
 VITE_LOAN_URL=<URL>
 ```
 
-### Run on localhost
+### Run on localhost (your machine)
 
 ```
 # Run frontend (:3000)
@@ -57,9 +56,27 @@ npm install
 nodemon server.js
 ```
 
-### Run on Docker (locally)
+Fire up `http://localhost:3000` to access the Martian Bank App.
+
+### Running locally using Docker 
 
 ```
 docker compose up --build
 ```
-Open http://localhost/ on any browser. 
+Fire up `http://localhost/`
+
+### Running locally using K8s (inside Docker Desktop):
+
+Ensure that you have kubernetes enabled in Docker Desktop. Install `kubectl` as well.
+
+```
+kubectl apply -f k8.yaml
+kubectl get pods
+kubectl get services
+```
+Fire up `http://localhost/`
+
+### API Documentation
+
+Postman Documentation: https://documenter.getpostman.com/view/10335120/2s93z5A5NP
+(for customer-auth and atm microservice)
