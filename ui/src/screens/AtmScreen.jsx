@@ -36,7 +36,7 @@ const AtmScreen = () => {
       setAtmsList(shuffledRes);
       toast.success("Found ATMs near you!", {
         className: "toast-container-custom",
-        autoClose: false,
+        autoClose: true,
         hideProgressBar: true,
         closeOnClick: true,
         pauseOnHover: true,
