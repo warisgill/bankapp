@@ -95,18 +95,19 @@ const LoanScreen = () => {
     }
 
     try {
-      const data = new FormData();
-      data.append("name", userInfo.name);
-      data.append("email", userInfo.email);
-      data.append("account_number", accNo);
-      data.append("account_type", accType);
-      data.append("govt_id_number", govtIdNo);
-      data.append("govt_id_type", govtId);
-      data.append("loan_type", loanType);
-      data.append("loan_amount", loanAmount);
-      data.append("interest_rate", intRate);
-      data.append("time_period", loanTime);
-      const res = await postLoanAPI(data).unwrap();
+      const data_loan = new FormData();
+      data_loan.append("name", userInfo.name);
+      data_loan.append("email", userInfo.email);
+      data_loan.append("account_number", accNo);
+      data_loan.append("account_type", accType);
+      data_loan.append("govt_id_number", govtIdNo);
+      data_loan.append("govt_id_type", govtId);
+      data_loan.append("loan_type", loanType);
+      data_loan.append("loan_amount", loanAmount);
+      data_loan.append("interest_rate", intRate);
+      data_loan.append("time_period", loanTime);
+      const res = await postLoanAPI(data_loan).unwrap();
+      console.log(res, res.json())
       dispatch(createLoan(res));
       toast.success("Congratulations! Your loan is approved!", {
         className: "toast-container-custom",

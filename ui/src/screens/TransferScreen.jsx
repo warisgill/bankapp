@@ -45,6 +45,7 @@ const TransferScreen = () => {
   const [receiverAccNo, setReceiverAccNo] = useState("");
   const [transferAmount, setTransferAmount] = useState("");
   const [reason, setReason] = useState("");
+  const [balance, setBalance] = useState(selectedAccount.balance);
 
   const { userInfo } = useSelector((state) => state.auth);
 
@@ -169,6 +170,7 @@ const TransferScreen = () => {
                 setAccType(
                   selectedAccount ? selectedAccount.accountType : null
                 );
+                setBalance(selectedAccount ? selectedAccount.balance : null);
               }}
               style={{ width: "100%" }}
               disabled={accNo ? true : false}
@@ -246,8 +248,8 @@ const TransferScreen = () => {
                   <Form.Label>Your balance</Form.Label>
                   <Form.Control
                     value={`$ ${
-                      selectedAccount.balance
-                        ? selectedAccount.balance.toFixed(2)
+                      balance
+                        ? balance.toFixed(2)
                         : "0.00"
                     }`}
                     multiple={false}

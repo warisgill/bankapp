@@ -1,3 +1,5 @@
+# You can tell Kubernetes how to identify your microservice by using labels
+
 # UI
 apiVersion: apps/v1
 kind: Deployment
@@ -17,72 +19,9 @@ spec:
         spec:
             containers:
                 - name: ui
-                  image: jashmehta3300/martian-bank-ui
+                  image: docker.io/jashmehta3300/martian-bank-ui
+
 ---
-# Nginx
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-    name: nginx
-    labels:
-        app: nginx
-spec:
-    replicas: 1
-    selector:
-        matchLabels:
-            app: nginx
-    template:
-        metadata:
-            labels:
-                app: nginx
-        spec:
-            containers:
-                - name: nginx
-                  image: docker.io/jashmehta3300/martian-bank-nginx
----
-# Customer Auth
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-    name: customer-auth
-    labels:
-        app: customer-auth
-spec:    
-    replicas: 1
-    selector:
-        matchLabels:
-            app: customer-auth
-    template:
-        metadata:
-            labels:
-                app: customer-auth
-        spec:
-            containers:
-                - name: customer-auth
-                  image: docker.io/jashmehta3300/martian-bank-customer-auth
----
-# ATM Locator
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-    name: atm-locator
-    labels:
-        app: atm-locator
-spec:
-    replicas: 1
-    selector:
-        matchLabels:
-            app: atm-locator
-    template:
-        metadata:
-            labels:
-                app: atm-locator
-        spec:
-            containers:
-                - name: atm-locator
-                  image: docker.io/jashmehta3300/martian-bank-atm-locator
----
-# Dashboard
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -109,8 +48,9 @@ spec:
                         value: loan
                       - name: TRANSACTION_HOST
                         value: transactions
+  
+
 ---
-# Accounts
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -130,8 +70,8 @@ spec:
             containers:
                 - name: accounts
                   image: docker.io/waris95/bankapp-accounts
+# loan 
 ---
-# Loan
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -152,8 +92,10 @@ spec:
                 - name: loan
                 #   registry: docker.io
                   image: docker.io/waris95/bankapp-loan
+
+# transactions
+
 ---
-# Transactions
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -175,7 +117,82 @@ spec:
                   image: docker.io/waris95/bankapp-transactions
 
 
-######## ALL SERVICES ######### 
+# customer-auth
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+    name: customer-auth
+    labels:
+        app: customer-auth
+spec:    
+    replicas: 1
+    selector:
+        matchLabels:
+            app: customer-auth
+    template:
+        metadata:
+            labels:
+                app: customer-auth
+        spec:
+            containers:
+                - name: customer-auth
+                  image: docker.io/jashmehta3300/martian-bank-customer-auth
+
+
+# atm-locator
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+    name: atm-locator
+    labels:
+        app: atm-locator
+spec:
+    replicas: 1
+    selector:
+        matchLabels:
+            app: atm-locator
+    template:
+        metadata:
+            labels:
+                app: atm-locator
+        spec:
+            containers:
+                - name: atm-locator
+                  image: docker.io/jashmehta3300/martian-bank-atm-locator
+
+# nginx
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+    name: nginx
+    labels:
+        app: nginx
+spec:
+    replicas: 1
+    selector:
+        matchLabels:
+            app: nginx
+    template:
+        metadata:
+            labels:
+                app: nginx
+        spec:
+            containers:
+                - name: nginx
+                  image: docker.io/jashmehta3300/martian-bank-nginx
+                  
+
+
+
+
+
+
+
+# Service 
 
 ---
 apiVersion: v1
@@ -223,6 +240,7 @@ kind: Service
 metadata:
     name: ui
 spec:
+    type: LoadBalancer
     selector:
         app: ui
     ports:
@@ -250,6 +268,7 @@ kind: Service
 metadata:
     name: dashboard
 spec:
+    type: LoadBalancer # This is the only line that is different from the previous service that this is accessible from outside
     selector:
         app: dashboard
     ports:
