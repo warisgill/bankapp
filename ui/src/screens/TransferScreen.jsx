@@ -67,7 +67,16 @@ const TransferScreen = () => {
       dispatch(deleteSelectedAccount());
       navigate("/");
     } catch (err) {
-      toast.error(err?.data?.message || err.error);
+      toast.error(err?.data?.message || err.error, {
+        className: "toast-container-custom",
+        autoClose: true,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+      });
     }
   };
 

@@ -72,7 +72,7 @@ const AtmScreen = () => {
               value={location}
               onChange={(e) => setLocation(e.target.value)}
               style={{
-                backgroundColor: "rgba(255, 255, 255, 0.5)",
+                backgroundColor: "rgba(255, 255, 255, 0.2)",
                 backdropFilter: "invert(2%)",
               }}
             />

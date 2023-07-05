@@ -149,7 +149,16 @@ const LoanScreen = () => {
       fetchLoans();
     } catch (err) {
       console.log(err);
-      toast.error("Error in fetching loans!");
+      toast.error("Error in fetching loans!", {
+        className: "toast-container-custom",
+        autoClose: true,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+      });
     }
   }, [loanAdded]);
 

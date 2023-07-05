@@ -70,7 +70,7 @@ const TransactionScreen = () => {
               onChange={(e) => setSelectedAccount(e.target.value)}
               className="py-3 px-2 text-center"
               style={{
-                backgroundColor: "rgba(255, 255, 255, 0.5)",
+                backgroundColor: "rgba(255, 255, 255, 0.2)",
                 backdropFilter: "invert(2%)",
               }}
             >

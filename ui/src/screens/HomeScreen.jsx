@@ -75,7 +75,7 @@ const HomeScreen = () => {
                     <Card
                       style={{
                         marginTop: "2vh",
-                        backgroundColor: "rgba(255, 255, 255, 0.5)",
+                        backgroundColor: "rgba(255, 255, 255, 0.2)",
                         backdropFilter: "invert(2%)",
                       }}
                     >
