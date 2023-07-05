@@ -25,7 +25,7 @@ const RegisterScreen = () => {
 
   useEffect(() => {
     if (userInfo) {
-      navigate("/");
+      navigate("/login");
     }
   }, [navigate, userInfo]);
 
@@ -41,7 +41,7 @@ const RegisterScreen = () => {
         dispatch(setCredentials({ ...res }));
         toast.success("Congratulations! Your account with Martian Bank has been created.", {
           className: "toast-container-custom",
-          autoClose: false,
+          autoClose: true,
           hideProgressBar: true,
           closeOnClick: true,
           pauseOnHover: true,
@@ -52,7 +52,16 @@ const RegisterScreen = () => {
         navigate("/");
       } catch (err) {
         console.log(err)
-        toast.error(err?.data?.message || err.error);
+        toast.error(err?.data?.message || err.error, {
+          className: "toast-container-custom",
+          autoClose: true,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "dark",
+        });
       }
     }
   };
