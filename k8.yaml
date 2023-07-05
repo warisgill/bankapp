@@ -17,7 +17,7 @@ spec:
         spec:
             containers:
                 - name: ui
-                  image: docker.io/jashmehta3300/martian-bank-ui
+                  image: jashmehta3300/martian-bank-ui
 ---
 # Nginx
 apiVersion: apps/v1
@@ -40,14 +40,14 @@ spec:
                 - name: nginx
                   image: docker.io/jashmehta3300/martian-bank-nginx
 ---
-# Customer-auth
+# Customer Auth
 apiVersion: apps/v1
 kind: Deployment
 metadata:
     name: customer-auth
     labels:
         app: customer-auth
-spec:
+spec:    
     replicas: 1
     selector:
         matchLabels:
@@ -61,7 +61,7 @@ spec:
                 - name: customer-auth
                   image: docker.io/jashmehta3300/martian-bank-customer-auth
 ---
-# ATM-locator
+# ATM Locator
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -138,7 +138,7 @@ metadata:
     name: loan
     labels:
         app: loan
-spec:
+spec: 
     replicas: 1
     selector:
         matchLabels:
@@ -150,7 +150,7 @@ spec:
         spec:
             containers:
                 - name: loan
-                  #   registry: docker.io
+                #   registry: docker.io
                   image: docker.io/waris95/bankapp-loan
 ---
 # Transactions
@@ -174,29 +174,16 @@ spec:
                 - name: transactions
                   image: docker.io/waris95/bankapp-transactions
 
-######### ALL SERVICES #########
 
----
-apiVersion: v1
-kind: Service
-metadata:
-    name: ui
-spec:
-    selector:
-        type: LoadBalancer # Expose the service to the internet
-        app: ui
-    ports:
-        - protocol: TCP
-          name: http
-          port: 3000
-          targetPort: 3000
+######## ALL SERVICES ######### 
+
 ---
 apiVersion: v1
 kind: Service
 metadata:
     name: nginx
 spec:
-    type: LoadBalancer # Expose the service to the internet
+    type: LoadBalancer
     selector:
         app: nginx
     ports:
@@ -229,6 +216,34 @@ spec:
         - protocol: TCP
           port: 8001
           targetPort: 8001
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+    name: ui
+spec:
+    selector:
+        app: ui
+    ports:
+        - protocol: TCP
+          port: 3000
+          targetPort: 3000
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+    name: customer-auth
+spec:
+    selector:
+        app: customer-auth
+    ports:
+        - protocol: TCP
+          port: 8000
+          targetPort: 8000
+
+
 ---
 apiVersion: v1
 kind: Service
