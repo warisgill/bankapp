@@ -19,73 +19,7 @@ spec:
         spec:
             containers:
                 - name: ui
-                  image: jashmehta3300/martian-bank-ui
----
-
-# UI
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-    name: nginx
-    labels:
-        app: nginx
-spec:
-    replicas: 1
-    selector:
-        matchLabels:
-            app: nginx
-    template:
-        metadata:
-            labels:
-                app: nginx
-        spec:
-            containers:
-                - name: nginx
-                  image: jashmehta3300/martian-bank-nginx
----
-
-# Customer-auth
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-    name: customer-auth
-    labels:
-        app: customer-auth
-spec:
-    replicas: 1
-    selector:
-        matchLabels:
-            app: customer-auth
-    template:
-        metadata:
-            labels:
-                app: customer-auth
-        spec:
-            containers:
-                - name: customer-auth
-                  image: jashmehta3300/martian-bank-customer-auth
----
-
-# ATM-locator
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-    name: atm-locator
-    labels:
-        app: atm-locator
-spec:
-    replicas: 1
-    selector:
-        matchLabels:
-            app: atm-locator
-    template:
-        metadata:
-            labels:
-                app: atm-locator
-        spec:
-            containers:
-                - name: atm-locator
-                  image: jashmehta3300/martian-bank-atm-locator
+                  image: docker.io/jashmehta3300/martian-bank-ui
 
 ---
 apiVersion: apps/v1
@@ -204,7 +138,7 @@ spec:
         spec:
             containers:
                 - name: customer-auth
-                  image: docker.io/waris95/bankapp-customer-auth
+                  image: docker.io/jashmehta3300/martian-bank-customer-auth
 
 
 # atm-locator
@@ -227,7 +161,7 @@ spec:
         spec:
             containers:
                 - name: atm-locator
-                  image: docker.io/waris95/bankapp-atm-locator
+                  image: docker.io/jashmehta3300/martian-bank-atm-locator
 
 # nginx
 ---
@@ -249,7 +183,7 @@ spec:
         spec:
             containers:
                 - name: nginx
-                  image: docker.io/waris95/bankapp-nginx
+                  image: docker.io/jashmehta3300/martian-bank-nginx
                   
 
 
@@ -380,6 +314,3 @@ spec:
         - protocol: TCP
           port: 50052
           targetPort: 50052
-
-
-

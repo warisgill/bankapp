@@ -45,7 +45,16 @@ const TransactionScreen = () => {
       dispatch(storeTransaction(res));
       setHistory(res.response.transactions);
     } catch (err) {
-      toast.error(err?.data?.message || err.error);
+      toast.error(err?.data?.message || err.error, {
+        className: "toast-container-custom",
+        autoClose: true,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+      });
     }
   };
 
@@ -61,7 +70,7 @@ const TransactionScreen = () => {
               onChange={(e) => setSelectedAccount(e.target.value)}
               className="py-3 px-2 text-center"
               style={{
-                backgroundColor: "rgba(255, 255, 255, 0.5)",
+                backgroundColor: "rgba(255, 255, 255, 0.2)",
                 backdropFilter: "invert(2%)",
               }}
             >
@@ -126,7 +135,7 @@ const TransactionScreen = () => {
           </tr>
         </MDBTableHead>
         <MDBTableBody>
-          {history !== [] ? (
+          {(history !== [] && history) ? (
             history.map((transaction) => (
               <tr key={transaction.id}>
                 <td className="text-center fw-normal">

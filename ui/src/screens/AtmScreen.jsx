@@ -27,18 +27,16 @@ const AtmScreen = () => {
 
   const handleSubmit = async (e) => {
     setFinalLocation(location);
-    setIsSubmitted(true);
     e.preventDefault();
 
     try {
       const res = await getAtmsList().unwrap();
       const shuffledRes = [...res].sort(() => Math.random() - 0.5).slice(0, 5);
-      console.log(res, shuffledRes);
       dispatch(setAtms(shuffledRes));
       setAtmsList(shuffledRes);
       toast.success("Found ATMs near you!", {
         className: "toast-container-custom",
-        autoClose: false,
+        autoClose: true,
         hideProgressBar: true,
         closeOnClick: true,
         pauseOnHover: true,
@@ -48,7 +46,16 @@ const AtmScreen = () => {
       });
     } catch (err) {
       console.log(err);
-      toast.error(err?.data?.message || err.error);
+      toast.error(err?.data?.message || err.error, {
+        className: "toast-container-custom",
+        autoClose: true,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+      });
     }
   };
 
@@ -65,7 +72,7 @@ const AtmScreen = () => {
               value={location}
               onChange={(e) => setLocation(e.target.value)}
               style={{
-                backgroundColor: "rgba(255, 255, 255, 0.5)",
+                backgroundColor: "rgba(255, 255, 255, 0.2)",
                 backdropFilter: "invert(2%)",
               }}
             />

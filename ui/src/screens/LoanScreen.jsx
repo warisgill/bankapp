@@ -17,6 +17,8 @@ import {
   useGetApprovedLoansMutation,
 } from "../slices/loanApiSlice";
 import { createLoan, storeLoanHistory } from "../slices/loanSlice";
+import { useGetAllAccountsMutation } from "../slices/accountApiSlice";
+import { getAccounts } from "../slices/accountSlice";
 import { toast } from "react-toastify";
 import Loader from "../components/Loader";
 import "../index.css";
@@ -68,6 +70,10 @@ const LoanScreen = () => {
   const [loanAdded, setLoanAdded] = useState(false);
 
   const loanInfo = useSelector((state) => state.loan.loan_history).response;
+  let allAccounts = useSelector((state) => state.account.all_accounts).response;
+  if (!allAccounts) {
+    allAccounts = [];
+  }
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -75,6 +81,8 @@ const LoanScreen = () => {
   const [postLoanAPI, { isLoading }] = usePostLoanMutation();
   const [loanHistoryAPI, { isLoading: isLoading2 }] =
     useGetApprovedLoansMutation();
+  const [getAllAccounts, { isLoading: isLoading1 }] =
+    useGetAllAccountsMutation();
 
   const { userInfo } = useSelector((state) => state.auth);
 
@@ -87,18 +95,19 @@ const LoanScreen = () => {
     }
 
     try {
-      const data = new FormData();
-      data.append("name", userInfo.name);
-      data.append("email", userInfo.email);
-      data.append("account_number", accNo);
-      data.append("account_type", accType);
-      data.append("govt_id_number", govtIdNo);
-      data.append("govt_id_type", govtId);
-      data.append("loan_type", loanType);
-      data.append("loan_amount", loanAmount);
-      data.append("interest_rate", intRate);
-      data.append("time_period", loanTime);
-      const res = await postLoanAPI(data).unwrap();
+      const data_loan = new FormData();
+      data_loan.append("name", userInfo.name);
+      data_loan.append("email", userInfo.email);
+      data_loan.append("account_number", accNo);
+      data_loan.append("account_type", accType);
+      data_loan.append("govt_id_number", govtIdNo);
+      data_loan.append("govt_id_type", govtId);
+      data_loan.append("loan_type", loanType);
+      data_loan.append("loan_amount", loanAmount);
+      data_loan.append("interest_rate", intRate);
+      data_loan.append("time_period", loanTime);
+      const res = await postLoanAPI(data_loan).unwrap();
+      console.log(res, res.json())
       dispatch(createLoan(res));
       toast.success("Congratulations! Your loan is approved!", {
         className: "toast-container-custom",
@@ -113,7 +122,16 @@ const LoanScreen = () => {
       setLoanAdded(true);
     } catch (err) {
       console.log(err);
-      toast.error(err?.data?.message || err.error);
+      toast.error(err?.data?.message || err.error, {
+        className: "toast-container-custom",
+        autoClose: true,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+      });
     }
   };
 
@@ -135,12 +153,46 @@ const LoanScreen = () => {
     dispatch(storeLoanHistory(res));
   };
 
+  const fetchAccounts = async () => {
+    const data = new FormData();
+    data.append("email_id", userInfo.email);
+    const res = await getAllAccounts(data).unwrap();
+    dispatch(getAccounts(res));
+  };
+
+  useEffect(() => {
+    try {
+      fetchAccounts();
+    } catch (err) {
+      console.log(err);
+      toast.error("Error in fetching accounts!", {
+        className: "toast-container-custom",
+        autoClose: true,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+      });
+    }
+  }, []);
+
   useEffect(() => {
     try {
       fetchLoans();
     } catch (err) {
       console.log(err);
-      toast.error("Error in fetching loans!");
+      toast.error("Error in fetching loans!", {
+        className: "toast-container-custom",
+        autoClose: true,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+      });
     }
   }, [loanAdded]);
 
@@ -153,7 +205,7 @@ const LoanScreen = () => {
           md={6}
           className="card p-5"
           style={{
-            backgroundColor: "rgba(255, 255, 255, 0.5)",
+            backgroundColor: "rgba(255, 255, 255, 0.2)",
             backdropFilter: "invert(2%)",
           }}
         >
@@ -207,6 +259,7 @@ const LoanScreen = () => {
                       multiple={false}
                       onChange={(e) => setAccType(e.target.value)}
                       aria-label="Select account type"
+                      disabled={accType ? true : false}
                     >
                       <option value="">Select your account type</option>
                       <option value="Savings">Savings</option>
@@ -219,13 +272,36 @@ const LoanScreen = () => {
                 <Col md={8}>
                   <Form.Group className="my-3" controlId="acc_no">
                     <Form.Label>Account number</Form.Label>
-                    <Form.Control
-                      type="text"
-                      placeholder="Enter your account number"
-                      required
-                      value={accNo}
-                      onChange={(e) => setAccNo(e.target.value)}
-                    ></Form.Control>
+                    <Form.Select
+                      value={accNo ? accNo : "Select Account"}
+                      onChange={(e) => {
+                        const selectedAccountNumber = e.target.value;
+                        const selectedAccount = allAccounts.find(
+                          (account) =>
+                            account.accountNumber === selectedAccountNumber
+                        );
+                        setAccNo(selectedAccountNumber);
+                        setAccType(
+                          selectedAccount ? selectedAccount.accountType : null
+                        );
+                        setGovtId(
+                          selectedAccount
+                            ? selectedAccount.governmentIdType
+                            : null
+                        );
+                        setGovtIdNo(
+                          selectedAccount ? selectedAccount.govtIdNumber : null
+                        );
+                      }}
+                      aria-label="Select account number"
+                    >
+                      <option value="">Select your account number</option>
+                      {allAccounts.map((account) => (
+                        <option value={account.accountNumber}>
+                          {account.accountNumber}
+                        </option>
+                      ))}
+                    </Form.Select>
                   </Form.Group>
                 </Col>
               </Row>
@@ -236,9 +312,11 @@ const LoanScreen = () => {
                     <Form.Label>ID Type</Form.Label>
                     <Form.Select
                       value={govtId}
+                      required
                       multiple={false}
                       onChange={(e) => setGovtId(e.target.value)}
                       aria-label="Select your ID type"
+                      disabled={govtId ? true : false}
                     >
                       <option value="">Select your ID type</option>
                       <option value="Passport">Passport</option>
@@ -256,6 +334,7 @@ const LoanScreen = () => {
                       required
                       value={govtIdNo}
                       onChange={(e) => setGovtIdNo(e.target.value)}
+                      disabled={govtIdNo ? true : false}
                     />
                   </Form.Group>
                 </Col>

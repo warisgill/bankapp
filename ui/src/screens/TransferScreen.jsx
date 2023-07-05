@@ -13,32 +13,48 @@ import { useSelector, useDispatch } from "react-redux";
 import { usePostTransferMutation } from "../slices/transferApiSlice";
 import { createTransfer } from "../slices/transferSlice";
 import { deleteSelectedAccount } from "../slices/accountSlice";
+import { useGetAllAccountsMutation } from "../slices/accountApiSlice";
+import { getAccounts } from "../slices/accountSlice";
 import { toast } from "react-toastify";
 import Loader from "../components/Loader";
 import "../index.css";
 
 const TransferScreen = () => {
   let selectedAccount = useSelector((state) => state.account.selected_account);
+  let allAccounts = useSelector((state) => state.account.all_accounts).response;
 
   if (!selectedAccount) {
     selectedAccount = {
       accountType: "",
       accountNumber: "",
-      balance: 0.00,
+      balance: 0.0,
     };
   }
 
-  const [accType, setAccType] = useState(selectedAccount.accountType);
-  const [accNo, setAccNo] = useState(selectedAccount.accountNumber);
+  if (!allAccounts) {
+    allAccounts = [];
+  }
+
+  const [accType, setAccType] = useState(
+    selectedAccount ? selectedAccount.accountType : ""
+  );
+  const [accNo, setAccNo] = useState(
+    selectedAccount ? selectedAccount.accountNumber : ""
+  );
   const [receiverAcc, setReceiverAcc] = useState("");
   const [receiverAccNo, setReceiverAccNo] = useState("");
   const [transferAmount, setTransferAmount] = useState("");
   const [reason, setReason] = useState("");
+  const [balance, setBalance] = useState(selectedAccount.balance);
+
+  const { userInfo } = useSelector((state) => state.auth);
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const [postTransfer, { isLoading }] = usePostTransferMutation();
+  const [getAllAccounts, { isLoading: isLoading1 }] =
+    useGetAllAccountsMutation();
 
   const submitHandler = async (e) => {
     e.preventDefault();
@@ -67,9 +83,43 @@ const TransferScreen = () => {
       dispatch(deleteSelectedAccount());
       navigate("/");
     } catch (err) {
-      toast.error(err?.data?.message || err.error);
+      toast.error(err?.data?.message || err.error, {
+        className: "toast-container-custom",
+        autoClose: true,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+      });
     }
   };
+
+  const fetchAccounts = async () => {
+    const data = new FormData();
+    data.append("email_id", userInfo.email);
+    const res = await getAllAccounts(data).unwrap();
+    dispatch(getAccounts(res));
+  };
+
+  useEffect(() => {
+    try {
+      fetchAccounts();
+    } catch (err) {
+      console.log(err);
+      toast.error("Error in fetching accounts!", {
+        className: "toast-container-custom",
+        autoClose: true,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+      });
+    }
+  }, []);
 
   return (
     <FormContainer>
@@ -102,21 +152,39 @@ const TransferScreen = () => {
               <Dropdown.Item eventKey="Savings">Savings</Dropdown.Item>
               <Dropdown.Item eventKey="Checking">Checking</Dropdown.Item>
               <Dropdown.Item eventKey="Investment">Investment</Dropdown.Item>
-              <Dropdown.Item eventKey="Money Market">Money Market</Dropdown.Item>
+              <Dropdown.Item eventKey="Money Market">
+                Money Market
+              </Dropdown.Item>
             </DropdownButton>
           </Col>
           <Col md={8}>
-            <Form.Group className="mt-3" controlId="acc_no">
-              <Form.Label>Your account number</Form.Label>
-              <Form.Control
-                type="text"
-                min="0"
-                onChange={(e) => setAccNo(e.target.value)}
-                placeholder="Enter your account number"
-                disabled={accNo ? true : false}
-                value={accNo ? accNo : ""}
-              />
-            </Form.Group>
+            <Form.Label className="mt-3">Sender account number</Form.Label>
+            <Form.Select
+              value={accNo ? accNo : "Select Account"}
+              onChange={(e) => {
+                const selectedAccountNumber = e.target.value;
+                const selectedAccount = allAccounts.find(
+                  (account) => account.accountNumber === selectedAccountNumber
+                );
+                setAccNo(selectedAccountNumber);
+                setAccType(
+                  selectedAccount ? selectedAccount.accountType : null
+                );
+                setBalance(selectedAccount ? selectedAccount.balance : null);
+              }}
+              style={{ width: "100%" }}
+              disabled={accNo ? true : false}
+            >
+              <option value="">Select Account</option>
+              {allAccounts.map((account) => (
+                <option
+                  key={account.accountNumber}
+                  value={account.accountNumber}
+                >
+                  {account.accountNumber}
+                </option>
+              ))}
+            </Form.Select>
           </Col>
         </Row>
 
@@ -129,23 +197,45 @@ const TransferScreen = () => {
               title={receiverAcc ? receiverAcc : "Select"}
               onSelect={(e) => setReceiverAcc(e)}
               style={{ width: "100%" }}
+              disabled={receiverAccNo ? true : false}
             >
-              <Dropdown.Item eventKey="">Receiver's account type</Dropdown.Item>
+              <Dropdown.Item eventKey="">Receiver account type</Dropdown.Item>
               <Dropdown.Item eventKey="Savings">Savings</Dropdown.Item>
               <Dropdown.Item eventKey="Checking">Checking</Dropdown.Item>
               <Dropdown.Item eventKey="Investment">Investment</Dropdown.Item>
-              <Dropdown.Item eventKey="Money Market">Money Market</Dropdown.Item>
+              <Dropdown.Item eventKey="Money Market">
+                Money Market
+              </Dropdown.Item>
             </DropdownButton>
           </Col>
           <Col md={8}>
             <Form.Group className="mt-3" controlId="receiver_acc_no">
-              <Form.Label>Receiver's account number</Form.Label>
-              <Form.Control
-                type="text"
-                placeholder="Enter receiver's account number"
-                value={receiverAccNo}
-                onChange={(e) => setReceiverAccNo(e.target.value)}
-              />
+              <Form.Label>Receiver account number</Form.Label>
+              <Form.Select
+                value={receiverAccNo ? receiverAccNo : "Select Account"}
+                onChange={(e) => {
+                  const r_selectedAccountNumber = e.target.value;
+                  const r_selectedAccount = allAccounts.find(
+                    (account) =>
+                      account.accountNumber === r_selectedAccountNumber
+                  );
+                  setReceiverAccNo(r_selectedAccountNumber);
+                  setReceiverAcc(
+                    r_selectedAccount ? r_selectedAccount.accountType : null
+                  );
+                }}
+                style={{ width: "100%" }}
+              >
+                <option value="">Select Account</option>
+                {allAccounts.map((account) => (
+                  <option
+                    key={account.accountNumber}
+                    value={account.accountNumber}
+                  >
+                    {account.accountNumber}
+                  </option>
+                ))}
+              </Form.Select>
             </Form.Group>
           </Col>
         </Row>
@@ -157,7 +247,11 @@ const TransferScreen = () => {
                 <Form.Group className="my-3" controlId="balance">
                   <Form.Label>Your balance</Form.Label>
                   <Form.Control
-                    value={`$ ${selectedAccount.balance? selectedAccount.balance.toFixed(2): "0.00"}`}
+                    value={`$ ${
+                      balance
+                        ? balance.toFixed(2)
+                        : "0.00"
+                    }`}
                     multiple={false}
                     disabled
                   />
