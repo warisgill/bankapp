@@ -65,7 +65,7 @@ const Header = () => {
         <Container>
           <LinkContainer to="/">
             <Navbar.Brand className="text-white text-uppercase">
-              <img src="./src/assets/coin1.png" alt="logo" width="125" height="125"/>
+              <img src="./src/assets/coin.png" alt="logo" width="125" height="125"/>
               <strong style={{ fontSize: "4vh" }}>Martian Bank</strong>
             </Navbar.Brand>
           </LinkContainer>

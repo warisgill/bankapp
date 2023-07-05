@@ -15,7 +15,7 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import Loader from "../components/Loader";
-
+import "../index.css";
 
 const HomeScreen = () => {
   const { userInfo } = useSelector((state) => state.auth);
@@ -42,7 +42,16 @@ const HomeScreen = () => {
       fetchAccounts();
     } catch (err) {
       console.log(err);
-      toast.error("Error in fetching accounts!");
+      toast.error("Error in fetching accounts!", {
+        className: "toast-container-custom",
+        autoClose: true,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+      });
     }
   }, []);
 
