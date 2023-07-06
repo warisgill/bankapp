@@ -224,6 +224,9 @@ def get_all_transactions():
 #   double interest_rate = 9;
 #   string time_period = 10;
 
+# lslslsdjf 
+
+exit(0)
 
 @app.route('/loan/', methods=['GET', 'POST'])
 def loan_form():

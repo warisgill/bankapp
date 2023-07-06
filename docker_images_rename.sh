@@ -1,94 +1,83 @@
 # REPOSITORY                TAG       IMAGE ID       CREATED         SIZE
-# bankapp-nginx             latest    633b85bbee7f   3 minutes ago   192MB
-# bankapp-ui                latest    0b8f50d704a6   3 minutes ago   408MB
-# bankapp-customer-auth     latest    a2251a6a2705   3 minutes ago   960MB
-# bankapp-dashboard         latest    88c000e910a1   4 minutes ago   1.07GB
-# bankapp-loan              latest    8a58b5eafa5a   4 minutes ago   1.07GB
-# bankapp-accounts          latest    5b740ca5ff84   4 minutes ago   1.07GB
-# bankapp-transactions      latest    7708054a8ad7   4 minutes ago   1.07GB
-# bankapp-atm-locator       latest    f5b365ce4fac   4 minutes ago   887MB
+# martian-bank-nginx             latest    633b85bbee7f   3 minutes ago   192MB
+# martian-bank-ui                latest    0b8f50d704a6   3 minutes ago   408MB
+# martian-bank-customer-auth     latest    a2251a6a2705   3 minutes ago   960MB
+# martian-bank-dashboard         latest    88c000e910a1   4 minutes ago   1.07GB
+# martian-bank-loan              latest    8a58b5eafa5a   4 minutes ago   1.07GB
+# martian-bank-accounts          latest    5b740ca5ff84   4 minutes ago   1.07GB
+# martian-bank-transactions      latest    7708054a8ad7   4 minutes ago   1.07GB
+# martian-bank-atm-locator       latest    f5b365ce4fac   4 minutes ago   887MB
 # harpooncorp/harpoon-ext   0.0.4     3c3609887f9d   4 months ago    12.8MB
 
+docker compose down
+docker compose build
 
-docker-compose build
 
-# bankapp-nginx
-docker tag bankapp-nginx waris95/bankapp-nginx
+# martian-bank-dashboard
+docker tag martian-bank-dashboard waris95/martian-bank-dashboard
 
-# bankapp-ui
-docker tag bankapp-ui waris95/bankapp-ui
+# martian-bank-loan
+docker tag martian-bank-loan waris95/martian-bank-loan
 
-# bankapp-customer-auth
-docker tag bankapp-customer-auth waris95/bankapp-customer-auth
+# martian-bank-accounts
+docker tag martian-bank-accounts waris95/martian-bank-accounts
 
-# bankapp-dashboard
-docker tag bankapp-dashboard waris95/bankapp-dashboard
+#martian-bank-transactions
+docker tag martian-bank-transactions waris95/martian-bank-transactions
 
-# bankapp-loan
-docker tag bankapp-loan waris95/bankapp-loan
-
-# bankapp-accounts
-docker tag bankapp-accounts waris95/bankapp-accounts
-
-#bankapp-transactions
-docker tag bankapp-transactions waris95/bankapp-transactions
-
-# bankapp-atm-locator
-docker tag bankapp-atm-locator waris95/bankapp-atm-locator
 
 docker login
 
-docker push waris95/bankapp-nginx
-docker push waris95/bankapp-ui
-docker push waris95/bankapp-customer-auth
-docker push waris95/bankapp-dashboard
-docker push waris95/bankapp-loan
-docker push waris95/bankapp-accounts
-docker push waris95/bankapp-transactions
-docker push waris95/bankapp-atm-locator
+
+
+docker push waris95/martian-bank-dashboard
+docker push waris95/martian-bank-loan
+docker push waris95/martian-bank-accounts
+docker push waris95/martian-bank-transactions
+
 
 
 # # to login
 # aws ecr get-login-password --region us-west-2 | docker login --username AWS --password-stdin 738304443349.dkr.ecr.us-west-2.amazonaws.com
 
 # # to tag 
-# docker tag bankapp-accounts 738304443349.dkr.ecr.us-west-2.amazonaws.com/bankapp-accounts
+# docker tag martian-bank-accounts 738304443349.dkr.ecr.us-west-2.amazonaws.com/martian-bank-accounts
 
 # # to push
-# docker push 738304443349.dkr.ecr.us-west-2.amazonaws.com/bankapp-accounts
+# docker push 738304443349.dkr.ecr.us-west-2.amazonaws.com/martian-bank-accounts
 
 
 # #repos creations
 
-# # bankapp-transactions
-# aws ecr create-repository --repository-name bankapp-transactions  --image-scanning-configuration scanOnPush=true  --region us-west-2
+# # martian-bank-transactions
+# aws ecr create-repository --repository-name martian-bank-transactions  --image-scanning-configuration scanOnPush=true  --region us-west-2
 
-# # bankapp-dashboard
-# aws ecr create-repository --repository-name bankapp-dashboard  --image-scanning-configuration scanOnPush=true  --region us-west-2
+# # martian-bank-dashboard
+# aws ecr create-repository --repository-name martian-bank-dashboard  --image-scanning-configuration scanOnPush=true  --region us-west-2
 
-# #bankapp-loan
-# aws ecr create-repository --repository-name bankapp-loan  --image-scanning-configuration scanOnPush=true  --region us-west-2
+# #martian-bank-loan
+# aws ecr create-repository --repository-name martian-bank-loan  --image-scanning-configuration scanOnPush=true  --region us-west-2
 
-# #bankapp-accounts
-# aws ecr create-repository --repository-name bankapp-accounts  --image-scanning-configuration scanOnPush=true  --region us-west-2
+# #martian-bank-accounts
+# aws ecr create-repository --repository-name martian-bank-accounts  --image-scanning-configuration scanOnPush=true  --region us-west-2
 
-# # tag and push bankapp-transactions
-# docker tag bankapp-transactions 738304443349.dkr.ecr.us-west-2.amazonaws.com/bankapp-transactions
-# docker push 738304443349.dkr.ecr.us-west-2.amazonaws.com/bankapp-transactions
+# # tag and push martian-bank-transactions
+# docker tag martian-bank-transactions 738304443349.dkr.ecr.us-west-2.amazonaws.com/martian-bank-transactions
+# docker push 738304443349.dkr.ecr.us-west-2.amazonaws.com/martian-bank-transactions
 
-# # tag and push bankapp-dashboard
-# docker tag bankapp-dashboard 738304443349.dkr.ecr.us-west-2.amazonaws.com/bankapp-dashboard
-# docker push 738304443349.dkr.ecr.us-west-2.amazonaws.com/bankapp-dashboard
+# # tag and push martian-bank-dashboard
+# docker tag martian-bank-dashboard 738304443349.dkr.ecr.us-west-2.amazonaws.com/martian-bank-dashboard
+# docker push 738304443349.dkr.ecr.us-west-2.amazonaws.com/martian-bank-dashboard
 
-# # tag and push bankapp-loan
-# docker tag bankapp-loan 738304443349.dkr.ecr.us-west-2.amazonaws.com/bankapp-loan
-# docker push 738304443349.dkr.ecr.us-west-2.amazonaws.com/bankapp-loan
+# # tag and push martian-bank-loan
+# docker tag martian-bank-loan 738304443349.dkr.ecr.us-west-2.amazonaws.com/martian-bank-loan
+# docker push 738304443349.dkr.ecr.us-west-2.amazonaws.com/martian-bank-loan
 
-# # tag and push bankapp-accounts
-# docker tag bankapp-accounts 738304443349.dkr.ecr.us-west-2.amazonaws.com/bankapp-accounts
-# docker push 738304443349.dkr.ecr.us-west-2.amazonaws.com/bankapp-accounts
+# # tag and push martian-bank-accounts
+# docker tag martian-bank-accounts 738304443349.dkr.ecr.us-west-2.amazonaws.com/martian-bank-accounts
+# docker push 738304443349.dkr.ecr.us-west-2.amazonaws.com/martian-bank-accounts
 
 # # tang and push these images to public ecr 
-# docker tag bankapp-accounts 738304443349.dkr.ecr.us-west-2.amazonaws.com/bankapp-accounts
+# docker tag martian-bank-accounts 738304443349.dkr.ecr.us-west-2.amazonaws.com/martian-bank-accounts
 
 
