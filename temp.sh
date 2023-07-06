@@ -16,3 +16,7 @@ docker push 738304443349.dkr.ecr.us-east-1.amazonaws.com/bankapp-loan
 # tag and push bankapp-accounts
 docker tag bankapp-accounts 738304443349.dkr.ecr.us-east-1.amazonaws.com/bankapp-accounts
 docker push 738304443349.dkr.ecr.us-east-1.amazonaws.com/bankapp-accounts
+
+
+# 
+# kubectl delete all --all --namespace default 
