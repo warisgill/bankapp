@@ -225,7 +225,7 @@ def get_all_transactions():
 #   string time_period = 10;
 
 
-@app.route('/loan', methods=['GET', 'POST'])
+@app.route('/loan/', methods=['GET', 'POST'])
 def loan_form():
     loan_host = os.getenv("LOAN_HOST", "localhost")
     channel = grpc.insecure_channel(f'{loan_host}:50053')
