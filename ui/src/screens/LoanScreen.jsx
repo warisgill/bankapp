@@ -76,6 +76,21 @@ const LoanScreen = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
+  const terms = {
+    Car: {
+      interestRate: 5.44,
+      timePeriod: 5,
+    },
+    Home: {
+      interestRate: 7.31,
+      timePeriod: 15,
+    },
+    Personal: {
+      interestRate: 10.99,
+      timePeriod: 3,
+    },
+  };
+
   const [postLoanAPI, { isLoading }] = usePostLoanMutation();
   const [loanHistoryAPI, { isLoading: isLoading2 }] =
     useGetApprovedLoansMutation();
@@ -105,7 +120,7 @@ const LoanScreen = () => {
       data_loan.append("interest_rate", intRate);
       data_loan.append("time_period", loanTime);
       const res = await postLoanAPI(data_loan).unwrap();
-      console.log(res)
+      console.log(res);
       dispatch(createLoan(res));
       toast.success("Congratulations! Your loan is approved!", {
         className: "toast-container-custom",
@@ -198,11 +213,7 @@ const LoanScreen = () => {
     <Row fluid style={{ overflowY: "auto" }}>
       <Col md={1} />
       <Col md={6} className="mt-5">
-        <Container
-          xs={12}
-          md={6}
-          className="card p-5"
-        >
+        <Container xs={12} md={6} className="card p-5">
           <h3
             className="bg-dark mx-3 text-white"
             style={{
@@ -211,9 +222,7 @@ const LoanScreen = () => {
               paddingBottom: "1.5vh",
             }}
           >
-            <strong>
-              NEW <span>&nbsp;</span> LOAN
-            </strong>
+            NEW <span>&nbsp;</span> LOAN
           </h3>
           {isLoading ? (
             <Loader />
@@ -341,7 +350,12 @@ const LoanScreen = () => {
                     <Form.Select
                       value={loanType}
                       multiple={false}
-                      onChange={(e) => setLoanType(e.target.value)}
+                      onChange={(e) => {
+                        const selectedLoanType = e.target.value;
+                        setIntRate(terms[selectedLoanType].interestRate);
+                        setLoanTime(terms[selectedLoanType].timePeriod);
+                        setLoanType(e.target.value);
+                      }}
                       aria-label="Select loan type"
                     >
                       <option value="">Select your loan type</option>
@@ -376,7 +390,8 @@ const LoanScreen = () => {
                       type="number"
                       min="5"
                       required
-                      placeholder="Enter the interest rate"
+                      disabled
+                      placeholder="Select loan type"
                       onWheel={(e) => e.target.blur()}
                       onChange={(e) => setIntRate(e.target.value)}
                       aria-label="Select loan type"
@@ -390,7 +405,8 @@ const LoanScreen = () => {
                       type="number"
                       min="0"
                       required
-                      placeholder="Enter the time period in years"
+                      disabled
+                      placeholder="Select loan type"
                       value={loanTime}
                       onChange={(e) => setLoanTime(e.target.value)}
                       onWheel={(e) => e.target.blur()}
@@ -532,7 +548,7 @@ const LoanScreen = () => {
             style={{ fontSize: "2.5vh" }}
             className="bg-dark text-white text-center"
           >
-            <strong>Approved Loans</strong>
+            Approved Loans
           </Card.Header>
         </Card>
         {loanInfo && loanInfo.loans ? (

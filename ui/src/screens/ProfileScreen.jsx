@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 import { Form, Button } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import FormContainer from "../components/FormContainer";
@@ -77,7 +77,7 @@ const ProfileScreen = () => {
           paddingBottom: "1.5vh",
         }}
       >
-        <strong>UPDATE &nbsp; DETAILS</strong>
+        UPDATE &nbsp; DETAILS
       </h2>
 
       <Form onSubmit={submitHandler}>

@@ -67,7 +67,7 @@ const LoginScreen = () => {
           paddingBottom: "1.5vh",
         }}
       >
-        <strong>LOGIN</strong>
+        LOGIN
       </h3>
 
       <Form onSubmit={submitHandler}>
