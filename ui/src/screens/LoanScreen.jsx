@@ -202,10 +202,6 @@ const LoanScreen = () => {
           xs={12}
           md={6}
           className="card p-5"
-          style={{
-            backgroundColor: "rgba(255, 255, 255, 0.2)",
-            backdropFilter: "invert(2%)",
-          }}
         >
           <h3
             className="bg-dark mx-3 text-white"

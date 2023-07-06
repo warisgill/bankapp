@@ -1,10 +1,8 @@
 # Bank App
 
-This repository contains the code for the Bank App.
+## Installation Steps?
 
-## How to run?
-
-### Make env files
+1. Make env files:
 
 This step has to be done for running on localhost as well as on k8s. 
 
@@ -33,7 +31,9 @@ VITE_TRANSACTION_URL=<URL>
 VITE_LOAN_URL=<URL>
 ```
 
-### Run on localhost (your machine)
+---
+
+2. Run on localhost (your machine)
 
 ```
 # Run frontend (:3000)
@@ -56,16 +56,54 @@ npm install
 nodemon server.js
 ```
 
+Make sure that you have installed conda and pip.
+```
+cd dashboard
+conda create --name <env_name>
+conda activate <env_name>
+pip install -r requirements.txt
+```
+
+```
+cd accounts
+conda activate <env_name>
+python accounts.py
+```
+
+```
+cd transactions
+conda activate <env_name>
+python transaction.py
+```
+
+```
+cd loan
+conda activate <env_name>
+python loan.py
+```
+
+```
+cd dashboard
+conda activate <env_name>
+python dashboard.py
+```
+
 Fire up `http://localhost:3000` to access the Martian Bank App.
 
-### Running locally using Docker 
+---
+
+3. Running locally using Docker 
+
+Make sure you have docker desktop installed and runnning on your system.
 
 ```
 docker compose up --build
 ```
 Fire up `http://localhost/`
 
-### Running locally using K8s (inside Docker Desktop):
+---
+
+4. Running locally using K8s (inside Docker Desktop):
 
 Ensure that you have kubernetes enabled in Docker Desktop. Install `kubectl` as well.
 
@@ -75,6 +113,8 @@ kubectl get pods
 kubectl get services
 ```
 Fire up `http://localhost/`
+
+--- 
 
 ### API Documentation
 
