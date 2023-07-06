@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}-transactions
+  labels:
+    app: transactions
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: transactions
+  template:
+    metadata:
+      labels:
+        app: transactions
+    spec:
+      containers:
+        - name: transactions
+          image: docker.io/waris95/martian-bank-transactions
+
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Release.Name }}-transactions
+spec:
+  selector:
+    app: transactions
+  ports:
+    - protocol: TCP
+      port: 50052
+      targetPort: 50052
