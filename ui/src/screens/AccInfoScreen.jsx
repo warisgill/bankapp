@@ -58,7 +58,7 @@ const AccInfoScreen = () => {
           marginBottom: "3vh",
         }}
       >
-        <strong>ACCOUNT &nbsp; DETAILS</strong>
+        ACCOUNT &nbsp; DETAILS
       </h2>
 
       <Form>

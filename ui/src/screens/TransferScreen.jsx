@@ -131,7 +131,7 @@ const TransferScreen = () => {
           paddingBottom: "1.5vh",
         }}
       >
-        <strong>TRANSFER &nbsp; MONEY</strong>
+        TRANSFER &nbsp; MONEY
       </h3>
 
       <Form onSubmit={submitHandler}>
@@ -247,11 +247,7 @@ const TransferScreen = () => {
                 <Form.Group className="my-3" controlId="balance">
                   <Form.Label>Your balance</Form.Label>
                   <Form.Control
-                    value={`$ ${
-                      balance
-                        ? balance.toFixed(2)
-                        : "0.00"
-                    }`}
+                    value={`$ ${balance ? balance.toFixed(2) : "0.00"}`}
                     multiple={false}
                     disabled
                   />

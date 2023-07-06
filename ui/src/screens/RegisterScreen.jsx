@@ -75,7 +75,7 @@ const RegisterScreen = () => {
           paddingBottom: "1.5vh",
         }}
       >
-        <strong>SIGN &nbsp; UP</strong>
+        SIGN &nbsp; UP
       </h3>
       <Form onSubmit={submitHandler}>
         <Form.Group className="my-4" controlId="name">
