@@ -105,28 +105,28 @@ const TransactionScreen = () => {
               className="bg-dark text-white"
               style={{ padding: "2vh" }}
             >
-              <strong>Sender</strong>
+              Sender
             </th>
             <th
               scope="col"
               className="bg-dark text-white"
               style={{ padding: "2vh" }}
             >
-              <strong>Amount</strong>
+              Amount
             </th>
             <th
               scope="col"
               className="bg-dark text-white"
               style={{ padding: "2vh" }}
             >
-              <strong>Details</strong>
+              Details
             </th>
             <th
               scope="col"
               className="bg-dark text-white"
               style={{ padding: "2vh" }}
             >
-              <strong>Type</strong>
+              Type
             </th>
           </tr>
         </MDBTableHead>

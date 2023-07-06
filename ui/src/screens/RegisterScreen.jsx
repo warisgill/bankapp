@@ -66,8 +66,8 @@ const RegisterScreen = () => {
     }
   };
   return (
-    <FormContainer>
-      <h3
+    <FormContainer position="left">
+      <h4
         className="bg-dark mx-3 text-white"
         style={{
           textAlign: "center",
@@ -76,7 +76,7 @@ const RegisterScreen = () => {
         }}
       >
         SIGN &nbsp; UP
-      </h3>
+      </h4>
       <Form onSubmit={submitHandler}>
         <Form.Group className="my-4" controlId="name">
           <Form.Label>Name</Form.Label>
@@ -99,7 +99,7 @@ const RegisterScreen = () => {
             pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}"
             onChange={(e) => setEmail(e.target.value)}
           ></Form.Control>
-          <Form.Text muted>
+          <Form.Text muted style={{fontSize: "1.25vh"}}>
             Please enter a valid email address.
           </Form.Text>
         </Form.Group>
@@ -114,7 +114,7 @@ const RegisterScreen = () => {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           ></Form.Control>
-          <Form.Text muted>
+          <Form.Text muted style={{fontSize: "1.25vh"}}>
             Password must include:
             <div>1. at least 8 characters</div>
             <div>2. at least one uppercase letter</div>
@@ -142,7 +142,7 @@ const RegisterScreen = () => {
       </Form>
 
       <Row className="pt-4">
-        <Col>
+        <Col style={{fontSize: "1.25vh"}}>
           Already have an account? <Link to={`/login`}>Login</Link>
         </Col>
       </Row>

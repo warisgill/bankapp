@@ -30,7 +30,6 @@ const LoginScreen = () => {
     e.preventDefault();
     try {
       const res = await login({ email, password }).unwrap();
-      console.log(res);
       dispatch(setCredentials({ ...res }));
       toast.success("Successfully logged in!", {
         className: "toast-container-custom",
@@ -58,8 +57,8 @@ const LoginScreen = () => {
   };
 
   return (
-    <FormContainer>
-      <h3
+    <FormContainer position="left">
+      <h4
         className="bg-dark mx-3 text-white"
         style={{
           textAlign: "center",
@@ -68,7 +67,7 @@ const LoginScreen = () => {
         }}
       >
         LOGIN
-      </h3>
+      </h4>
 
       <Form onSubmit={submitHandler}>
         <Form.Group className="my-4" controlId="email">
@@ -81,7 +80,7 @@ const LoginScreen = () => {
             pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}"
             onChange={(e) => setEmail(e.target.value)}
           ></Form.Control>
-          <Form.Text muted>Please enter a valid email address.</Form.Text>
+          <Form.Text muted style={{fontSize: "1.25vh"}}>Please enter a valid email address.</Form.Text>
         </Form.Group>
 
         <Form.Group className="my-4" controlId="password">
@@ -94,7 +93,7 @@ const LoginScreen = () => {
             pattern="^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$"
             onChange={(e) => setPassword(e.target.value)}
           ></Form.Control>
-          <Form.Text muted>
+          <Form.Text muted style={{fontSize: "1.25vh"}}>
             Password must include:
             <div>1. at least 8 characters</div>
             <div>2. at least one uppercase letter</div>
