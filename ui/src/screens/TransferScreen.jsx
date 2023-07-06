@@ -123,7 +123,7 @@ const TransferScreen = () => {
 
   return (
     <FormContainer>
-      <h2
+      <h3
         className="bg-dark mx-3 text-white"
         style={{
           textAlign: "center",
@@ -132,7 +132,7 @@ const TransferScreen = () => {
         }}
       >
         <strong>TRANSFER &nbsp; MONEY</strong>
-      </h2>
+      </h3>
 
       <Form onSubmit={submitHandler}>
         <Row className="mt-4">

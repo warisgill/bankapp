@@ -71,10 +71,6 @@ const AtmScreen = () => {
               className="py-3 px-2"
               value={location}
               onChange={(e) => setLocation(e.target.value)}
-              style={{
-                backgroundColor: "rgba(255, 255, 255, 0.2)",
-                backdropFilter: "invert(2%)",
-              }}
             />
           </Col>
           <Col md={2}>
@@ -101,10 +97,6 @@ const AtmScreen = () => {
                     key={index}
                     className="mb-4"
                     onClick={() => setSelectedCard(atm)}
-                    style={{
-                      backgroundColor: "rgba(255, 255, 255, 0.5)",
-                      backdropFilter: "invert(2%)",
-                    }}
                   >
                     <Badge
                       bg="success"

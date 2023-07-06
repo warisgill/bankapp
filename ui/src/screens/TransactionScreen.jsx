@@ -69,10 +69,6 @@ const TransactionScreen = () => {
               multiple={false}
               onChange={(e) => setSelectedAccount(e.target.value)}
               className="py-3 px-2 text-center"
-              style={{
-                backgroundColor: "rgba(255, 255, 255, 0.2)",
-                backdropFilter: "invert(2%)",
-              }}
             >
               <option value="Select Account">Select Account</option>
               {allAccounts.map((account) => (
@@ -92,7 +88,7 @@ const TransactionScreen = () => {
               className="w-100 me-3 px-5 py-2"
               onClick={fetchHistory}
             >
-              <span style={{ fontSize: "2.5vh" }}>Search</span>
+              <span style={{ fontSize: "2vh" }}>Search</span>
             </Button>
           </Col>
           <Col md={3} />
@@ -102,7 +98,7 @@ const TransactionScreen = () => {
         <MDBTableHead dark>
           <tr
             className="text-center text-uppercase"
-            style={{ fontSize: "2.5vh" }}
+            style={{ fontSize: "2vh" }}
           >
             <th
               scope="col"
@@ -135,7 +131,7 @@ const TransactionScreen = () => {
           </tr>
         </MDBTableHead>
         <MDBTableBody>
-          {(history !== [] && history) ? (
+          {history !== [] && history ? (
             history.map((transaction) => (
               <tr key={transaction.id}>
                 <td className="text-center fw-normal">
