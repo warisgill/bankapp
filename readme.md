@@ -1,5 +1,15 @@
 # Bank App
 
+## Architecture Diagram
+
+![Architecture Diagram](https://drive.google.com/uc?export=view&id=1uOTKOxVo8cidruOcwOfWJmYh0nsA1Jmf)
+---
+
+## Deployment Diagram
+
+![Deployment Diagram](https://drive.google.com/uc?export=view&id=12XdwhGQBlh5HsciOr8i4q2mF8m5MSHCQ)
+---
+
 ## Installation Steps?
 
 1. Make env files:
