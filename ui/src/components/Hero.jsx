@@ -1,5 +1,6 @@
 import { Container, Card, Button, Col, Row } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { LinkContainer } from "react-router-bootstrap";
 import {
   faMoneyBillWave,
   faShieldAlt,
@@ -23,12 +24,16 @@ const Hero = () => {
             ventures with our competitive loans and investment opportunities.
           </p>
           <div className="d-flex mt-4 mb-4">
-            <Button variant="dark" href="/login" className="me-5 px-5 py-2">
-              <span style={{ fontSize: "2vh" }}>Login</span>
-            </Button>
-            <Button variant="dark" href="/register" className="me-5 px-5 py-2">
-              <span style={{ fontSize: "2vh" }}>Signup</span>
-            </Button>
+            <LinkContainer to="/login">
+              <Button variant="dark" className="me-5 px-5 py-2">
+                <span style={{ fontSize: "2vh" }}>Login</span>
+              </Button>
+            </LinkContainer>
+            <LinkContainer to="/register">
+              <Button variant="dark" className="me-5 px-5 py-2">
+                <span style={{ fontSize: "2vh" }}>Signup</span>
+              </Button>
+            </LinkContainer>
           </div>
           <div className="d-flex justify-content-around mt-5">
             <Row>
