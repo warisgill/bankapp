@@ -2,9 +2,7 @@ import { Container, Row, Col, Card, Button, Badge } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import Hero from "../components/Hero";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faArrowRightFromBracket,
-} from "@fortawesome/free-solid-svg-icons";
+import { faArrowRightFromBracket } from "@fortawesome/free-solid-svg-icons";
 import { toast } from "react-toastify";
 import { useGetAllAccountsMutation } from "../slices/accountApiSlice";
 import {
@@ -62,10 +60,10 @@ const HomeScreen = () => {
           <Col md={7} style={{ marginTop: "5vh" }}>
             <Card>
               <Card.Header
-                style={{ fontSize: "3vh" }}
-                className="bg-dark text-white"
+                style={{ fontSize: "2.75vh" }}
+                className="bg-dark text-white text-center"
               >
-                <strong>Bank accounts</strong>
+                Bank accounts
               </Card.Header>
             </Card>
             {accountInfo ? (
@@ -78,20 +76,18 @@ const HomeScreen = () => {
                       }}
                     >
                       <Card.Header className="bg-dark text-uppercase text-white">
-                        <strong>
-                          {account.accountType} Account
-                          <FontAwesomeIcon
-                            icon={faArrowRightFromBracket}
-                            style={{ marginLeft: "1rem" }}
-                          />
-                        </strong>
+                        {account.accountType} Account
+                        <FontAwesomeIcon
+                          icon={faArrowRightFromBracket}
+                          style={{ marginLeft: "1rem" }}
+                        />
                       </Card.Header>
                       <Card.Body>
                         <Card.Text>
                           <Row>
                             <Col md={5} className="text-center">
                               <div>
-                                <strong style={{ fontSize: "5vh" }}>
+                                <strong style={{ fontSize: "3.5vh" }}>
                                   ${account.balance.toFixed(2)}
                                 </strong>
                               </div>
@@ -183,10 +179,10 @@ const HomeScreen = () => {
           <Col md={4} style={{ marginTop: "5vh" }}>
             <Card>
               <Card.Header
-                style={{ fontSize: "3vh" }}
-                className="bg-dark text-white"
+                style={{ fontSize: "2.75vh" }}
+                className="bg-dark text-white text-center"
               >
-                <strong>Account Disclosures</strong>
+                Account Disclosures
               </Card.Header>
             </Card>
 

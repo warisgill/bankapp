@@ -7,39 +7,64 @@ const atmSchema = mongoose.Schema(
       required: true,
     },
     address: {
-        street: {
-            type: String,
-            required: true,
-        },
-        city: {
-            type: String,
-            required: true,
-        },
-        state: {
-            type: String,
-            required: true,
-        },
-        zip: {
-            type: String,
-            required: true,
-        },
+      street: {
+        type: String,
+        required: true,
+      },
+      city: {
+        type: String,
+        required: true,
+      },
+      state: {
+        type: String,
+        required: true,
+      },
+      zip: {
+        type: String,
+        required: true,
+      },
     },
     coordinates: {
-        latitude: {
-            type: Number,
-            required: true,
-        },
-        longitude: {
-            type: Number,
-            required: true,
-        },
-    },    
+      latitude: {
+        type: Number,
+        required: true,
+      },
+      longitude: {
+        type: Number,
+        required: true,
+      },
+    },
+    timings: {
+      monFri: {
+        type: String,
+        required: true,
+      },
+      satSun: {
+        type: String,
+        required: true,
+      },
+      holidays: {
+        type: String,
+      },
+    },
+    atmHours: {
+      type: String,
+      required: true,
+    },
+    numberOfATMs: {
+      type: Number,
+      required: true,
+    },
+    isOpen: {
+      type: Boolean,
+      required: true,
+    },
   },
   {
     timestamps: true,
   }
 );
 
-const User = mongoose.model('ATM', atmSchema);
+const ATM = mongoose.model('ATM', atmSchema);
 
-export default User;
+export default ATM;

@@ -25,13 +25,23 @@ const AtmScreen = () => {
 
   const [getAtmsList, { isLoading }] = useGetAtmsMutation();
 
+  const [selectedCard, setSelectedCard] = useState(null);
+
+  const handleCardClick = (atm) => {
+    if (selectedCard === atm) {
+      setSelectedCard(null);
+    } else {
+      setSelectedCard(atm);
+    }
+  };
+
   const handleSubmit = async (e) => {
     setFinalLocation(location);
     e.preventDefault();
 
     try {
       const res = await getAtmsList().unwrap();
-      const shuffledRes = [...res].sort(() => Math.random() - 0.5).slice(0, 5);
+      const shuffledRes = [...res].sort(() => Math.random() - 0.5).slice(0, 4);
       dispatch(setAtms(shuffledRes));
       setAtmsList(shuffledRes);
       toast.success("Found ATMs near you!", {
@@ -95,11 +105,11 @@ const AtmScreen = () => {
                 {atmsList.map((atm, index) => (
                   <Card
                     key={index}
-                    className="mb-4"
-                    onClick={() => setSelectedCard(atm)}
+                    className={`mb-4 ${selectedCard === atm ? "selected" : ""}`}
+                    onClick={() => handleCardClick(atm)}
                   >
                     <Badge
-                      bg="success"
+                      bg={atm.isOpen ? "success" : "danger"}
                       style={{
                         position: "absolute",
                         top: "1rem",
@@ -107,7 +117,7 @@ const AtmScreen = () => {
                         fontSize: "15px",
                       }}
                     >
-                      Open
+                      {atm.isOpen ? "Open" : "Closed"}
                     </Badge>
 
                     <div className="flex-grow-1">
@@ -127,6 +137,30 @@ const AtmScreen = () => {
                             atm.address.zip}
                         </Card.Text>
                       </Card.Body>
+                      {selectedCard === atm && (
+                        <Card.Footer style={{ fontSize: "1.5vh" }}>
+                          <Row>
+                            <Col md={6}>
+                              <div>
+                                <strong>Number of ATMs: </strong>{" "}
+                                {atm.numberOfATMs}
+                              </div>
+                              <div>
+                                <strong>Accessibility: </strong>
+                                {atm.atmHours}
+                              </div>
+                            </Col>
+                            <Col md={6}>
+                              <div>
+                                <strong>Timings:</strong>
+                              </div>
+                              <div>Mon-Fri: {atm.timings.monFri}</div>
+                              <div>Sat-Sun: {atm.timings.satSun}</div>
+                              <div>Holidays: {atm.timings.holidays}</div>
+                            </Col>
+                          </Row>
+                        </Card.Footer>
+                      )}
                     </div>
                   </Card>
                 ))}

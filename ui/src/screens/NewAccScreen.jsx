@@ -43,16 +43,19 @@ const NewAccScreen = () => {
       const res = await createNewAccount(data).unwrap();
       console.log(res);
       dispatch(createAccount(res));
-      toast.success('Congratulations, your account has been created! We have also given you a $100 joining bonus', {
-        className: "toast-container-custom",
-        autoClose: false,
-        hideProgressBar: true,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "dark",
-        });
+      toast.success(
+        "Congratulations, your account has been created! We have also given you a $100 joining bonus",
+        {
+          className: "toast-container-custom",
+          autoClose: false,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "dark",
+        }
+      );
       navigate("/");
     } catch (err) {
       console.log(err);
@@ -89,9 +92,7 @@ const NewAccScreen = () => {
           paddingBottom: "1.5vh",
         }}
       >
-        <strong>
-          NEW <span>&nbsp;</span> ACCOUNT
-        </strong>
+        NEW <span>&nbsp;</span> ACCOUNT
       </h2>
       {isLoading ? (
         <Loader />
@@ -200,7 +201,12 @@ const NewAccScreen = () => {
                 >
                   <span>&nbsp;</span> Terms and Conditions
                 </div>
-                <Modal show={showModal} onHide={handleModalClose} centered size='xl'>
+                <Modal
+                  show={showModal}
+                  onHide={handleModalClose}
+                  centered
+                  size="xl"
+                >
                   <Modal.Header closeButton>
                     <Modal.Title> Terms and Conditions</Modal.Title>
                   </Modal.Header>
