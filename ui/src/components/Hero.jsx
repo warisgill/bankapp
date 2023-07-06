@@ -10,15 +10,9 @@ const Hero = () => {
   return (
     <div className="py-5">
       <Container className="d-flex justify-content-center">
-        <Card
-          className="p-5 d-flex flex-column align-items-center hero-card w-75"
-          style={{
-            backgroundColor: "rgba(255, 255, 255, 0.5)",
-            backdropFilter: "invert(2%)",
-          }}
-        >
+        <Card className="p-5 d-flex flex-column align-items-center hero-card w-75">
           <h1 className="text-center mb-4">
-            <span style={{ fontSize: "6vh", fontWeight: "bold" }}>
+            <span style={{ fontSize: "4vh", fontWeight: "bold" }}>
               Welcome to Martian Bank
             </span>
           </h1>
@@ -30,19 +24,16 @@ const Hero = () => {
           </p>
           <div className="d-flex mt-4 mb-4">
             <Button variant="dark" href="/login" className="me-5 px-5 py-2">
-              <span style={{ fontSize: "2.4vh" }}>Login</span>
+              <span style={{ fontSize: "2vh" }}>Login</span>
             </Button>
             <Button variant="dark" href="/register" className="me-5 px-5 py-2">
-              <span style={{ fontSize: "2.4vh" }}>Signup</span>
+              <span style={{ fontSize: "2vh" }}>Signup</span>
             </Button>
           </div>
           <div className="d-flex justify-content-around mt-5">
             <Row>
               <Col md={4}>
-                <Card
-                  className="text-center border-0"
-                  style={{backgroundColor: 'rgba(255, 255, 255, 0.1)', backdropFilter: 'invert(2%)' }}
-                >
+                <Card className="text-center border-0">
                   <FontAwesomeIcon
                     icon={faMoneyBillWave}
                     className="display-3 my-3"
@@ -57,10 +48,7 @@ const Hero = () => {
                 </Card>
               </Col>
               <Col md={4}>
-                <Card
-                  className="text-center border-0"
-                  style={{backgroundColor: 'rgba(255, 255, 255, 0.1)', backdropFilter: 'invert(2%)' }}
-                >
+                <Card className="text-center border-0">
                   <FontAwesomeIcon
                     icon={faShieldAlt}
                     className="display-3 my-3"
@@ -75,10 +63,7 @@ const Hero = () => {
                 </Card>
               </Col>
               <Col md={4}>
-                <Card
-                  className="text-center border-0"
-                  style={{backgroundColor: 'rgba(255, 255, 255, 0.1)', backdropFilter: 'invert(2%)' }}
-                >
+                <Card className="text-center border-0">
                   <FontAwesomeIcon icon={faRocket} className="display-3 my-3" />
                   <Card.Body>
                     <Card.Title>Martian Ventures</Card.Title>

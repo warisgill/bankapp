@@ -67,7 +67,7 @@ const RegisterScreen = () => {
   };
   return (
     <FormContainer>
-      <h2
+      <h3
         className="bg-dark mx-3 text-white"
         style={{
           textAlign: "center",
@@ -76,7 +76,7 @@ const RegisterScreen = () => {
         }}
       >
         <strong>SIGN &nbsp; UP</strong>
-      </h2>
+      </h3>
       <Form onSubmit={submitHandler}>
         <Form.Group className="my-4" controlId="name">
           <Form.Label>Name</Form.Label>

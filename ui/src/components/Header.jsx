@@ -65,7 +65,12 @@ const Header = () => {
         <Container>
           <LinkContainer to="/">
             <Navbar.Brand className="text-white text-uppercase">
-              <img src="./src/assets/coin.png" alt="logo" width="125" height="125"/>
+              <img
+                src="./src/assets/coin.png"
+                alt="logo"
+                width="125"
+                height="125"
+              />
               <strong style={{ fontSize: "4vh" }}>Martian Bank</strong>
             </Navbar.Brand>
           </LinkContainer>
@@ -91,10 +96,26 @@ const Header = () => {
                       </NavDropdown.Item>
                     </LinkContainer>
                   </NavDropdown>
-                  <CustomNavItems style={{marginRight: 30}} name="Transfer" link="/transfer" />
-                  <CustomNavItems style={{marginRight: 30}} name="Transactions" link="/transactions" />
-                  <CustomNavItems style={{marginRight: 30}} name="Loans" link="/loan" />
-                  <CustomNavItems style={{marginRight: 30}} name="Find ATMs" link="/find-atm" />
+                  <CustomNavItems
+                    style={{ marginRight: 30 }}
+                    name="Transfer"
+                    link="/transfer"
+                  />
+                  <CustomNavItems
+                    style={{ marginRight: 30 }}
+                    name="Transactions"
+                    link="/transactions"
+                  />
+                  <CustomNavItems
+                    style={{ marginRight: 30 }}
+                    name="Loans"
+                    link="/loan"
+                  />
+                  <CustomNavItems
+                    style={{ marginRight: 30 }}
+                    name="Find ATMs"
+                    link="/find-atm"
+                  />
                   <NavDropdown
                     title={userInfo.name}
                     id="username"
@@ -115,17 +136,22 @@ const Header = () => {
                 </>
               ) : (
                 <>
-                  <Nav.Item style={{ marginRight: 40 }}>
+                  <CustomNavItems
+                    style={{ marginRight: 20 }}
+                    name="Find ATMs"
+                    link="/find-atm"
+                  />
+                  <Nav.Item style={{ marginRight: 20 }}>
                     <LinkContainer to="/register">
                       <Nav.Link className="text-white">
-                        <span style={{ fontSize: "2.5vh" }}>Sign Up</span>
+                        <span style={{ fontSize: "2.2vh" }}>Signup</span>
                       </Nav.Link>
                     </LinkContainer>
                   </Nav.Item>
                   <Nav.Item style={{ marginRight: 40 }}>
                     <LinkContainer to="/login">
                       <Nav.Link className="text-white">
-                        <span style={{ fontSize: "2.5vh" }}>Login</span>
+                        <span style={{ fontSize: "2.2vh" }}>Login</span>
                       </Nav.Link>
                     </LinkContainer>
                   </Nav.Item>
