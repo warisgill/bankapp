@@ -29,8 +29,6 @@ const CustomCard = ({ title, text, icon, link }) => {
       className="custom-card"
       style={{
         marginTop: "2vh",
-        backgroundColor: "rgba(255, 255, 255, 0.5)",
-        backdropFilter: "invert(2%)",
       }}
     >
       <Card.Body>
@@ -107,7 +105,7 @@ const LoanScreen = () => {
       data_loan.append("interest_rate", intRate);
       data_loan.append("time_period", loanTime);
       const res = await postLoanAPI(data_loan).unwrap();
-      console.log(res, res.json())
+      console.log(res)
       dispatch(createLoan(res));
       toast.success("Congratulations! Your loan is approved!", {
         className: "toast-container-custom",
@@ -209,7 +207,7 @@ const LoanScreen = () => {
             backdropFilter: "invert(2%)",
           }}
         >
-          <h2
+          <h3
             className="bg-dark mx-3 text-white"
             style={{
               textAlign: "center",
@@ -220,7 +218,7 @@ const LoanScreen = () => {
             <strong>
               NEW <span>&nbsp;</span> LOAN
             </strong>
-          </h2>
+          </h3>
           {isLoading ? (
             <Loader />
           ) : (
@@ -535,8 +533,8 @@ const LoanScreen = () => {
       <Col md={4} className="mt-5">
         <Card>
           <Card.Header
-            style={{ fontSize: "3vh" }}
-            className="bg-dark text-white"
+            style={{ fontSize: "2.5vh" }}
+            className="bg-dark text-white text-center"
           >
             <strong>Approved Loans</strong>
           </Card.Header>

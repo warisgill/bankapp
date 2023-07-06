@@ -75,8 +75,6 @@ const HomeScreen = () => {
                     <Card
                       style={{
                         marginTop: "2vh",
-                        backgroundColor: "rgba(255, 255, 255, 0.2)",
-                        backdropFilter: "invert(2%)",
                       }}
                     >
                       <Card.Header className="bg-dark text-uppercase text-white">
@@ -154,8 +152,6 @@ const HomeScreen = () => {
                   <Card
                     style={{
                       marginTop: "2vh",
-                      backgroundColor: "rgba(255, 255, 255, 0.2)",
-                      backdropFilter: "invert(2%)",
                     }}
                   >
                     <Card.Header className="bg-dark text-uppercase text-white">
@@ -197,8 +193,6 @@ const HomeScreen = () => {
             <Card
               style={{
                 marginTop: "2vh",
-                backgroundColor: "rgba(255, 255, 255, 0.2)",
-                backdropFilter: "invert(2%)",
               }}
             >
               <Card.Body>
