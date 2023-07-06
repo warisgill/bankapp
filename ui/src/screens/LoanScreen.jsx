@@ -76,6 +76,21 @@ const LoanScreen = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
+  const terms = {
+    Car: {
+      interestRate: 5.44,
+      timePeriod: 5,
+    },
+    Home: {
+      interestRate: 7.31,
+      timePeriod: 15,
+    },
+    Personal: {
+      interestRate: 10.99,
+      timePeriod: 3,
+    },
+  };
+
   const [postLoanAPI, { isLoading }] = usePostLoanMutation();
   const [loanHistoryAPI, { isLoading: isLoading2 }] =
     useGetApprovedLoansMutation();
@@ -335,7 +350,12 @@ const LoanScreen = () => {
                     <Form.Select
                       value={loanType}
                       multiple={false}
-                      onChange={(e) => setLoanType(e.target.value)}
+                      onChange={(e) => {
+                        const selectedLoanType = e.target.value;
+                        setIntRate(terms[selectedLoanType].interestRate);
+                        setLoanTime(terms[selectedLoanType].timePeriod);
+                        setLoanType(e.target.value);
+                      }}
                       aria-label="Select loan type"
                     >
                       <option value="">Select your loan type</option>
@@ -370,7 +390,8 @@ const LoanScreen = () => {
                       type="number"
                       min="5"
                       required
-                      placeholder="Enter the interest rate"
+                      disabled
+                      placeholder="Select loan type"
                       onWheel={(e) => e.target.blur()}
                       onChange={(e) => setIntRate(e.target.value)}
                       aria-label="Select loan type"
@@ -384,7 +405,8 @@ const LoanScreen = () => {
                       type="number"
                       min="0"
                       required
-                      placeholder="Enter the time period in years"
+                      disabled
+                      placeholder="Select loan type"
                       value={loanTime}
                       onChange={(e) => setLoanTime(e.target.value)}
                       onWheel={(e) => e.target.blur()}
