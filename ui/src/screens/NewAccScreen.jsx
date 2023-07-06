@@ -83,8 +83,8 @@ const NewAccScreen = () => {
   };
 
   return (
-    <FormContainer>
-      <h2
+    <FormContainer position="left">
+      <h4
         className="bg-dark mx-3 text-white"
         style={{
           textAlign: "center",
@@ -93,7 +93,7 @@ const NewAccScreen = () => {
         }}
       >
         NEW <span>&nbsp;</span> ACCOUNT
-      </h2>
+      </h4>
       {isLoading ? (
         <Loader />
       ) : (
@@ -199,7 +199,7 @@ const NewAccScreen = () => {
                   onClick={handleModalOpen}
                   style={{ textDecoration: "underline", color: "blue" }}
                 >
-                  <span>&nbsp;</span> Terms and Conditions
+                  <span>&nbsp;</span>Terms and Conditions
                 </div>
                 <Modal
                   show={showModal}

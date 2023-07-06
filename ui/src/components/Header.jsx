@@ -13,7 +13,7 @@ const CustomNavItems = ({ name, link }) => {
     <Nav.Item style={{ marginRight: 20 }}>
       <LinkContainer to={link}>
         <Nav.Link className="text-white">
-          <span style={{ fontSize: "2.2vh" }}>{name}</span>
+          <span style={{ fontSize: "2vh" }}>{name}</span>
         </Nav.Link>
       </LinkContainer>
     </Nav.Item>
@@ -83,7 +83,7 @@ const Header = () => {
                     title="Accounts"
                     id="accounts"
                     className="custom-nav-dropdown"
-                    style={{ fontSize: "2.2vh", marginRight: 30 }}
+                    style={{ fontSize: "2vh", marginRight: 30 }}
                   >
                     <LinkContainer to="/">
                       <NavDropdown.Item>
@@ -120,7 +120,7 @@ const Header = () => {
                     title={userInfo.name}
                     id="username"
                     className="custom-nav-dropdown"
-                    style={{ fontSize: "2.2vh" }}
+                    style={{ fontSize: "2vh" }}
                   >
                     <LinkContainer to="/profile">
                       <NavDropdown.Item>

@@ -60,7 +60,7 @@ const HomeScreen = () => {
           <Col md={7} style={{ marginTop: "5vh" }}>
             <Card>
               <Card.Header
-                style={{ fontSize: "2.75vh" }}
+                style={{ fontSize: "2.5vh" }}
                 className="bg-dark text-white text-center"
               >
                 Bank accounts
@@ -87,7 +87,7 @@ const HomeScreen = () => {
                           <Row>
                             <Col md={5} className="text-center">
                               <div>
-                                <strong style={{ fontSize: "3.5vh" }}>
+                                <strong style={{ fontSize: "3vh" }}>
                                   ${account.balance.toFixed(2)}
                                 </strong>
                               </div>
@@ -98,7 +98,7 @@ const HomeScreen = () => {
                             <Col md={1} />
                             <Col md={6}>
                               <div
-                                style={{ fontSize: "1.5vh", marginTop: "1vh" }}
+                                style={{ fontSize: "1.25vh", marginTop: "1vh" }}
                               >
                                 Account Number:
                                 <span className="text-primary">
@@ -109,7 +109,7 @@ const HomeScreen = () => {
                                 </span>
                                 <br />
                                 <div
-                                  style={{ fontSize: "1.5vh" }}
+                                  style={{ fontSize: "1.25vh" }}
                                   className="text-muted"
                                 >
                                   Name: {account.name} <br />
@@ -126,7 +126,7 @@ const HomeScreen = () => {
                           style={{ textDecoration: "none" }}
                           onClick={() => dispatch(currentAccount(account))}
                         >
-                          <Button variant="dark" className="float-end">
+                          <Button variant="dark" className="float-end" size="sm">
                             Account info
                           </Button>
                         </Link>
@@ -135,7 +135,7 @@ const HomeScreen = () => {
                           style={{ textDecoration: "none" }}
                           onClick={() => dispatch(selectedAccount(account))}
                         >
-                          <Button variant="dark" className="float-end me-2">
+                          <Button variant="dark" className="float-end me-2" size="sm">
                             Transfer money
                           </Button>
                         </Link>
@@ -179,7 +179,7 @@ const HomeScreen = () => {
           <Col md={4} style={{ marginTop: "5vh" }}>
             <Card>
               <Card.Header
-                style={{ fontSize: "2.75vh" }}
+                style={{ fontSize: "2.5vh" }}
                 className="bg-dark text-white text-center"
               >
                 Account Disclosures
