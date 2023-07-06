@@ -1,6 +1,5 @@
 import { apiSlice } from "./usersApiSlice";
 const loanUrl = import.meta.env.VITE_LOAN_URL;
-console.log(loanUrl)
 
 export const loanApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({

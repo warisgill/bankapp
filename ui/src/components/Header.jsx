@@ -144,14 +144,14 @@ const Header = () => {
                   <Nav.Item style={{ marginRight: 20 }}>
                     <LinkContainer to="/register">
                       <Nav.Link className="text-white">
-                        <span style={{ fontSize: "2.2vh" }}>Signup</span>
+                        <span style={{ fontSize: "2vh" }}>Signup</span>
                       </Nav.Link>
                     </LinkContainer>
                   </Nav.Item>
                   <Nav.Item style={{ marginRight: 40 }}>
                     <LinkContainer to="/login">
                       <Nav.Link className="text-white">
-                        <span style={{ fontSize: "2.2vh" }}>Login</span>
+                        <span style={{ fontSize: "2vh" }}>Login</span>
                       </Nav.Link>
                     </LinkContainer>
                   </Nav.Item>
