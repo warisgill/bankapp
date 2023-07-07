@@ -17,17 +17,3 @@ spec:
       containers:
         - name: ui
           image: docker.io/jashmehta3300/martian-bank-ui
-
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: {{ .Release.Name }}-ui
-spec:
-  type: LoadBalancer
-  selector:
-    app: ui
-  ports:
-    - protocol: TCP
-      port: 3000
-      targetPort: 3000

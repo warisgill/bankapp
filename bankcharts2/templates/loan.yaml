@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ .Release.Name }}-loan
+  name: loan
   labels:
     app: loan
 spec:
@@ -22,7 +22,7 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-    name: {{ .Release.Name }}-loan
+    name: loan
 spec:
     selector:
         app: loan
