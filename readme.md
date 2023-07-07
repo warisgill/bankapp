@@ -3,11 +3,7 @@
 ## Architecture Diagram
 
 ![Architecture Diagram](https://drive.google.com/uc?export=view&id=11wVBfu2FNnhEWACRv63rq1XvnUWQQO4-)
----
 
-## Deployment Diagram
-
-![Deployment Diagram](https://drive.google.com/uc?export=view&id=1fVyWct-WydBdaYkZniQxKDn_XQIUxiR6)
 ---
 
 ## Installation Steps?
@@ -99,6 +95,12 @@ python dashboard.py
 ```
 
 Fire up `http://localhost:3000` to access the Martian Bank App.
+
+---
+
+## Deployment Diagram
+
+![Deployment Diagram](https://drive.google.com/uc?export=view&id=1fVyWct-WydBdaYkZniQxKDn_XQIUxiR6)
 
 ---
 
