@@ -214,7 +214,7 @@ const LoanScreen = () => {
       <Col md={1} />
       <Col md={6} className="mt-5">
         <Container xs={12} md={6} className="card p-5">
-          <h3
+          <h4
             className="bg-dark mx-3 text-white"
             style={{
               textAlign: "center",
@@ -223,7 +223,7 @@ const LoanScreen = () => {
             }}
           >
             NEW <span>&nbsp;</span> LOAN
-          </h3>
+          </h4>
           {isLoading ? (
             <Loader />
           ) : (
@@ -545,7 +545,7 @@ const LoanScreen = () => {
       <Col md={4} className="mt-5">
         <Card>
           <Card.Header
-            style={{ fontSize: "2.5vh" }}
+            style={{ fontSize: "2.25vh" }}
             className="bg-dark text-white text-center"
           >
             Approved Loans

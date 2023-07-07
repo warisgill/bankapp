@@ -59,6 +59,20 @@ const TransferScreen = () => {
   const submitHandler = async (e) => {
     e.preventDefault();
 
+    if (accNo === receiverAccNo) {
+      toast.error("Sender and receiver account numbers cannot be same!", {
+        className: "toast-container-custom",
+        autoClose: true,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+      });
+      return;
+    }
+
     try {
       const data = new FormData();
       data.append("sender_account_number", accNo);
@@ -123,7 +137,7 @@ const TransferScreen = () => {
 
   return (
     <FormContainer>
-      <h3
+      <h4
         className="bg-dark mx-3 text-white"
         style={{
           textAlign: "center",
@@ -132,7 +146,7 @@ const TransferScreen = () => {
         }}
       >
         TRANSFER &nbsp; MONEY
-      </h3>
+      </h4>
 
       <Form onSubmit={submitHandler}>
         <Row className="mt-4">
