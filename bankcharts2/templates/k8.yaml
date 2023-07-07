@@ -1,0 +1,183 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+    name: ui
+    labels:
+        app: ui
+spec:
+    replicas: 1
+    selector:
+        matchLabels:
+            app: ui
+    template:
+        metadata:
+            labels:
+                app: ui
+        spec:
+            containers:
+                - name: ui
+                  image: docker.io/jashmehta3300/martian-bank-ui
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+    name: dashboard
+    labels:
+        app: dashboard
+spec:
+    replicas: 1
+    selector:
+        matchLabels:
+            app: dashboard
+    template:
+        metadata:
+            labels:
+                app: dashboard
+        spec:
+            containers:
+                - name: dashboard
+                  image: docker.io/waris95/martian-bank-dashboard
+                  env:
+                      - name: ACCOUNT_HOST
+                        value: accounts
+                      - name: LOAN_HOST
+                        value: loan
+                      - name: TRANSACTION_HOST
+                        value: transactions
+  
+# customer-auth
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+    name: customer-auth
+    labels:
+        app: customer-auth
+spec:    
+    replicas: 1
+    selector:
+        matchLabels:
+            app: customer-auth
+    template:
+        metadata:
+            labels:
+                app: customer-auth
+        spec:
+            containers:
+                - name: customer-auth
+                  image: docker.io/jashmehta3300/martian-bank-customer-auth
+
+
+# atm-locator
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+    name: atm-locator
+    labels:
+        app: atm-locator
+spec:
+    replicas: 1
+    selector:
+        matchLabels:
+            app: atm-locator
+    template:
+        metadata:
+            labels:
+                app: atm-locator
+        spec:
+            containers:
+                - name: atm-locator
+                  image: docker.io/jashmehta3300/martian-bank-atm-locator
+
+# nginx
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+    name: nginx
+    labels:
+        app: nginx
+spec:
+    replicas: 1
+    selector:
+        matchLabels:
+            app: nginx
+    template:
+        metadata:
+            labels:
+                app: nginx
+        spec:
+            containers:
+                - name: nginx
+                  image: docker.io/jashmehta3300/martian-bank-nginx
+                  
+# Service 
+---
+apiVersion: v1
+kind: Service
+metadata:
+    name: nginx
+spec:
+    type: LoadBalancer
+    selector:
+        app: nginx
+    ports:
+        - protocol: TCP
+          port: 80
+          targetPort: 80
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+    name: customer-auth
+spec:
+    selector:
+        app: customer-auth
+    ports:
+        - protocol: TCP
+          port: 8000
+          targetPort: 8000
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+    name: atm-locator
+spec:
+    selector:
+        app: atm-locator
+    ports:
+        - protocol: TCP
+          port: 8001
+          targetPort: 8001
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+    name: ui
+spec:
+    type: LoadBalancer
+    selector:
+        app: ui
+    ports:
+        - protocol: TCP
+          port: 3000
+          targetPort: 3000
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+    name: dashboard
+spec:
+    type: LoadBalancer # This is the only line that is different from the previous service that this is accessible from outside
+    selector:
+        app: dashboard
+    ports:
+        - protocol: TCP
+          port: 5000
+          targetPort: 5000
