@@ -3,11 +3,7 @@
 ## Architecture Diagram
 
 ![Architecture Diagram](https://drive.google.com/uc?export=view&id=11wVBfu2FNnhEWACRv63rq1XvnUWQQO4-)
----
 
-## Deployment Diagram
-
-![Deployment Diagram](https://drive.google.com/uc?export=view&id=1fVyWct-WydBdaYkZniQxKDn_XQIUxiR6)
 ---
 
 ## Installation Steps?
@@ -102,14 +98,24 @@ Fire up `http://localhost:3000` to access the Martian Bank App.
 
 ---
 
+## Deployment Diagram
+
+![Deployment Diagram](https://drive.google.com/uc?export=view&id=1fVyWct-WydBdaYkZniQxKDn_XQIUxiR6)
+
+---
+
 3. Running locally using Docker 
 
 Make sure you have docker desktop installed and runnning on your system.
 
 ```
-docker compose up --build
+# To build docker containers:
+docker compose up --build 
+
+# To remove docker containers:
+docker compose down
 ```
-Fire up `http://localhost/`
+Fire up `http://localhost/` to access the Martian Bank App.
 
 ---
 
@@ -118,13 +124,88 @@ Fire up `http://localhost/`
 Ensure that you have kubernetes enabled in Docker Desktop. Install `kubectl` as well.
 
 ```
+# To create a cluster:
 kubectl apply -f k8.yaml
 kubectl get pods
 kubectl get services
+
+# To delete the cluster:
+kubectl delete --all deployments
+kubectl delete --all services
 ```
-Fire up `http://localhost/`
+Fire up `http://localhost/` to access the Martian Bank App.
 
 --- 
+
+5. Deploying to AWS EKS:
+
+- Install AWS CLI tool and configure it (pass in access key, secret key, region, and it creates ~/.aws/config and ~/.aws/credentials files).
+```
+aws configure
+```
+
+- Install eksctl tool
+```
+brew tap weaveworks/tap; brew install weaveworks/tap/eksctl
+```
+
+- Install IAM authenticator
+```
+brew install aws-iam-authenticator
+```
+
+- Create cluster.yaml file
+```
+apiVersion: eksctl.io/v1alpha5 
+kind: ClusterConfig 
+  
+metadata: 
+  name: jasmheta-bank-1 
+  region: us-east-1 
+  
+vpc: 
+  cidr: "172.20.0.0/16" ## Can change this value 
+  nat: 
+   gateway: Single 
+  clusterEndpoints: 
+   publicAccess: true 
+   privateAccess: true 
+  
+nodeGroups: 
+  - name: ng-1 
+    minSize: 2 
+    maxSize: 2 
+    instancesDistribution: 
+      maxPrice: 0.093 
+      instanceTypes: ["t3a.large", "t3.large"] 
+      onDemandBaseCapacity: 0 
+      onDemandPercentageAboveBaseCapacity: 50 
+      spotInstancePools: 2 
+    ssh: 
+     publicKeyPath: <path> 
+```
+
+- Create cluster (takes ~20 minutes)
+```
+eksctl create cluster -f cluster.yaml
+```
+
+- Run the cluster (make sure you have helm installed, if not, run brew install helm first)
+```
+helm install test1 martianbank 
+kubectl get pods
+kubectl get services
+```
+
+- Copy the aws link that you see next to nginx. Fire that to access the Martian Bank.
+
+- Delete the cluster
+```
+kubectl delete --all deployments
+kubectl delete --all services
+```
+
+---
 
 ### API Documentation
 
