@@ -190,9 +190,9 @@ nodeGroups:
 eksctl create cluster -f cluster.yaml
 ```
 
-- Run the cluster
+- Run the cluster (make sure you have helm installed, if not, run brew install helm first)
 ```
-kubectl apply -f k8.yaml
+helm install test1 martianbank 
 kubectl get pods
 kubectl get services
 ```
