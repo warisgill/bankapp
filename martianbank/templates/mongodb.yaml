@@ -1,0 +1,51 @@
+# mongod db with persistent volume
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+    name: mongodb
+    labels:
+        app: mongodb
+spec:
+    replicas: 1
+    selector:
+        matchLabels:
+            app: mongodb
+    template:
+        metadata:
+            labels:
+                app: mongodb
+        spec:
+            containers:
+                - name: mongodb
+                  image: mongo
+                #  env mongo db username and password user is root and password is root
+                  env:
+                      - name: MONGO_INITDB_ROOT_USERNAME
+                        value: root
+                      - name: MONGO_INITDB_ROOT_PASSWORD
+                        value: example
+# persistent volume
+                  volumeMounts:
+                      - name: mongodb-persistent-storage
+                        mountPath: /data/db
+            volumes:
+                - name: mongodb-persistent-storage
+                  persistentVolumeClaim:
+                      claimName: mongodb-pvc
+                
+               
+
+# Mongo DB service
+---
+apiVersion: v1
+kind: Service
+metadata:
+    name: mongodb
+spec:
+    type: ClusterIP
+    selector:
+        app: mongodb
+    ports:
+        - protocol: TCP
+          port: 27017
+          targetPort: 27017
