@@ -11,7 +11,7 @@ import transaction_pb2_grpc
 
 from pymongo.mongo_client import MongoClient
 # uri = "mongodb+srv://waris:test1122@cluster0.jk2md4w.mongodb.net/?retryWrites=true&w=majority"
-uri = "mongodb://root:example@127.0.0.1:27017/?authMechanism=SCRAM-SHA-256"
+uri = "mongodb://root:example@localhost:27017/"
 client = MongoClient(uri)
 db = client['bank']
 collection_accounts = db['accounts']
