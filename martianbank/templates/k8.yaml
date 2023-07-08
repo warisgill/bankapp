@@ -45,6 +45,8 @@ spec:
                         value: loan
                       - name: TRANSACTION_HOST
                         value: transactions
+                      - name: DATABASE_HOST
+                        value: "mongodb"
   
 # customer-auth
 ---
@@ -153,7 +155,7 @@ kind: Service
 metadata:
     name: mongodb
 spec:
-    type: LoadBalancer
+    type: ClusterIP
     selector:
         app: mongodb
     ports:
