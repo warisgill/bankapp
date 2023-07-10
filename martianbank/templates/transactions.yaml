@@ -1,35 +1,42 @@
+# transactions
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: transactions
-  labels:
-    app: transactions
-spec:
-  replicas: 1
-  selector:
-    matchLabels:
-      app: transactions
-  template:
-    metadata:
-      labels:
+    name: transactions
+    labels:
         app: transactions
-    spec:
-      containers:
-        - name: transactions
-          image: docker.io/waris95/martian-bank-transactions
-          env:
-            - name: DATABASE_HOST
-              value: mongodb
+spec:
+    replicas: 1
+    selector:
+        matchLabels:
+            app: transactions
+    template:
+        metadata:
+            labels:
+                app: transactions
+        spec:
+            containers:
+                - name: transactions
+                  image: docker.io/waris95/martian-bank-transactions
+                  env:
+                    - name: DATABASE_HOST
+                      value: mongodb
 
 
+---
 apiVersion: v1
 kind: Service
 metadata:
-  name: transactions
+    name: transactions
 spec:
-  selector:
-    app: transactions
-  ports:
-    - protocol: TCP
-      port: 50052
-      targetPort: 50052
+    selector:
+        app: transactions
+    ports:
+        - protocol: TCP
+          port: 50052
+          targetPort: 50052
+
+
+
+
