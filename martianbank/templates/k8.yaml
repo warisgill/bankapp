@@ -95,6 +95,9 @@ spec:
             containers:
                 - name: atm-locator
                   image: docker.io/jashmehta3300/martian-bank-atm-locator
+                  env:
+                      - name: DATABASE_HOST
+                        value: mongodb
 
 # nginx
 ---
