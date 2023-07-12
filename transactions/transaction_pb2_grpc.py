@@ -24,6 +24,11 @@ class TransactionServiceStub(object):
                 request_serializer=transaction__pb2.GetALLTransactionsRequest.SerializeToString,
                 response_deserializer=transaction__pb2.GetALLTransactionsResponse.FromString,
                 )
+        self.Zelle = channel.unary_unary(
+                '/TransactionService/Zelle',
+                request_serializer=transaction__pb2.ZelleRequest.SerializeToString,
+                response_deserializer=transaction__pb2.TransactionResponse.FromString,
+                )
 
 
 class TransactionServiceServicer(object):
@@ -41,6 +46,12 @@ class TransactionServiceServicer(object):
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
+    def Zelle(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
 
 def add_TransactionServiceServicer_to_server(servicer, server):
     rpc_method_handlers = {
@@ -53,6 +64,11 @@ def add_TransactionServiceServicer_to_server(servicer, server):
                     servicer.getTransactionsHistory,
                     request_deserializer=transaction__pb2.GetALLTransactionsRequest.FromString,
                     response_serializer=transaction__pb2.GetALLTransactionsResponse.SerializeToString,
+            ),
+            'Zelle': grpc.unary_unary_rpc_method_handler(
+                    servicer.Zelle,
+                    request_deserializer=transaction__pb2.ZelleRequest.FromString,
+                    response_serializer=transaction__pb2.TransactionResponse.SerializeToString,
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
@@ -95,5 +111,22 @@ class TransactionService(object):
         return grpc.experimental.unary_unary(request, target, '/TransactionService/getTransactionsHistory',
             transaction__pb2.GetALLTransactionsRequest.SerializeToString,
             transaction__pb2.GetALLTransactionsResponse.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
+    def Zelle(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(request, target, '/TransactionService/Zelle',
+            transaction__pb2.ZelleRequest.SerializeToString,
+            transaction__pb2.TransactionResponse.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)

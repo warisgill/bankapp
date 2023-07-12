@@ -1,4 +1,5 @@
 import os
+import logging
 import json
 from google.protobuf.json_format import MessageToDict
 from flask_cors import CORS
@@ -17,6 +18,11 @@ from loan_pb2_grpc import LoanServiceStub
 from loan_pb2 import * 
 
 from pymongo.mongo_client import MongoClient
+
+# set logging to debug
+logging.basicConfig(level=logging.DEBUG)
+
+
 # uri = "mongodb+srv://waris:test1122@cluster0.jk2md4w.mongodb.net/?retryWrites=true&w=majority"
 db_host = os.getenv("DATABASE_HOST", "localhost")
 uri = f"mongodb://root:example@{db_host}:27017/"
@@ -95,43 +101,31 @@ def create_account():
         government_id_type = request.form['government_id_type']
         name = request.form['name']
 
-        try:
-            # Create a gRPC request
-            account_request = CreateAccountRequest(
-                email_id=email_id,
-                account_type=account_type,
-                address=address,
-                govt_id_number=govt_id_number,
-                government_id_type=government_id_type,
-                name=name
-            )
+        
+        # Create a gRPC request
+        account_request = CreateAccountRequest(
+            email_id=email_id,
+            account_type=account_type,
+            address=address,
+            govt_id_number=govt_id_number,
+            government_id_type=government_id_type,
+            name=name
+        )
 
-            # Send the gRPC request to the Account Microservice
-            response = client.createAccount(account_request)
+        logging.debug(f"Sending account creation request: {account_request}")
+        # Send the gRPC request to the Account Microservice
+        response = client.createAccount(account_request)
+        logging.debug(f"Account creation response: {response}")
+
+
 
             # Return a JSON response
-            return jsonify({
+        return jsonify({
                 'success': True,
                 'message': 'Account created successfully',
                 'data': {
                     'response': MessageToDict(response)
                 }
-            })
-
-        except grpc.RpcError as e:
-            # Handle gRPC errors
-            return jsonify({
-                'success': False,
-                'message': 'An error occurred during the gRPC request',
-                'error': str(e)
-            })
-
-        except Exception as e:
-            # Handle other exceptions
-            return jsonify({
-                'success': False,
-                'message': 'An unexpected error occurred',
-                'error': str(e)
             })
     return render_template('create_account_form.html')
 
@@ -177,6 +171,30 @@ def transaction_form():
             reason=reason
         )
 
+        print("Sending transaction request...")
+
+        response = client.SendMoney(req)
+
+        # return f"Transaction successful. Transaction ID: {response}"
+        return json.dumps({"response": MessageToDict(response)})
+    
+    return render_template('transaction.html')
+
+@app.route('/transaction/zelle', methods=['GET', 'POST'])
+def transaction_zelle():
+    transaction_host = os.getenv("TRANSACTION_HOST", "localhost")
+    channel = grpc.insecure_channel(f'{transaction_host}:50052')
+    client = TransactionServiceStub(channel)
+
+    if request.method == 'POST':
+        sender_email = request.form['sender_email'] # type: ignore
+        receiver_email = request.form['receiver_email'] # type: ignore
+        amount = float(request.form['amount']) # type: ignore
+        reason = request.form['reason'] # type: ignore
+
+        req = ZelleRequest(sender_email=sender_email, receiver_email=receiver_email, amount=amount, reason=reason)
+
+ 
         print("Sending transaction request...")
 
         response = client.SendMoney(req)

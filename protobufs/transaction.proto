@@ -26,10 +26,16 @@ message Transaction{
   string type = 5;
 }
 
-
-
 message GetALLTransactionsResponse{
   repeated Transaction transactions = 1;
+}
+
+
+message ZelleRequest {
+  string sender_email = 1;
+  string receiver_email = 2;
+  double amount = 3;
+  string reason= 4;
 }
 
 
@@ -37,4 +43,5 @@ message GetALLTransactionsResponse{
 service TransactionService {
   rpc SendMoney(TransactionRequest) returns (TransactionResponse);
   rpc getTransactionsHistory(GetALLTransactionsRequest) returns (GetALLTransactionsResponse);
+  rpc Zelle(ZelleRequest) returns (TransactionResponse);
 }

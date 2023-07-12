@@ -2,8 +2,12 @@ from concurrent import futures
 import random
 import datetime
 import os
-
+import logging
 import grpc
+# Configure the logging settings
+logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - %(levelname)s - %(message)s')
+
+
 
 from transaction_pb2 import * 
 
@@ -27,7 +31,7 @@ collection_transactions = db['transactions']
 
 class TransactionService(transaction_pb2_grpc.TransactionServiceServicer):
 
-    def getAccount(self, account_num):
+    def __getAccount(self, account_num):
         r = None
 
         accounts = collection_accounts.find()
@@ -39,7 +43,7 @@ class TransactionService(transaction_pb2_grpc.TransactionServiceServicer):
         # print(f"Account {r}")
         return r
     
-    def doTransaction(self, sender, receiver, amount, reason=""):
+    def __doTransaction(self, sender, receiver, amount, reason=""):
         if sender['balance'] < amount:
             return False
         
@@ -57,23 +61,26 @@ class TransactionService(transaction_pb2_grpc.TransactionServiceServicer):
 
 
         return True
-
-
-    def SendMoney(self, request, context):
-        
-        sender_account =  self.getAccount(request.sender_account_number)
-        receiver_account = self.getAccount(request.receiver_account_number)
-        
+    
+    def __transfer(self, sender_account, receiver_account, amount, reason):
         if sender_account is not None or receiver_account is not None:
-            result = self.doTransaction(sender_account, receiver_account, request.amount, reason=request.reason)
+            result = self.__doTransaction(sender_account, receiver_account, amount, reason=reason)
             
-            print(f"---> sender: {sender_account}" )
-            print(f"--->receiver: {receiver_account}")
-
+            logging.debug(f"---> sender: {sender_account}" )
+            logging.debug(f"--->receiver: {receiver_account}")
             if result: 
                 return TransactionResponse(success=result, message="Transaction Successful")
             
         return TransactionResponse(success=False, message="Transaction Failed")
+
+
+    def SendMoney(self, request, context):
+        
+        sender_account =  self.__getAccount(request.sender_account_number)
+        receiver_account = self.__getAccount(request.receiver_account_number)
+        return self.__transfer(sender_account, receiver_account, request.amount, request.reason)
+        
+        
 
     def getTransactionsHistory(self, request, context):
         account_number = request.account_number 
@@ -100,7 +107,43 @@ class TransactionService(transaction_pb2_grpc.TransactionServiceServicer):
         
         
         return GetALLTransactionsResponse(transactions=transactions_list)
+    
+    def __getAccountwithEmail(self, email):
+        document = None
+        checking_account = collection_accounts.find({'email': email, 'account_type': 'Checking'})
+        # logging.debug(f"Checking Account: {checking_account}")
+
+        if checking_account.count() == 1:
+            document = checking_account[0]
+            logging.debug(f"Checking Account: {document}")
+            return document
+        else:
+            saving_account = collection_accounts.find({'email': email, 'account_type': 'Savings'})
+            if saving_account.count() == 1:
+                document = saving_account[0]
+                logging.debug(f"Savings Account: {document}")
+                return document
+
+            # logging.debug(f"Savings Account: {document}")
+        logging.debug('No Account Found')      
+        return document
+    
+    def Zelle(self, request, context):
+        sender_email = request.sender_email
+        receiver_email = request.receiver_email
+        amount = request.amount
+        reason = request.reason
+
+        sender_account = self.__getAccountwithEmail(sender_email)
+        receiver_account = self.__getAccountwithEmail(receiver_email)
+
+        return self.__transfer(sender_account, receiver_account, amount, reason)
+
+
+
         
+
+         
         
     
 
