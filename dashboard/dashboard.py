@@ -23,9 +23,9 @@ from pymongo.mongo_client import MongoClient
 logging.basicConfig(level=logging.DEBUG)
 
 
-# uri = "mongodb+srv://waris:test1122@cluster0.jk2md4w.mongodb.net/?retryWrites=true&w=majority"
+uri = "mongodb+srv://waris:test1122@cluster0.jk2md4w.mongodb.net/?retryWrites=true&w=majority"
 db_host = os.getenv("DATABASE_HOST", "localhost")
-uri = f"mongodb://root:example@{db_host}:27017/"
+# uri = f"mongodb://root:example@{db_host}:27017/"
 client = MongoClient(uri)
 db = client['bank']
 collection = db['accounts']
@@ -87,12 +87,12 @@ def render_homepage():
 @app.route('/account/create', methods=['GET', 'POST'])
 def create_account():
     accounts_host = os.getenv("ACCOUNT_HOST", "localhost")
-    print(f"host account {accounts_host}")
+    logging.debug(f"host account {accounts_host}")
     channel = grpc.insecure_channel(f'{accounts_host}:50051')
     client = AccountDetailsServiceStub(channel)
     if request.method == 'POST':
-        print("+++++++++++++++++++++++++++++++++++++++++")
-        print(request.form)
+        logging.debug("+++++++++++++++++++++++++++++++++++++++++")
+        logging.debug(request.form)
 
         email_id = request.form['email_id']
         account_type = request.form['account_type']
@@ -136,15 +136,14 @@ def get_all_accounts():
     channel = grpc.insecure_channel(f'{accounts_host}:50051')
     client = AccountDetailsServiceStub(channel)
     if request.method == 'POST':
-        print("+++++++++++++++++++++++++++++++++++++++++")
-        print(request.form)
+        logging.debug("+++++++++++++++++++++++++++++++++++++++++")
+        logging.debug(request.form)
 
         email_id = request.form['email_id']
 
         get_req = GetAccountsRequest(email_id=email_id)
         response = client.getAccounts(get_req)
-       
-        
+    
         return json.dumps({"response":[MessageToDict(acc) for acc in response.accounts]}) #response
     return jsonify({"response": None})
 
@@ -171,7 +170,7 @@ def transaction_form():
             reason=reason
         )
 
-        print("Sending transaction request...")
+        logging.debug("Sending transaction request...")
 
         response = client.SendMoney(req)
 
@@ -180,7 +179,7 @@ def transaction_form():
     
     return render_template('transaction.html')
 
-@app.route('/transaction/zelle', methods=['GET', 'POST'])
+@app.route('/transaction/zelle/', methods=['GET', 'POST'])
 def transaction_zelle():
     transaction_host = os.getenv("TRANSACTION_HOST", "localhost")
     channel = grpc.insecure_channel(f'{transaction_host}:50052')
@@ -195,12 +194,14 @@ def transaction_zelle():
         req = ZelleRequest(sender_email=sender_email, receiver_email=receiver_email, amount=amount, reason=reason)
 
  
-        print("Sending transaction request...")
+        logging.debug("Sending transaction request...")
 
-        response = client.SendMoney(req)
+        response = client.Zelle(req)
+
+        logging.debug(f"Zelle response: {response}")
 
         # return f"Transaction successful. Transaction ID: {response}"
-        return json.dumps({"response": MessageToDict(response)})
+        return json.dumps({"response": MessageToDict(response), "test": "working"})
     
     return render_template('transaction.html')
 
@@ -215,16 +216,14 @@ def get_all_transactions():
         # channel = grpc.insecure_channel('localhost:50052')
         client = TransactionServiceStub(channel)
 
-
-
         req = GetALLTransactionsRequest(
             account_number=account_number)
 
-        # print("Sending transaction request... +++++++++++++++++++++++++++++++")    
+        # logging.debug("Sending transaction request... +++++++++++++++++++++++++++++++")    
 
         response = client.getTransactionsHistory(req)
 
-        # print("After transaction request... +++++++++++++++++++++++++++++++")
+        # logging.debug("After transaction request... +++++++++++++++++++++++++++++++")
 
         # # return f"Transaction successful. Transaction ID: {response}"
         return json.dumps({"response": MessageToDict(response)})
@@ -233,16 +232,7 @@ def get_all_transactions():
 
 
 
-# string name = 1;
-#   string email = 2;
-#   string account_type = 3;
-#   string account_number = 4;
-#   string govt_id_type = 5;
-#   string govt_id_number = 6;
-#   string loan_type = 7;
-#   double loan_amount = 8;
-#   double interest_rate = 9;
-#   string time_period = 10;
+
 
 
 @app.route('/loan/', methods=['GET', 'POST'])
@@ -271,7 +261,7 @@ def loan_form():
         response = client.ProcessLoanRequest(loan_request)
         # response.account_number = account_number
 
-        print(f"Loan response: {response.approved}")
+        logging.debug(f"Loan response: {response.approved}")
 
         return json.dumps({"response": MessageToDict(response)})
 
@@ -286,11 +276,11 @@ def loan_history():
     # channel = grpc.insecure_channel('localhost:50053')
     client = LoanServiceStub(channel)
     if request.method == 'POST':
-        print("+++++++++++++++++++++++++++++++++++++++++")
-        print(request.form['email'])
+        logging.debug("+++++++++++++++++++++++++++++++++++++++++")
+        logging.debug(request.form['email'])
         req =  LoansHistoryRequest(email = request.form['email']) 
         response = client.getLoanHistory(req)
-        print("After transaction request... +++++++++++++++++++++++++++++++")
+        logging.debug("After transaction request... +++++++++++++++++++++++++++++++")
         return json.dumps({"response": MessageToDict(response)})
     return json.dumps({"response": None})
 

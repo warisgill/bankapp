@@ -2,18 +2,23 @@ from concurrent import futures
 import random
 import datetime
 import os
-
 import grpc
+
+import logging
+# set logging to debug
+logging.basicConfig(level=logging.DEBUG)
+
+logging.
+
 
 from loan_pb2 import * 
 import loan_pb2_grpc
 
 from pymongo.mongo_client import MongoClient
-# uri = "mongodb+srv://waris:test1122@cluster0.jk2md4w.mongodb.net/?retryWrites=true&w=majority"
-# uri = "mongodb://root:example@localhost:27017/"
+uri = "mongodb+srv://waris:test1122@cluster0.jk2md4w.mongodb.net/?retryWrites=true&w=majority"
 
 db_host = os.getenv("DATABASE_HOST", "localhost")
-uri = f"mongodb://root:example@{db_host}:27017/"
+# uri = f"mongodb://root:example@{db_host}:27017/"
 client = MongoClient(uri)
 db = client['bank']
 collection_accounts = db['accounts']
@@ -63,7 +68,7 @@ class LoanService(loan_pb2_grpc.LoanServiceServicer):
         if user_account is None:
             return LoanResponse(approved=False)
         result =  self.approveLoan(user_account, loan_amount)
-        print(f"Result {result}")
+        logging.debug(f"Result {result}")
 
         message = "Loan Approved" if result else "Loan Rejected"
         loan_request['status'] = "Approved" if result else "Declined"
@@ -71,8 +76,8 @@ class LoanService(loan_pb2_grpc.LoanServiceServicer):
         collection_loans.insert_one(loan_request)
 
         response = LoanResponse(approved=result,  message=message)
-        print(f"Account: {account_number}")
-        print(f"Response: {response}")
+        logging.debug(f"Account: {account_number}")
+        logging.debug(f"Response: {response}")
         return response
     
     def getLoanHistory(self, request, context):
@@ -91,7 +96,7 @@ class LoanService(loan_pb2_grpc.LoanServiceServicer):
             if acc['account_number'] == account_num:
                 r = acc
                 break     
-        # print(f"Account {r}")
+        # logging.debug(f"Account {r}")
         return r
     
     def approveLoan(self, account, amount):

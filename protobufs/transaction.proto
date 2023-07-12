@@ -10,8 +10,10 @@ message TransactionRequest {
 }
 
 message TransactionResponse {
-  bool success = 1;
-  string message = 2;
+  // string result = 1;
+  string approved = 1;
+  // string  = 2;
+  string msg = 2;
 }
 
 message GetALLTransactionsRequest{
