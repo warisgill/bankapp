@@ -80,6 +80,12 @@ def serve():
     accounts_pb2_grpc.add_AccountDetailsServiceServicer_to_server(AccountDetailsService(), server)
     server.add_insecure_port('[::]:50051')
     # server.add_insecure_port(f"{recommendations_host}:50051")
+    print(server._state)
+    
+    # print server ip and port
+    print(f"Server started at port 50051")
+    #print IP 
+
     server.start()
     server.wait_for_termination()
 
