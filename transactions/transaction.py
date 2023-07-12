@@ -47,11 +47,15 @@ class TransactionService(transaction_pb2_grpc.TransactionServiceServicer):
 
         transactions_list = []
         for t in transactions_credit:
-            temp_t = Transaction(account_number=t['receiver'], amount=t['amount'], reason=t['reason'], time_stamp=f"{t['time_stamp']}", type= "credit")
+            # logging.debug(f"----> t: {list(t.keys())}")
+            # logging
+
+            temp_t = Transaction(account_number=t['receiver'], amount=t['amount'], reason=t['reason'], time_stamp=f"{t['time_stamp']}", type= "credit", transaction_id=str(t['_id']))
             transactions_list.append(temp_t)
         
         for t in transactions_debit:
-            temp_t = Transaction(account_number=t['sender'], amount=t['amount'], reason=t['reason'], time_stamp=f"{t['time_stamp']}", type= "debit")
+            # logging.debug(f"----> t: {list(t.keys())}")
+            temp_t = Transaction(account_number=t['sender'], amount=t['amount'], reason=t['reason'], time_stamp=f"{t['time_stamp']}", type= "debit", transaction_id=str(t['_id']))
             transactions_list.append(temp_t)
         
         # logging.debug(transactions_list)

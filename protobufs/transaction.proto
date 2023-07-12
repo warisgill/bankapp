@@ -26,6 +26,7 @@ message Transaction{
   string reason=3;
   string time_stamp = 4;
   string type = 5;
+  string transaction_id = 6;
 }
 
 message GetALLTransactionsResponse{
