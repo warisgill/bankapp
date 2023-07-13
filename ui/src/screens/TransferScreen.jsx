@@ -101,6 +101,7 @@ const TransferScreen = () => {
       data.append("amount", transferAmount);
 
       const res = await postTransfer(data).unwrap();
+      console.log(res);
       dispatch(createTransfer({ ...res }));
       toast.success("Money transfered!", {
         className: "toast-container-custom",
@@ -129,9 +130,7 @@ const TransferScreen = () => {
   };
 
   const submitHandlerExternal = async (e) => {
-    console.log("Here")
     e.preventDefault();
-    console.log(userInfo.email, receiverEmail)
     if (userInfo.email === receiverEmail) {
       toast.error("Sender and receiver cannot be same!", {
         className: "toast-container-custom",

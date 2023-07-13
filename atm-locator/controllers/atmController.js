@@ -2,23 +2,30 @@ import asyncHandler from "express-async-handler";
 import ATM from "../models/atmModel.js";
 
 // @desc    Returns list of all ATMs
-// @route   GET /atm
+// @route   POST /atm
 // @access  Public
 const getATMs = asyncHandler(async (req, res) => {
-  const ATMs = await ATM.find({});
-  if (ATMs) {
-    res.json(ATMs);
+  let query = {};
+  if (req.body.isOpenNow) {
+    query.isOpen = true;
+  }
+  if (req.body.isInterPlanetary) {
+    query.interPlanetary = true;
+  }
+  const ATMs = await ATM.find(query, { name: 1, coordinates: 1, address: 1, isOpen: 1 });
+  const shuffledATMs = [...ATMs].sort(() => Math.random() - 0.5).slice(0, 4);
+  if (shuffledATMs) {
+    res.status(200).json(shuffledATMs);
   } else {
-    res.status(404);
+    res.status(404).json("No ATMs found");
     throw new Error("No results found");
   }
 });
 
 // @desc    Add new ATM
 // @route   POST /atm/add
-// @access  Public
+// @access  Private
 const addATM = asyncHandler(async (req, res) => {
-  console.log(req.body);
   const {
     name,
     street,
@@ -33,6 +40,7 @@ const addATM = asyncHandler(async (req, res) => {
     atmHours,
     numberOfATMs,
     isOpen,
+    interPlanetary,
   } = req.body;
   const atm = new ATM({
     name,
@@ -54,6 +62,7 @@ const addATM = asyncHandler(async (req, res) => {
     atmHours,
     numberOfATMs,
     isOpen,
+    interPlanetary,
   });
 
   const createdATM = await atm.save();
@@ -64,4 +73,24 @@ const addATM = asyncHandler(async (req, res) => {
     throw new Error("Could not create ATM");
   }
 });
-export { getATMs, addATM };
+
+// @desc    Add new ATM
+// @route   GET /atm/:id
+// @access  Public
+const getSpecificATM = asyncHandler(async (req, res) => {
+  const atm = await ATM.findById(req.params.id);
+  if (atm) {
+    res.status(200).json({
+      coordinates: atm.coordinates,
+      timings: atm.timings,
+      atmHours: atm.atmHours,
+      numberOfATMs: atm.numberOfATMs,
+      isOpen: atm.isOpen,
+    });
+  } else {
+    res.status(404).json({ message: "ATM information not found" });
+    throw new Error("ATM not found");
+  }
+});
+
+export { getATMs, addATM, getSpecificATM };
