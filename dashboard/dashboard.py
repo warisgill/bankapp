@@ -230,6 +230,30 @@ def get_all_transactions():
     
     return json.dumps({"response": None})
 
+@app.route('/transaction/transaction-with-id', methods=['GET', 'POST'])
+def GetTransactionByID():
+    if request.method == 'POST':
+        transaction_id = request.form['transaction_id'] # type: ignore
+        
+        transaction_host = os.getenv("TRANSACTION_HOST", "localhost")
+        channel = grpc.insecure_channel(f'{transaction_host}:50052')
+        # channel = grpc.insecure_channel('localhost:50052')
+        client = TransactionServiceStub(channel)
+
+        req = TransactionByIDRequest(
+            transaction_id=transaction_id)
+
+        # logging.debug("Sending transaction request... +++++++++++++++++++++++++++++++")    
+
+        response = client.getTransactionByID(req)
+
+        # logging.debug("After transaction request... +++++++++++++++++++++++++++++++")
+
+        # # return f"Transaction successful. Transaction ID: {response}"
+        return json.dumps({"response": MessageToDict(response)})
+    
+    return json.dumps({"response": None})
+
 
 
 

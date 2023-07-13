@@ -1,5 +1,6 @@
 from concurrent import futures
 import datetime
+from bson.objectid import ObjectId
 import os
 import grpc
 # Configure the logging settings
@@ -32,6 +33,17 @@ class TransactionService(transaction_pb2_grpc.TransactionServiceServicer):
         sender_account =  self.__getAccount(request.sender_account_number)
         receiver_account = self.__getAccount(request.receiver_account_number)
         return self.__transfer(sender_account, receiver_account, request.amount, request.reason)
+    
+    def getTransactionByID(self, request, context):
+        transaction_id = request.transaction_id
+        logging.debug(f"Transaction ID: {transaction_id}")
+        transaction = collection_transactions.find_one({"_id": ObjectId(transaction_id)})
+        logging.debug(f"Transaction: {transaction}")
+        if transaction is None:
+            return Transaction()
+        return Transaction(account_number=transaction['receiver'], amount=transaction['amount'], reason=transaction['reason'], time_stamp=f"{transaction['time_stamp']}", type= "credit", transaction_id=str(transaction['_id']))
+             
+
 
     def getTransactionsHistory(self, request, context):
         account_number = request.account_number 

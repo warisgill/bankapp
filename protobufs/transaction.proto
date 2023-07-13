@@ -41,10 +41,14 @@ message ZelleRequest {
   string reason= 4;
 }
 
+message TransactionByIDRequest{
+  string transaction_id = 1;
+}
 
 
 service TransactionService {
   rpc SendMoney(TransactionRequest) returns (TransactionResponse);
   rpc getTransactionsHistory(GetALLTransactionsRequest) returns (GetALLTransactionsResponse);
   rpc Zelle(ZelleRequest) returns (TransactionResponse);
+  rpc getTransactionByID(TransactionByIDRequest) returns (Transaction);
 }
