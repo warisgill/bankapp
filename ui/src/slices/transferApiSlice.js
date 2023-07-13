@@ -10,7 +10,14 @@ export const transferApiSlice = apiSlice.injectEndpoints({
         body: data 
       }),
     }),
+    postTransferExternal: builder.mutation({
+      query: (data) => ({
+        url: transferUrl + "/zelle/",
+        method: "POST",
+        body: data,
+      }),
+    }),
   }),
 });
 
-export const { usePostTransferMutation } = transferApiSlice;
+export const { usePostTransferMutation, usePostTransferExternalMutation } = transferApiSlice;

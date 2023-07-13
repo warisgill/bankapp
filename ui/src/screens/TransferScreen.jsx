@@ -7,10 +7,12 @@ import {
   Col,
   DropdownButton,
   Dropdown,
+  Tabs,
+  Tab,
 } from "react-bootstrap";
 import FormContainer from "../components/FormContainer";
 import { useSelector, useDispatch } from "react-redux";
-import { usePostTransferMutation } from "../slices/transferApiSlice";
+import { usePostTransferMutation, usePostTransferExternalMutation } from "../slices/transferApiSlice";
 import { createTransfer } from "../slices/transferSlice";
 import { deleteSelectedAccount } from "../slices/accountSlice";
 import { useGetAllAccountsMutation } from "../slices/accountApiSlice";
@@ -35,24 +37,40 @@ const TransferScreen = () => {
     allAccounts = [];
   }
 
+  const [transferType, setTransferType] = useState("internal");
   const [accType, setAccType] = useState(
     selectedAccount ? selectedAccount.accountType : ""
   );
   const [accNo, setAccNo] = useState(
     selectedAccount ? selectedAccount.accountNumber : ""
   );
+  const [receiverEmail, setReceiverEmail] = useState("");
   const [receiverAcc, setReceiverAcc] = useState("");
   const [receiverAccNo, setReceiverAccNo] = useState("");
   const [transferAmount, setTransferAmount] = useState("");
   const [reason, setReason] = useState("");
   const [balance, setBalance] = useState(selectedAccount.balance);
 
+  const checkingAccount = allAccounts.find(
+    (account) => account.accountType === "Checking"
+  );
+
+  const checkingAccountBalance = checkingAccount
+    ? checkingAccount.balance
+    : null;
+
   const { userInfo } = useSelector((state) => state.auth);
+  const toggleTransferType = (key) => {
+    setTransferType(key);
+    setReason("");
+    setTransferAmount("");
+  };
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const [postTransfer, { isLoading }] = usePostTransferMutation();
+  const [postTransferExternal, { isLoading: isLoading2 }] = usePostTransferExternalMutation();
   const [getAllAccounts, { isLoading: isLoading1 }] =
     useGetAllAccountsMutation();
 
@@ -110,6 +128,58 @@ const TransferScreen = () => {
     }
   };
 
+  const submitHandlerExternal = async (e) => {
+    console.log("Here")
+    e.preventDefault();
+    console.log(userInfo.email, receiverEmail)
+    if (userInfo.email === receiverEmail) {
+      toast.error("Sender and receiver cannot be same!", {
+        className: "toast-container-custom",
+        autoClose: true,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+      });
+      return;
+    }
+
+    try {
+      const data_external = new FormData();
+      data_external.append("sender_email", userInfo.email);
+      data_external.append("receiver_email", receiverEmail);
+      data_external.append("reason", reason);
+      data_external.append("amount", transferAmount);
+
+      const res = await postTransferExternal(data_external).unwrap();
+      console.log(res);
+      toast.success("Money transfered!", {
+        className: "toast-container-custom",
+        autoClose: false,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+      });
+      navigate("/");
+    } catch (err) {
+      toast.error(err?.data?.message || err.error, {
+        className: "toast-container-custom",
+        autoClose: true,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+      });
+    }
+  };
+
   const fetchAccounts = async () => {
     const data = new FormData();
     data.append("email_id", userInfo.email);
@@ -147,8 +217,331 @@ const TransferScreen = () => {
       >
         TRANSFER &nbsp; MONEY
       </h4>
+      <Row>
+        <Col md={1} />
+        <Col md={9}>
+          <Tabs
+            defaultActiveKey="internal"
+            id="uncontrolled-tab-example"
+            onSelect={toggleTransferType}
+            className="my-3"
+            style={{ display: "flex", width: "100%" }}
+          >
+            <Tab eventKey="internal" title="Internal Transfers">
+              <Form>
+                <Row className="mt-4">
+                  <Col md={4}>
+                    <DropdownButton
+                      id="acc_type"
+                      className="mt-5"
+                      variant="dark"
+                      disabled={accNo ? true : false}
+                      title={accType ? accType : "Select"}
+                      onSelect={(option) => setAccType(option)}
+                      style={{ width: "100%" }}
+                    >
+                      <Dropdown.Item eventKey="*required">
+                        Your account type
+                      </Dropdown.Item>
+                      <Dropdown.Item eventKey="Savings">Savings</Dropdown.Item>
+                      <Dropdown.Item eventKey="Checking">
+                        Checking
+                      </Dropdown.Item>
+                      <Dropdown.Item eventKey="Investment">
+                        Investment
+                      </Dropdown.Item>
+                      <Dropdown.Item eventKey="Money Market">
+                        Money Market
+                      </Dropdown.Item>
+                    </DropdownButton>
+                  </Col>
+                  <Col md={8}>
+                    <Form.Label className="mt-3">
+                      Sender account number
+                    </Form.Label>
+                    <Form.Select
+                      value={accNo ? accNo : "Select Account"}
+                      onChange={(e) => {
+                        const selectedAccountNumber = e.target.value;
+                        const selectedAccount = allAccounts.find(
+                          (account) =>
+                            account.accountNumber === selectedAccountNumber
+                        );
+                        setAccNo(selectedAccountNumber);
+                        setAccType(
+                          selectedAccount ? selectedAccount.accountType : null
+                        );
+                        setBalance(
+                          selectedAccount ? selectedAccount.balance : null
+                        );
+                      }}
+                      style={{ width: "100%" }}
+                      disabled={accNo ? true : false}
+                    >
+                      <option value="">Select Account</option>
+                      {allAccounts.map((account) => (
+                        <option
+                          key={account.accountNumber}
+                          value={account.accountNumber}
+                        >
+                          {account.accountNumber}
+                        </option>
+                      ))}
+                    </Form.Select>
+                  </Col>
+                </Row>
 
-      <Form onSubmit={submitHandler}>
+                <Row className="mt-3">
+                  <Col md={4}>
+                    <DropdownButton
+                      id="receiver_acc_type"
+                      className="mt-5"
+                      variant="dark"
+                      title={receiverAcc ? receiverAcc : "Select"}
+                      onSelect={(e) => setReceiverAcc(e)}
+                      style={{ width: "100%" }}
+                      disabled={receiverAccNo ? true : false}
+                    >
+                      <Dropdown.Item eventKey="">
+                        Receiver account type
+                      </Dropdown.Item>
+                      <Dropdown.Item eventKey="Savings">Savings</Dropdown.Item>
+                      <Dropdown.Item eventKey="Checking">
+                        Checking
+                      </Dropdown.Item>
+                      <Dropdown.Item eventKey="Investment">
+                        Investment
+                      </Dropdown.Item>
+                      <Dropdown.Item eventKey="Money Market">
+                        Money Market
+                      </Dropdown.Item>
+                    </DropdownButton>
+                  </Col>
+                  <Col md={8}>
+                    <Form.Group className="mt-3" controlId="receiver_acc_no">
+                      <Form.Label>Receiver account number</Form.Label>
+                      <Form.Select
+                        value={receiverAccNo ? receiverAccNo : "Select Account"}
+                        onChange={(e) => {
+                          const r_selectedAccountNumber = e.target.value;
+                          const r_selectedAccount = allAccounts.find(
+                            (account) =>
+                              account.accountNumber === r_selectedAccountNumber
+                          );
+                          setReceiverAccNo(r_selectedAccountNumber);
+                          setReceiverAcc(
+                            r_selectedAccount
+                              ? r_selectedAccount.accountType
+                              : null
+                          );
+                        }}
+                        style={{ width: "100%" }}
+                      >
+                        <option value="">Select Account</option>
+                        {allAccounts.map((account) => (
+                          <option
+                            key={account.accountNumber}
+                            value={account.accountNumber}
+                          >
+                            {account.accountNumber}
+                          </option>
+                        ))}
+                      </Form.Select>
+                    </Form.Group>
+                  </Col>
+                </Row>
+
+                <Row className="mt-4">
+                  {selectedAccount.balance !== "" ? (
+                    <>
+                      <Col md={4}>
+                        <Form.Group className="my-3" controlId="balance">
+                          <Form.Label>Your balance</Form.Label>
+                          <Form.Control
+                            value={`$ ${balance ? balance.toFixed(2) : "0.00"}`}
+                            multiple={false}
+                            disabled
+                          />
+                        </Form.Group>
+                      </Col>
+                      <Col md={8}>
+                        <Form.Group
+                          className="my-3"
+                          controlId="transfer_amount"
+                        >
+                          <Form.Label>Amount to be transferred</Form.Label>
+                          <Form.Control
+                            type="text"
+                            pattern="^(?!0\d)\d*(\.\d+)?$"
+                            placeholder="Enter amount to be transferred (in USD)"
+                            value={transferAmount}
+                            onChange={(e) => setTransferAmount(e.target.value)}
+                            onWheel={(e) => e.target.blur()}
+                          />
+                        </Form.Group>
+                      </Col>
+                    </>
+                  ) : (
+                    <Col md={12}>
+                      <Form.Group className="my-3" controlId="transfer_amount">
+                        <Form.Label>Amount to be transferred</Form.Label>
+                        <Form.Control
+                          type="text"
+                          pattern="^(?!0\d)\d*(\.\d+)?$"
+                          placeholder="Enter amount to be transferred (in USD)"
+                          value={transferAmount}
+                          onChange={(e) => setTransferAmount(e.target.value)}
+                          onWheel={(e) => e.target.blur()}
+                        />
+                      </Form.Group>
+                    </Col>
+                  )}
+                </Row>
+
+                <Row>
+                  <Form.Group className="my-3" controlId="reason">
+                    <Form.Label>Reason</Form.Label>
+                    <Form.Control
+                      type="text"
+                      placeholder="Enter the reason for transfer (Optional)"
+                      value={reason}
+                      onChange={(e) => setReason(e.target.value)}
+                    ></Form.Control>
+                  </Form.Group>
+                </Row>
+
+                <Row>
+                  <Button
+                    disabled={isLoading}
+                    style={{ width: "100%" }}
+                    type="submit"
+                    variant="dark"
+                    className="mt-4 mr-3"
+                    onClick={submitHandler}
+                  >
+                    Make Payment
+                  </Button>
+                </Row>
+              </Form>
+            </Tab>
+
+
+
+            <Tab eventKey="external" title="External Transfers">
+              {checkingAccount ? (
+                <Form>
+                <Row className="mt-4">
+                  <Col md={4}>
+                    <DropdownButton
+                      id="acc_type"
+                      className="mt-5"
+                      variant="dark"
+                      disabled
+                      title={"Checking"}
+                      style={{ width: "100%" }}
+                    />
+                  </Col>
+                  <Col md={8}>
+                    <Form.Label className="mt-3">Sender email ID</Form.Label>
+                    <Form.Control
+                      value={userInfo.email}
+                      style={{ width: "100%" }}
+                      disabled
+                    ></Form.Control>
+                  </Col>
+                </Row>
+
+                <Row className="mt-3">
+                  <Col md={4}>
+                    <DropdownButton
+                      id="acc_type"
+                      className="mt-5"
+                      variant="dark"
+                      disabled
+                      title={"Checking"}
+                      style={{ width: "100%" }}
+                    />
+                  </Col>
+                  <Col md={8}>
+                    <Form.Group className="mt-3" controlId="receiver_acc_no">
+                      <Form.Label>Receiver email ID</Form.Label>
+                      <Form.Control
+                        value={receiverEmail ? receiverEmail : ""}
+                        onChange={(e) => setReceiverEmail(e.target.value)}
+                        style={{ width: "100%" }}
+                      ></Form.Control>
+                    </Form.Group>
+                  </Col>
+                </Row>
+
+                <Row className="mt-4">
+                  <Col md={4}>
+                        <Form.Group className="my-3" controlId="balance">
+                          <Form.Label>Your balance</Form.Label>
+                          <Form.Control
+                            value={`$ ${checkingAccountBalance ? checkingAccountBalance.toFixed(2) : "0.00"}`}
+                            multiple={false}
+                            disabled
+                          />
+                        </Form.Group>
+                      </Col>
+                      <Col md={8}>
+                        <Form.Group
+                          className="my-3"
+                          controlId="transfer_amount"
+                        >
+                          <Form.Label>Amount to be transferred</Form.Label>
+                          <Form.Control
+                            type="text"
+                            pattern="^(?!0\d)\d*(\.\d+)?$"
+                            placeholder="Enter amount to be transferred (in USD)"
+                            value={transferAmount}
+                            onChange={(e) => setTransferAmount(e.target.value)}
+                            onWheel={(e) => e.target.blur()}
+                          />
+                        </Form.Group>
+                      </Col>
+                </Row>
+
+                <Row>
+                  <Form.Group className="my-3" controlId="reason">
+                    <Form.Label>Reason</Form.Label>
+                    <Form.Control
+                      type="text"
+                      placeholder="Enter the reason for transfer (Optional)"
+                      value={reason}
+                      onChange={(e) => setReason(e.target.value)}
+                    ></Form.Control>
+                  </Form.Group>
+                </Row>
+
+                <Row>
+                  <Button
+                    disabled={isLoading}
+                    style={{ width: "100%" }}
+                    type="submit"
+                    variant="dark"
+                    className="mt-4 mr-3"
+                    onClick={submitHandlerExternal}
+                  >
+                    Make Payment
+                  </Button>
+                </Row>
+              </Form>
+              ) : (
+                <h5 className="text-center my-5 py-5">
+                  You do not have a checking account. Please create one to make
+                  external transfers.
+                </h5>
+              )}
+              
+            </Tab>
+          </Tabs>
+        </Col>
+        <Col md={1} />
+      </Row>
+
+      {/* <Form onSubmit={submitHandler}>
         <Row className="mt-4">
           <Col md={4}>
             <DropdownButton
@@ -321,7 +714,7 @@ const TransferScreen = () => {
             Make Payment
           </Button>
         </Row>
-      </Form>
+      </Form> */}
 
       {isLoading && <Loader />}
     </FormContainer>
