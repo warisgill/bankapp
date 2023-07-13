@@ -3,20 +3,26 @@ import random
 import datetime
 import os
 import grpc
+
+import logging
+# set logging to debug
+logging.basicConfig(level=logging.DEBUG)
+
  
 
 from accounts_pb2 import *
 
 import accounts_pb2_grpc
 
+# logging.debug("Hello local")
 
 # creat a list of accounts and fill with dummy data
 
 from pymongo.mongo_client import MongoClient
-# uri = "mongodb+srv://waris:test1122@cluster0.jk2md4w.mongodb.net/?retryWrites=true&w=majority"
-# uri = "mongodb://root:example@localhost:27017/"
+uri = "mongodb+srv://waris:test1122@cluster0.jk2md4w.mongodb.net/?retryWrites=true&w=majority"
+
 db_host = os.getenv("DATABASE_HOST", "localhost")
-uri = f"mongodb://root:example@{db_host}:27017/"
+# uri = f"mongodb://root:example@{db_host}:27017/"
 client = MongoClient(uri)
 db = client['bank']
 collection = db['accounts']
@@ -65,7 +71,7 @@ class AccountDetailsService(accounts_pb2_grpc.AccountDetailsServiceServicer):
         accounts = collection.find({"email_id": email_id})
         account_list = []
         for account in accounts:
-            # print(account["balance"])
+            # logging.debug(account["balance"])
             account_list.append(Account(account_number=account['account_number'], email_id=account['email_id'], account_type=account['account_type'], address=account['address'], govt_id_number=account['govt_id_number'], government_id_type=account['government_id_type'], name =account['name'], balance=account['balance'], currency=account['currency']))
         
         return GetAccountsResponse(accounts=account_list)
@@ -80,10 +86,8 @@ def serve():
     accounts_pb2_grpc.add_AccountDetailsServiceServicer_to_server(AccountDetailsService(), server)
     server.add_insecure_port('[::]:50051')
     # server.add_insecure_port(f"{recommendations_host}:50051")
-    print(server._state)
-    
     # print server ip and port
-    print(f"Server started at port 50051")
+    logging.debug(f"Server started at port 50051")
     #print IP 
 
     server.start()

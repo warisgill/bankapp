@@ -10,8 +10,10 @@ message TransactionRequest {
 }
 
 message TransactionResponse {
-  bool success = 1;
-  string message = 2;
+  // string result = 1;
+  string approved = 1;
+  // string  = 2;
+  string msg = 2;
 }
 
 message GetALLTransactionsRequest{
@@ -24,6 +26,7 @@ message Transaction{
   string reason=3;
   string time_stamp = 4;
   string type = 5;
+  string transaction_id = 6;
 }
 
 message GetALLTransactionsResponse{
@@ -38,10 +41,14 @@ message ZelleRequest {
   string reason= 4;
 }
 
+message TransactionByIDRequest{
+  string transaction_id = 1;
+}
 
 
 service TransactionService {
   rpc SendMoney(TransactionRequest) returns (TransactionResponse);
   rpc getTransactionsHistory(GetALLTransactionsRequest) returns (GetALLTransactionsResponse);
   rpc Zelle(ZelleRequest) returns (TransactionResponse);
+  rpc getTransactionByID(TransactionByIDRequest) returns (Transaction);
 }
