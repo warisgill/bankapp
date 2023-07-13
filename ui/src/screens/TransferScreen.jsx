@@ -12,7 +12,10 @@ import {
 } from "react-bootstrap";
 import FormContainer from "../components/FormContainer";
 import { useSelector, useDispatch } from "react-redux";
-import { usePostTransferMutation, usePostTransferExternalMutation } from "../slices/transferApiSlice";
+import {
+  usePostTransferMutation,
+  usePostTransferExternalMutation,
+} from "../slices/transferApiSlice";
 import { createTransfer } from "../slices/transferSlice";
 import { deleteSelectedAccount } from "../slices/accountSlice";
 import { useGetAllAccountsMutation } from "../slices/accountApiSlice";
@@ -70,7 +73,8 @@ const TransferScreen = () => {
   const dispatch = useDispatch();
 
   const [postTransfer, { isLoading }] = usePostTransferMutation();
-  const [postTransferExternal, { isLoading: isLoading2 }] = usePostTransferExternalMutation();
+  const [postTransferExternal, { isLoading: isLoading2 }] =
+    usePostTransferExternalMutation();
   const [getAllAccounts, { isLoading: isLoading1 }] =
     useGetAllAccountsMutation();
 
@@ -278,14 +282,19 @@ const TransferScreen = () => {
                       disabled={accNo ? true : false}
                     >
                       <option value="">Select Account</option>
-                      {allAccounts.map((account) => (
-                        <option
-                          key={account.accountNumber}
-                          value={account.accountNumber}
-                        >
-                          {account.accountNumber}
-                        </option>
-                      ))}
+                      {allAccounts.map((account) => {
+                        if (account.accountNumber !== receiverAccNo) {
+                          return (
+                            <option
+                              key={account.accountNumber}
+                              value={account.accountNumber}
+                            >
+                              {account.accountNumber}
+                            </option>
+                          );
+                        }
+                        return null;
+                      })}
                     </Form.Select>
                   </Col>
                 </Row>
@@ -337,14 +346,19 @@ const TransferScreen = () => {
                         style={{ width: "100%" }}
                       >
                         <option value="">Select Account</option>
-                        {allAccounts.map((account) => (
-                          <option
-                            key={account.accountNumber}
-                            value={account.accountNumber}
-                          >
-                            {account.accountNumber}
-                          </option>
-                        ))}
+                        {allAccounts.map((account) => {
+                          if (account.accountNumber !== accNo) {
+                            return (
+                              <option
+                                key={account.accountNumber}
+                                value={account.accountNumber}
+                              >
+                                {account.accountNumber}
+                              </option>
+                            );
+                          }
+                          return null;
+                        })}
                       </Form.Select>
                     </Form.Group>
                   </Col>
@@ -424,116 +438,114 @@ const TransferScreen = () => {
               </Form>
             </Tab>
 
-
-
             <Tab eventKey="external" title="External Transfers">
               {checkingAccount ? (
                 <Form>
-                <Row className="mt-4">
-                  <Col md={4}>
-                    <DropdownButton
-                      id="acc_type"
-                      className="mt-5"
-                      variant="dark"
-                      disabled
-                      title={"Checking"}
-                      style={{ width: "100%" }}
-                    />
-                  </Col>
-                  <Col md={8}>
-                    <Form.Label className="mt-3">Sender email ID</Form.Label>
-                    <Form.Control
-                      value={userInfo.email}
-                      style={{ width: "100%" }}
-                      disabled
-                    ></Form.Control>
-                  </Col>
-                </Row>
-
-                <Row className="mt-3">
-                  <Col md={4}>
-                    <DropdownButton
-                      id="acc_type"
-                      className="mt-5"
-                      variant="dark"
-                      disabled
-                      title={"Checking"}
-                      style={{ width: "100%" }}
-                    />
-                  </Col>
-                  <Col md={8}>
-                    <Form.Group className="mt-3" controlId="receiver_acc_no">
-                      <Form.Label>Receiver email ID</Form.Label>
-                      <Form.Control
-                        value={receiverEmail ? receiverEmail : ""}
-                        onChange={(e) => setReceiverEmail(e.target.value)}
+                  <Row className="mt-4">
+                    <Col md={4}>
+                      <DropdownButton
+                        id="acc_type"
+                        className="mt-5"
+                        variant="dark"
+                        disabled
+                        title={"Checking"}
                         style={{ width: "100%" }}
+                      />
+                    </Col>
+                    <Col md={8}>
+                      <Form.Label className="mt-3">Sender email ID</Form.Label>
+                      <Form.Control
+                        value={userInfo.email}
+                        style={{ width: "100%" }}
+                        disabled
+                      ></Form.Control>
+                    </Col>
+                  </Row>
+
+                  <Row className="mt-3">
+                    <Col md={4}>
+                      <DropdownButton
+                        id="acc_type"
+                        className="mt-5"
+                        variant="dark"
+                        disabled
+                        title={"Checking"}
+                        style={{ width: "100%" }}
+                      />
+                    </Col>
+                    <Col md={8}>
+                      <Form.Group className="mt-3" controlId="receiver_acc_no">
+                        <Form.Label>Receiver email ID</Form.Label>
+                        <Form.Control
+                          value={receiverEmail ? receiverEmail : ""}
+                          onChange={(e) => setReceiverEmail(e.target.value)}
+                          style={{ width: "100%" }}
+                        ></Form.Control>
+                      </Form.Group>
+                    </Col>
+                  </Row>
+
+                  <Row className="mt-4">
+                    <Col md={4}>
+                      <Form.Group className="my-3" controlId="balance">
+                        <Form.Label>Your balance</Form.Label>
+                        <Form.Control
+                          value={`$ ${
+                            checkingAccountBalance
+                              ? checkingAccountBalance.toFixed(2)
+                              : "0.00"
+                          }`}
+                          multiple={false}
+                          disabled
+                        />
+                      </Form.Group>
+                    </Col>
+                    <Col md={8}>
+                      <Form.Group className="my-3" controlId="transfer_amount">
+                        <Form.Label>Amount to be transferred</Form.Label>
+                        <Form.Control
+                          type="text"
+                          pattern="^(?!0\d)\d*(\.\d+)?$"
+                          placeholder="Enter amount to be transferred (in USD)"
+                          value={transferAmount}
+                          onChange={(e) => setTransferAmount(e.target.value)}
+                          onWheel={(e) => e.target.blur()}
+                        />
+                      </Form.Group>
+                    </Col>
+                  </Row>
+
+                  <Row>
+                    <Form.Group className="my-3" controlId="reason">
+                      <Form.Label>Reason</Form.Label>
+                      <Form.Control
+                        type="text"
+                        placeholder="Enter the reason for transfer (Optional)"
+                        value={reason}
+                        onChange={(e) => setReason(e.target.value)}
                       ></Form.Control>
                     </Form.Group>
-                  </Col>
-                </Row>
+                  </Row>
 
-                <Row className="mt-4">
-                  <Col md={4}>
-                        <Form.Group className="my-3" controlId="balance">
-                          <Form.Label>Your balance</Form.Label>
-                          <Form.Control
-                            value={`$ ${checkingAccountBalance ? checkingAccountBalance.toFixed(2) : "0.00"}`}
-                            multiple={false}
-                            disabled
-                          />
-                        </Form.Group>
-                      </Col>
-                      <Col md={8}>
-                        <Form.Group
-                          className="my-3"
-                          controlId="transfer_amount"
-                        >
-                          <Form.Label>Amount to be transferred</Form.Label>
-                          <Form.Control
-                            type="text"
-                            pattern="^(?!0\d)\d*(\.\d+)?$"
-                            placeholder="Enter amount to be transferred (in USD)"
-                            value={transferAmount}
-                            onChange={(e) => setTransferAmount(e.target.value)}
-                            onWheel={(e) => e.target.blur()}
-                          />
-                        </Form.Group>
-                      </Col>
-                </Row>
-
-                <Row>
-                  <Form.Group className="my-3" controlId="reason">
-                    <Form.Label>Reason</Form.Label>
-                    <Form.Control
-                      type="text"
-                      placeholder="Enter the reason for transfer (Optional)"
-                      value={reason}
-                      onChange={(e) => setReason(e.target.value)}
-                    ></Form.Control>
-                  </Form.Group>
-                </Row>
-
-                <Row>
-                  <Button
-                    disabled={isLoading}
-                    style={{ width: "100%" }}
-                    type="submit"
-                    variant="dark"
-                    className="mt-4 mr-3"
-                    onClick={submitHandlerExternal}
-                  >
-                    Make Payment
-                  </Button>
-                </Row>
-              </Form>
+                  <Row>
+                    <Button
+                      disabled={isLoading}
+                      style={{ width: "100%" }}
+                      type="submit"
+                      variant="dark"
+                      className="mt-4 mr-3"
+                      onClick={submitHandlerExternal}
+                    >
+                      Make Payment
+                    </Button>
+                  </Row>
+                </Form>
               ) : (
                 <h5 className="text-center my-5 py-5">
                   You do not have a checking account. Please create one to make
                   external transfers.
                 </h5>
               )}
-              
             </Tab>
           </Tabs>
         </Col>
