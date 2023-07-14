@@ -75,6 +75,8 @@ const LoanScreen = () => {
     allAccounts = [];
   }
 
+  const [selectedAccount, setSelectedAccount] = useState("");
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -560,9 +562,24 @@ const LoanScreen = () => {
             style={{ fontSize: "2.25vh" }}
             className="bg-dark text-white text-center"
           >
-            Eligible Loans
+            Loans For You
           </Card.Header>
         </Card>
+
+        <Form.Select
+          style={{ marginTop: "2vh" }}
+          value={selectedAccount ? selectedAccount : "Select Account"}
+          multiple={false}
+          onChange={(e) => setSelectedAccount(e.target.value)}
+          className="py-2 px-2 text-center"
+        >
+          <option value="Select Account">Select Account</option>
+          {allAccounts.map((account) => (
+            <option key={account.accountNumber} value={account.accountNumber}>
+              {account.accountNumber}
+            </option>
+          ))}
+        </Form.Select>
         <CustomCard
           title="Base Camp"
           text={
@@ -593,12 +610,14 @@ const LoanScreen = () => {
                   top: "1rem",
                   right: "1rem",
                 }}
-              >Eligible</Badge>
+              >
+                Eligible
+              </Badge>
             </>
           }
         />
 
-        <Card style={{marginTop: "5vh"}}>
+        <Card style={{ marginTop: "5vh" }}>
           <Card.Header
             style={{ fontSize: "2.25vh" }}
             className="bg-dark text-white text-center"
@@ -613,7 +632,7 @@ const LoanScreen = () => {
                 title={`${loan.loanType} Loan for $${loan.loanAmount}`}
                 text={
                   <>
-                    Interest Rate: {loan.interestRate}%, Time Period: 
+                    Interest Rate: {loan.interestRate}%, Time Period:
                     {loan.timePeriod} years <br />
                     Account: {loan.accountNumber}
                   </>
