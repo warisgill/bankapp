@@ -3,15 +3,12 @@ import random
 import datetime
 import os
 import grpc
-
 import logging
 # set logging to debug
 logging.basicConfig(level=logging.DEBUG)
 
- 
 
 from accounts_pb2 import *
-
 import accounts_pb2_grpc
 
 # logging.debug("Hello local")
@@ -26,9 +23,6 @@ uri = f"mongodb://root:example@{db_host}:27017/"
 client = MongoClient(uri)
 db = client['bank']
 collection = db['accounts']
-
-
-
 
 
 class AccountDetailsService(accounts_pb2_grpc.AccountDetailsServiceServicer):
