@@ -1,7 +1,10 @@
 import { useState } from "react";
 import { toast } from "react-toastify";
 import { useDispatch } from "react-redux";
-import { useGetAtmsMutation } from "../slices/atmsApiSlice";
+import {
+  useGetAtmsMutation,
+  useGetParticularATMMutation,
+} from "../slices/atmsApiSlice";
 import { setAtms } from "../slices/atmSlice";
 import {
   Container,
@@ -20,18 +23,25 @@ const AtmScreen = () => {
   const [location, setLocation] = useState("");
   const [finalLocation, setFinalLocation] = useState("");
   const [atmsList, setAtmsList] = useState([]);
+  const [isOpenNow, setIsOpenNow] = useState(false);
+  const [isInterPlanetary, setIsInterPlanetary] = useState(false);
 
   const dispatch = useDispatch();
 
   const [getAtmsList, { isLoading }] = useGetAtmsMutation();
+  const [getParticularATM, { isLoading1 }] = useGetParticularATMMutation();
 
   const [selectedCard, setSelectedCard] = useState(null);
+  const [selectedCardInfo, setSelectedCardInfo] = useState(null);
 
-  const handleCardClick = (atm) => {
+  const handleCardClick = async (atm) => {
     if (selectedCard === atm) {
       setSelectedCard(null);
+      setSelectedCardInfo(null);
     } else {
+      const res = await getParticularATM(atm._id).unwrap();
       setSelectedCard(atm);
+      setSelectedCardInfo(res);
     }
   };
 
@@ -39,14 +49,30 @@ const AtmScreen = () => {
     setFinalLocation(location);
     e.preventDefault();
 
+    if (location === "") {
+      toast.error("Please enter a location!", {
+        className: "toast-container-custom",
+        autoClose: 1500,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+      });
+      return;
+    }
     try {
-      const res = await getAtmsList().unwrap();
-      const shuffledRes = [...res].sort(() => Math.random() - 0.5).slice(0, 4);
-      dispatch(setAtms(shuffledRes));
-      setAtmsList(shuffledRes);
+      const res = await getAtmsList({
+        location,
+        isOpenNow,
+        isInterPlanetary,
+      }).unwrap();
+      dispatch(setAtms(res));
+      setAtmsList(res);
       toast.success("Found ATMs near you!", {
         className: "toast-container-custom",
-        autoClose: true,
+        autoClose: 500,
         hideProgressBar: true,
         closeOnClick: true,
         pauseOnHover: true,
@@ -58,7 +84,7 @@ const AtmScreen = () => {
       console.log(err);
       toast.error(err?.data?.message || err.error, {
         className: "toast-container-custom",
-        autoClose: true,
+        autoClose: 1500,
         hideProgressBar: true,
         closeOnClick: true,
         pauseOnHover: true,
@@ -72,27 +98,50 @@ const AtmScreen = () => {
   return (
     <Container className="mt-5 mb-5">
       <Form onSubmit={handleSubmit}>
-        <Form.Group as={Row}>
-          <Col md={1} />
-          <Col md={7}>
-            <Form.Control
-              type="text"
-              placeholder="Enter enter a ZIP code, or an address, city, and state."
-              className="py-3 px-2"
-              value={location}
-              onChange={(e) => setLocation(e.target.value)}
-            />
-          </Col>
-          <Col md={2}>
-            <Button
-              variant="dark"
-              type="submit"
-              className="w-100 me-3 px-5 py-2"
-            >
-              <span style={{ fontSize: "2.5vh" }}>Search</span>
-            </Button>
-          </Col>
-          <Col md={1} />
+        <Form.Group>
+          <Row>
+            <Col md={1} />
+            <Col md={7}>
+              <Form.Control
+                type="text"
+                placeholder="Enter enter a ZIP code, or an address, city, and state."
+                className="py-3 px-2"
+                value={location}
+                onChange={(e) => setLocation(e.target.value)}
+              />
+            </Col>
+            <Col md={2}>
+              <Button
+                variant="dark"
+                type="submit"
+                className="w-100 me-3 px-5 py-2"
+              >
+                <span style={{ fontSize: "2.5vh" }}>Search</span>
+              </Button>
+            </Col>
+            <Col md={1} />
+          </Row>
+          <Row>
+            <Col md={1} />
+            <Col md={7} className="mt-2">
+              <Form.Check
+                type="checkbox"
+                label="Open Now"
+                className="py-2 px-5"
+                checked={isOpenNow}
+                onChange={(e) => setIsOpenNow(e.target.checked)}
+              />
+              <Form.Check
+                type="checkbox"
+                label="Inter planet ATMs"
+                className="py-1 px-5"
+                checked={isInterPlanetary}
+                onChange={(e) => setIsInterPlanetary(e.target.checked)}
+              />
+            </Col>
+            <Col md={2} />
+
+          </Row>
         </Form.Group>
       </Form>
 
@@ -143,20 +192,26 @@ const AtmScreen = () => {
                             <Col md={6}>
                               <div>
                                 <strong>Number of ATMs: </strong>{" "}
-                                {atm.numberOfATMs}
+                                {selectedCardInfo.numberOfATMs}
                               </div>
                               <div>
                                 <strong>Accessibility: </strong>
-                                {atm.atmHours}
+                                {selectedCardInfo.atmHours}
                               </div>
                             </Col>
                             <Col md={6}>
                               <div>
                                 <strong>Timings:</strong>
                               </div>
-                              <div>Mon-Fri: {atm.timings.monFri}</div>
-                              <div>Sat-Sun: {atm.timings.satSun}</div>
-                              <div>Holidays: {atm.timings.holidays}</div>
+                              <div>
+                                Mon-Fri: {selectedCardInfo.timings.monFri}
+                              </div>
+                              <div>
+                                Sat-Sun: {selectedCardInfo.timings.satSun}
+                              </div>
+                              <div>
+                                Holidays: {selectedCardInfo.timings.holidays}
+                              </div>
                             </Col>
                           </Row>
                         </Card.Footer>

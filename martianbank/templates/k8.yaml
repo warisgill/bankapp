@@ -144,6 +144,7 @@ kind: Service
 metadata:
     name: customer-auth
 spec:
+    type: LoadBalancer
     selector:
         app: customer-auth
     ports:
@@ -184,7 +185,6 @@ kind: Service
 metadata:
     name: dashboard
 spec:
-    type: LoadBalancer # This is the only line that is different from the previous service that this is accessible from outside
     selector:
         app: dashboard
     ports:

@@ -186,7 +186,7 @@ apiVersion: eksctl.io/v1alpha5
 kind: ClusterConfig 
   
 metadata: 
-  name: jasmheta-bank-1 
+  name: <username> 
   region: us-east-1 
   
 vpc: 

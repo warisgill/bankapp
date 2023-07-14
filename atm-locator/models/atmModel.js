@@ -59,6 +59,11 @@ const atmSchema = mongoose.Schema(
       type: Boolean,
       required: true,
     },
+    interPlanetary: {
+      type: Boolean,
+      required: true,
+      default: false,
+    },
   },
   {
     timestamps: true,

@@ -18,9 +18,9 @@ logging.basicConfig(level=logging.DEBUG)
 
 from pymongo.mongo_client import MongoClient
 # uri = "mongodb+srv://waris:test1122@cluster0.jk2md4w.mongodb.net/?retryWrites=true&w=majority"
-uri = "mongodb://root:example@localhost:27017/"
+# uri = "mongodb://root:example@localhost:27017/"
 db_host = os.getenv("DATABASE_HOST", "localhost")
-# uri = f"mongodb://root:example@{db_host}:27017/"
+uri = f"mongodb://root:example@{db_host}:27017/"
 
 client = MongoClient(uri)
 db = client['bank']

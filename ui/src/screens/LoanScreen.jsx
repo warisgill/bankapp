@@ -28,14 +28,16 @@ const CustomCard = ({ title, text, icon, link }) => {
     <Card
       className="custom-card"
       style={{
-        marginTop: "2vh",
+        marginTop: "1.25vh",
       }}
     >
       <Card.Body>
-        <Card.Title style={{ fontSize: "2.5vh" }}>
+        <Card.Title style={{ fontSize: "2vh" }} className="text-center">
           <strong>{title}</strong>
         </Card.Title>
-        <Card.Text style={{ fontSize: "1.5vh" }}>{text}</Card.Text>
+        <Card.Text style={{ fontSize: "1.25vh" }} className="text-center">
+          {text}
+        </Card.Text>
       </Card.Body>
       <style>
         {`
@@ -73,21 +75,31 @@ const LoanScreen = () => {
     allAccounts = [];
   }
 
+  const [selectedAccount, setSelectedAccount] = useState("");
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const terms = {
-    Car: {
-      interestRate: 5.44,
+    BaseCamp: {
+      interestRate: 5.99,
+      timePeriod: 10,
+    },
+    Rover: {
+      interestRate: 6.5,
       timePeriod: 5,
     },
-    Home: {
-      interestRate: 7.31,
+    PotatoFarming: {
+      interestRate: 7.25,
+      timePeriod: 7,
+    },
+    IceHome: {
+      interestRate: 8.75,
       timePeriod: 15,
     },
-    Personal: {
-      interestRate: 10.99,
-      timePeriod: 3,
+    Rocket: {
+      interestRate: 9.99,
+      timePeriod: 20,
     },
   };
 
@@ -359,9 +371,11 @@ const LoanScreen = () => {
                       aria-label="Select loan type"
                     >
                       <option value="">Select your loan type</option>
-                      <option value="Home">Home</option>
-                      <option value="Car">Car</option>
-                      <option value="Personal">Personal</option>
+                      <option value="BaseCamp">Base Camp</option>
+                      <option value="Rover">Rover</option>
+                      <option value="PotatoFarming">Potato Farming</option>
+                      <option value="IceHome">Ice Home</option>
+                      <option value="Rocket">Rocket</option>
                     </Form.Select>
                   </Form.Group>
                 </Col>
@@ -548,6 +562,66 @@ const LoanScreen = () => {
             style={{ fontSize: "2.25vh" }}
             className="bg-dark text-white text-center"
           >
+            Loans For You
+          </Card.Header>
+        </Card>
+
+        <Form.Select
+          style={{ marginTop: "2vh" }}
+          value={selectedAccount ? selectedAccount : "Select Account"}
+          multiple={false}
+          onChange={(e) => setSelectedAccount(e.target.value)}
+          className="py-2 px-2 text-center"
+        >
+          <option value="Select Account">Select Account</option>
+          {allAccounts.map((account) => (
+            <option key={account.accountNumber} value={account.accountNumber}>
+              {account.accountNumber}
+            </option>
+          ))}
+        </Form.Select>
+        <CustomCard
+          title="Base Camp"
+          text={
+            <>
+              Interest Rate: 5.99%, Time Period: 10 years <br />
+              <Badge
+                bg="success"
+                style={{
+                  position: "absolute",
+                  top: "1rem",
+                  right: "1rem",
+                }}
+              >
+                Eligible
+              </Badge>
+            </>
+          }
+        />
+        <CustomCard
+          title="Rover"
+          text={
+            <>
+              Interest Rate: 6.5%, Time Period: 5 years <br />
+              <Badge
+                bg="success"
+                style={{
+                  position: "absolute",
+                  top: "1rem",
+                  right: "1rem",
+                }}
+              >
+                Eligible
+              </Badge>
+            </>
+          }
+        />
+
+        <Card style={{ marginTop: "5vh" }}>
+          <Card.Header
+            style={{ fontSize: "2.25vh" }}
+            className="bg-dark text-white text-center"
+          >
             Approved Loans
           </Card.Header>
         </Card>
@@ -558,7 +632,7 @@ const LoanScreen = () => {
                 title={`${loan.loanType} Loan for $${loan.loanAmount}`}
                 text={
                   <>
-                    Interest Rate: {loan.interestRate}%, Time Period: $
+                    Interest Rate: {loan.interestRate}%, Time Period:
                     {loan.timePeriod} years <br />
                     Account: {loan.accountNumber}
                   </>

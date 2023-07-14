@@ -49,7 +49,7 @@ const AccInfoScreen = () => {
 
   return (
     <FormContainer>
-      <h2
+      <h4
         className="bg-dark mx-3 text-white"
         style={{
           textAlign: "center",
@@ -59,7 +59,7 @@ const AccInfoScreen = () => {
         }}
       >
         ACCOUNT &nbsp; DETAILS
-      </h2>
+      </h4>
 
       <Form>
         <Row>

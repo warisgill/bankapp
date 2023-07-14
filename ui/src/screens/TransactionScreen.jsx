@@ -131,7 +131,8 @@ const TransactionScreen = () => {
           </tr>
         </MDBTableHead>
         <MDBTableBody>
-          {history !== [] && history ? (
+          {console.log(history)}
+          {history.length > 0 && history ? (
             history.map((transaction) => (
               <tr key={transaction.id}>
                 <td className="text-center fw-normal">

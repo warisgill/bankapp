@@ -1,5 +1,6 @@
 import { apiSlice } from "./usersApiSlice";
 const transferUrl = import.meta.env.VITE_TRANSFER_URL;
+const zelleUrl = import.meta.env.VITE_ZELLE_URL;
 
 export const transferApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
@@ -10,7 +11,14 @@ export const transferApiSlice = apiSlice.injectEndpoints({
         body: data 
       }),
     }),
+    postTransferExternal: builder.mutation({
+      query: (data) => ({
+        url: zelleUrl,
+        method: "POST",
+        body: data,
+      }),
+    }),
   }),
 });
 
-export const { usePostTransferMutation } = transferApiSlice;
+export const { usePostTransferMutation, usePostTransferExternalMutation } = transferApiSlice;
