@@ -9,9 +9,9 @@ import grpc
 from dataclasses import dataclass
 
 from accounts_pb2 import * 
-from accounts_pb2_grpc import AccountDetailsServiceStub
+from accounts_pb2_grpc import *
 
-from transaction_pb2_grpc import TransactionServiceStub
+from transaction_pb2_grpc import *
 from transaction_pb2 import * 
 
 from loan_pb2_grpc import LoanServiceStub
@@ -23,9 +23,9 @@ from pymongo.mongo_client import MongoClient
 logging.basicConfig(level=logging.DEBUG)
 
 
-# uri = "mongodb+srv://waris:test1122@cluster0.jk2md4w.mongodb.net/?retryWrites=true&w=majority"
+uri = "mongodb+srv://waris:test1122@cluster0.jk2md4w.mongodb.net/?retryWrites=true&w=majority"
 db_host = os.getenv("DATABASE_HOST", "localhost")
-uri = f"mongodb://root:example@{db_host}:27017/"
+# uri = f"mongodb://root:example@{db_host}:27017/"
 client = MongoClient(uri)
 db = client['bank']
 collection = db['accounts']
@@ -117,14 +117,16 @@ def create_account():
         response = client.createAccount(account_request)
         logging.debug(f"Account creation response: {response}")
 
+        logging.debug(f"Account creation response: {response.result}")
+        
 
 
             # Return a JSON response
         return jsonify({
-                'success': True,
+                'success': response.result,
                 'message': 'Account created successfully',
                 'data': {
-                    'response': MessageToDict(response)
+                    'response': response.result
                 }
             })
     return render_template('create_account_form.html')
