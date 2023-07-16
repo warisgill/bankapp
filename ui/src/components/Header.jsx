@@ -71,7 +71,7 @@ const Header = () => {
                 width="125"
                 height="125"
               />
-              <strong style={{ fontSize: "4vh" }}>Martian Bank</strong>
+              <strong style={{ fontSize: "4vh" }}>Martian </strong><strong style={{ fontSize: "4vh" }}>Bank</strong>
             </Navbar.Brand>
           </LinkContainer>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
