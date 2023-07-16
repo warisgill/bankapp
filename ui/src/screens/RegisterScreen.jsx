@@ -68,29 +68,30 @@ const RegisterScreen = () => {
   return (
     <FormContainer position="left">
       <h4
-        className="bg-dark mx-3 text-white"
+        className="bg-light mx-3"
         style={{
           textAlign: "center",
-          paddingTop: "1.5vh",
-          paddingBottom: "1.5vh",
+          paddingTop: "2vh",
+          paddingBottom: "2vh",
         }}
       >
-        SIGN &nbsp; UP
+        Make an Account
       </h4>
       <Form onSubmit={submitHandler}>
         <Form.Group className="my-4" controlId="name">
-          <Form.Label>Name</Form.Label>
           <Form.Control
             type="name"
             required
             placeholder="Enter name"
             value={name}
             onChange={(e) => setName(e.target.value)}
-          ></Form.Control>
+          />
+          <Form.Text muted style={{fontSize: "1.25vh"}}>
+            Please enter your full name.
+          </Form.Text>
         </Form.Group>
 
         <Form.Group className="my-4" controlId="email">
-          <Form.Label>Email Address</Form.Label>
           <Form.Control
             type="email"
             placeholder="Enter email"
@@ -105,7 +106,6 @@ const RegisterScreen = () => {
         </Form.Group>
 
         <Form.Group className="my-4" controlId="password">
-          <Form.Label>Password</Form.Label>
           <Form.Control
             type="password"
             required
@@ -124,7 +124,6 @@ const RegisterScreen = () => {
           </Form.Text>
         </Form.Group>
         <Form.Group className="my-4" controlId="confirmPassword">
-          <Form.Label>Confirm Password</Form.Label>
           <Form.Control
             type="password"
             placeholder="Confirm password"
