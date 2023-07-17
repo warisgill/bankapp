@@ -135,7 +135,7 @@ const TransactionScreen = () => {
                 </td>
                 <td className="text-center">
                   <MDBBadge
-                    color={transaction.type === "debit" ? "danger" : "success"}
+                    color={transaction.type === "debit" ? "success" : "danger"}
                     pill
                   >
                     {transaction.type}
