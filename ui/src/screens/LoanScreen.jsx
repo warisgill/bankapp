@@ -152,57 +152,7 @@ const LoanScreen = () => {
   return (
     <Row fluid style={{ overflowY: "auto" }}>
       <Col md={1} />
-      <Col md={6} className="mt-5">
-        <div
-          style={{
-            fontSize: "2.5vh",
-            backgroundColor: "#e9ecef",
-            marginBottom: "3vh",
-          }}
-          className="card text-center p-3"
-        >
-          Your Loans
-        </div>
-        {loanInfo && loanInfo.loans ? (
-          loanInfo.loans.length > 0 ? (
-            loanInfo.loans.map((loan) => (
-              <CustomCard
-                title={`${loan.loanType} Loan for $${loan.loanAmount}`}
-                text={
-                  <>
-                    Interest Rate: {loan.interestRate}%, Time Period:
-                    {loan.timePeriod} years <br />
-                    Account: {loan.accountNumber}
-                  </>
-                }
-              />
-            ))
-          ) : (
-            <Loader />
-          )
-        ) : (
-          <div>
-            <h3 className="mt-5" style={{ textAlign: "center" }}>
-              You dont have any approved loans
-            </h3>
-            <Row>
-              <Col md={3} />
-              <Col md={6}>
-                <Button
-                  style={{ width: "100%" }}
-                  variant="dark"
-                  className="mt-5"
-                  onClick={() => navigate("/new-loan")}
-                >
-                  Apply here!
-                </Button>
-              </Col>
-              <Col md={3} />
-            </Row>
-          </div>
-        )}
-      </Col>
-      <Col md={1} />
+
       <Col md={4} className="mt-5">
         <div
           style={{
@@ -212,7 +162,7 @@ const LoanScreen = () => {
           }}
           className="card text-center p-3"
         >
-          Loans for you
+          Available Loans
         </div>
         <CustomCard
           title="Base Camp"
@@ -265,6 +215,46 @@ const LoanScreen = () => {
           <Col md={3} />
         </Row>
       </Col>
+
+      <Col md={1} />
+
+      <Col md={6} className="mt-5">
+        <div
+          style={{
+            fontSize: "2.5vh",
+            backgroundColor: "#e9ecef",
+            marginBottom: "3vh",
+          }}
+          className="card text-center p-3"
+        >
+          Your Loans
+        </div>
+        {loanInfo && loanInfo.loans ? (
+          loanInfo.loans.length > 0 ? (
+            loanInfo.loans.map((loan) => (
+              <CustomCard
+                title={`${loan.loanType} Loan for $${loan.loanAmount}`}
+                text={
+                  <>
+                    Interest Rate: {loan.interestRate}%, Time Period:
+                    {loan.timePeriod} years <br />
+                    Account: {loan.accountNumber}
+                  </>
+                }
+              />
+            ))
+          ) : (
+            <Loader />
+          )
+        ) : (
+          <div>
+            <h3 className="mt-5" style={{ textAlign: "center" }}>
+              You dont have any approved loans
+            </h3>
+          </div>
+        )}
+      </Col>
+      
     </Row>
   );
 };
