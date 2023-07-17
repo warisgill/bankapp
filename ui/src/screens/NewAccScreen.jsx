@@ -86,14 +86,14 @@ const NewAccScreen = () => {
     <div>
       <FormContainer position="left">
         <h4
-          className="bg-dark mx-3 text-white"
+          className="bg-light mx-3"
           style={{
             textAlign: "center",
-            paddingTop: "1.5vh",
-            paddingBottom: "1.5vh",
+            paddingTop: "2vh",
+            paddingBottom: "2vh",
           }}
         >
-          NEW <span>&nbsp;</span> ACCOUNT
+          New Account
         </h4>
         {isLoading ? (
           <Loader />
