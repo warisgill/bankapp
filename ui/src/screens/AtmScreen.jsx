@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { toast } from "react-toastify";
 import { useDispatch } from "react-redux";
 import {
@@ -16,6 +16,8 @@ import {
   Badge,
 } from "react-bootstrap";
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faAngleDown, faAngleUp } from "@fortawesome/free-solid-svg-icons";
 import "leaflet/dist/leaflet.css";
 import "../index.css";
 
@@ -47,22 +49,20 @@ const AtmScreen = () => {
 
   const handleSubmit = async (e) => {
     setFinalLocation(location);
-    e.preventDefault();
+
+    try {
+      e.preventDefault();
+    } catch (err) {
+      console.log(err);
+    }
 
     if (location === "") {
-      toast.error("Please enter a location!", {
-        className: "toast-container-custom",
-        autoClose: 1500,
-        hideProgressBar: true,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "dark",
-      });
       return;
     }
+
     try {
+      console.log("here");
+      console.log({ location, isOpenNow, isInterPlanetary });
       const res = await getAtmsList({
         location,
         isOpenNow,
@@ -95,12 +95,15 @@ const AtmScreen = () => {
     }
   };
 
+  useEffect(() => {
+    handleSubmit();
+  }, [isOpenNow, isInterPlanetary]);
+
   return (
     <Container className="mt-5 mb-5">
       <Form onSubmit={handleSubmit}>
         <Form.Group>
           <Row>
-            <Col md={1} />
             <Col md={7}>
               <Form.Control
                 type="text"
@@ -119,17 +122,18 @@ const AtmScreen = () => {
                 <span style={{ fontSize: "2.5vh" }}>Search</span>
               </Button>
             </Col>
-            <Col md={1} />
+            <Col md={2} />
           </Row>
           <Row>
-            <Col md={1} />
             <Col md={7} className="mt-2">
               <Form.Check
                 type="checkbox"
                 label="Open Now"
                 className="py-2 px-5"
                 checked={isOpenNow}
-                onChange={(e) => setIsOpenNow(e.target.checked)}
+                onChange={(e) => {
+                  setIsOpenNow(e.target.checked);
+                }}
               />
               <Form.Check
                 type="checkbox"
@@ -140,14 +144,13 @@ const AtmScreen = () => {
               />
             </Col>
             <Col md={2} />
-
           </Row>
         </Form.Group>
       </Form>
 
-      {atmsList.length > 0 ? (
-        <div className="mt-5">
-          <h5 className="mb-4 mt-5">Showing results for {finalLocation}:</h5>
+      {atmsList && atmsList.length > 0 ? (
+        <div className="mt-2">
+          <h5 className="mb-4">Showing results for {finalLocation}:</h5>
           <Row>
             <Col md={6}>
               <div className="card-container">
@@ -168,15 +171,35 @@ const AtmScreen = () => {
                     >
                       {atm.isOpen ? "Open" : "Closed"}
                     </Badge>
-
                     <div className="flex-grow-1">
                       <Card.Body style={{ marginTop: "0" }}>
                         <Card.Title
                           style={{ fontSize: "2.5vh", marginTop: "0" }}
                         >
-                          <strong>{atm.name}</strong>
+                          <span style={{ marginRight: "7px" }}>
+                            <img
+                              src="./src/assets/coin.png"
+                              alt="logo"
+                              width="45"
+                              height="45"
+                            />
+                          </span>
+                          <span>{atm.name}</span>
+                          {selectedCard === atm ? (
+                            <FontAwesomeIcon
+                              style={{ marginLeft: "20px" }}
+                              icon={faAngleUp}
+                            />
+                          ) : (
+                            <FontAwesomeIcon
+                              style={{ marginLeft: "20px" }}
+                              icon={faAngleDown}
+                            />
+                          )}
                         </Card.Title>
-                        <Card.Text>
+                        <Card.Text
+                          style={{ fontSize: "1.5vh", marginLeft: "52px" }}
+                        >
                           {atm.address.street +
                             ", " +
                             atm.address.city +
@@ -227,6 +250,7 @@ const AtmScreen = () => {
                   center={[37.77528, -81.19197]}
                   zoom={15}
                   scrollWheelZoom={false}
+                  className="rounded"
                 >
                   <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
                   {atmsList.map((atm, index) => (
@@ -237,7 +261,7 @@ const AtmScreen = () => {
                         atm.coordinates.longitude,
                       ]}
                     >
-                      <Popup keepInView="true" autoPan="false">
+                      <Popup keepInView autoPan>
                         {atm.name}
                       </Popup>
                     </Marker>

@@ -68,10 +68,15 @@ const Header = () => {
               <img
                 src="./src/assets/coin.png"
                 alt="logo"
-                width="125"
-                height="125"
+                width="85"
+                height="85"
               />
-              <strong style={{ fontSize: "4vh" }}>Martian Bank</strong>
+              <strong style={{ fontSize: "4vh" }}>Martian </strong>
+              <span
+                style={{ fontSize: "4vh", fontWeight: "lighter", color: "red" }}
+              >
+                Bank
+              </span>
             </Navbar.Brand>
           </LinkContainer>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
