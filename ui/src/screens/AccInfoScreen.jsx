@@ -6,11 +6,10 @@ import Loader from "../components/Loader";
 import { useSelector, useDispatch } from "react-redux";
 
 const AccInfoScreen = () => {
-
   let currentAccount = useSelector((state) => state.account.current_account);
   const { userInfo } = useSelector((state) => state.auth);
 
-  console.log("Current account: ", currentAccount)
+  console.log("Current account: ", currentAccount);
 
   if (!currentAccount) {
     currentAccount = {
@@ -20,7 +19,7 @@ const AccInfoScreen = () => {
       address: "",
       govtId: "",
       govtIdNo: "",
-    }
+    };
   }
 
   const [accType, setAccType] = useState(currentAccount.accountType);
@@ -50,28 +49,28 @@ const AccInfoScreen = () => {
   return (
     <FormContainer>
       <h4
-        className="bg-dark mx-3 text-white"
+        className="bg-light mx-3"
         style={{
           textAlign: "center",
-          paddingTop: "1.5vh",
-          paddingBottom: "1.5vh",
+          paddingTop: "2vh",
+          paddingBottom: "2vh",
           marginBottom: "3vh",
         }}
       >
-        ACCOUNT &nbsp; DETAILS
+        Account Information
       </h4>
 
       <Form>
         <Row>
           <Col md={4}>
-            <DropdownButton
-              id="acc_type"
-              className="mt-5"
-              variant="dark"
-              title={accType ? accType : 'Error'}
-              disabled
-              style={{ width: "100%" }}
-            />
+            <Form.Group className="my-3" controlId="acc_no">
+              <Form.Label>Account type</Form.Label>
+              <Form.Control
+                type="text"
+                value={accType ? accType : "Error"}
+                disabled
+              ></Form.Control>
+            </Form.Group>
           </Col>
           <Col md={8}>
             <Form.Group className="my-3" controlId="acc_no">
@@ -79,7 +78,7 @@ const AccInfoScreen = () => {
               <Form.Control
                 type="text"
                 placeholder="Enter your account number"
-                value={accNo? accNo : "Error"}
+                value={accNo ? accNo : "Error"}
                 disabled
               ></Form.Control>
             </Form.Group>
@@ -116,7 +115,7 @@ const AccInfoScreen = () => {
             <Form.Group className="my-3" controlId="govt_id">
               <Form.Label>Govt. ID</Form.Label>
               <Form.Select
-                value={govtId? govtId : "Error"}
+                value={govtId ? govtId : "Error"}
                 multiple={false}
                 disabled
               >
@@ -134,7 +133,7 @@ const AccInfoScreen = () => {
               <Form.Control
                 type="text"
                 placeholder="Enter your Govt. ID number"
-                value={govtIdNo? govtIdNo : "Error"}
+                value={govtIdNo ? govtIdNo : "Error"}
                 disabled
               />
             </Form.Group>
@@ -148,21 +147,21 @@ const AccInfoScreen = () => {
               <Form.Control
                 type="text"
                 placeholder="Enter your balance"
-                value={balance? `$ ${balance}` : "Error"}
+                value={balance ? `$ ${balance}` : "Error"}
                 disabled
               ></Form.Control>
             </Form.Group>
           </Col>
           <Col md={8}>
-          <Form.Group className="my-3" controlId="address">
-            <Form.Label>Address</Form.Label>
-            <Form.Control
-              type="text"
-              placeholder="Enter your residential address"
-              value={address}
-              onChange={(e) => setAddress(e.target.value)}
-            ></Form.Control>
-          </Form.Group>
+            <Form.Group className="my-3" controlId="address">
+              <Form.Label>Address</Form.Label>
+              <Form.Control
+                type="text"
+                placeholder="Enter your residential address"
+                value={address}
+                onChange={(e) => setAddress(e.target.value)}
+              ></Form.Control>
+            </Form.Group>
           </Col>
         </Row>
 

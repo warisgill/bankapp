@@ -59,19 +59,18 @@ const LoginScreen = () => {
   return (
     <FormContainer position="left">
       <h4
-        className="bg-dark mx-3 text-white"
+        className="bg-light mx-3"
         style={{
           textAlign: "center",
-          paddingTop: "1.5vh",
-          paddingBottom: "1.5vh",
+          paddingTop: "2vh",
+          paddingBottom: "2vh",
         }}
       >
-        LOGIN
+        Login
       </h4>
 
       <Form onSubmit={submitHandler}>
         <Form.Group className="my-4" controlId="email">
-          <Form.Label>Email Address</Form.Label>
           <Form.Control
             type="email"
             placeholder="Enter email"
@@ -84,7 +83,6 @@ const LoginScreen = () => {
         </Form.Group>
 
         <Form.Group className="my-4" controlId="password">
-          <Form.Label>Password</Form.Label>
           <Form.Control
             type="password"
             placeholder="Enter password"
@@ -116,7 +114,7 @@ const LoginScreen = () => {
       {isLoading && <Loader />}
 
       <Row className="pt-4">
-        <Col>
+        <Col style={{fontSize: "1.25vh"}}>
           New Customer? <Link to="/register">Create new account</Link>
         </Col>
       </Row>

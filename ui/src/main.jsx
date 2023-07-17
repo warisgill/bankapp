@@ -24,6 +24,7 @@ import AccInfoScreen from "./screens/AccInfoScreen.jsx";
 import TransferScreen from "./screens/TransferScreen.jsx";
 import TransactionScreen from "./screens/TransactionScreen.jsx";
 import LoanScreen from "./screens/LoanScreen.jsx";
+import ApplyLoan from "./screens/ApplyLoanScreen.jsx";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -39,6 +40,7 @@ const router = createBrowserRouter(
         <Route path="/transfer" element={<TransferScreen />} />
         <Route path="/transactions" element={<TransactionScreen />} />
         <Route path="/loan" element={<LoanScreen />} />
+        <Route path="/new-loan" element={<ApplyLoan />} />
       </Route>
     </Route>
   )
