@@ -57,90 +57,93 @@ const HomeScreen = () => {
     return (
       <Container fluid style={{ overflowY: "auto" }}>
         <Row>
-          <Col md={7} style={{ marginTop: "5vh" }}>
-            <Card>
-              <Card.Header
-                style={{ fontSize: "2.5vh" }}
-                className="bg-dark text-white text-center"
-              >
-                Bank accounts
-              </Card.Header>
-            </Card>
+          <Col md={8} style={{ marginTop: "5vh" }}>
+            <div
+              style={{ fontSize: "2.5vh", backgroundColor: "#e9ecef" }}
+              className="card text-center p-2"
+            >
+              Bank accounts
+            </div>
+
             {accountInfo ? (
               accountInfo.length > 0 ? (
                 accountInfo.map((account) => {
                   return (
-                    <Card
-                      style={{
-                        marginTop: "2vh",
-                      }}
+                    <Link
+                      to="/acc-info"
+                      style={{ textDecoration: "none" }}
+                      onClick={() => dispatch(currentAccount(account))}
                     >
-                      <Card.Header className="bg-dark text-uppercase text-white">
-                        {account.accountType} Account
-                        <FontAwesomeIcon
-                          icon={faArrowRightFromBracket}
-                          style={{ marginLeft: "1rem" }}
-                        />
-                      </Card.Header>
-                      <Card.Body>
-                        <Card.Text>
-                          <Row>
-                            <Col md={5} className="text-center">
-                              <div>
-                                <strong style={{ fontSize: "3vh" }}>
-                                  ${account.balance.toFixed(2)}
-                                </strong>
-                              </div>
-                              <div className="text-muted">
-                                Available balance
-                              </div>
-                            </Col>
-                            <Col md={1} />
-                            <Col md={6}>
-                              <div
-                                style={{ fontSize: "1.25vh", marginTop: "1vh" }}
-                              >
-                                Account Number:
-                                <span className="text-primary">
-                                  <span>&nbsp;</span>
-                                  <strong>
-                                    ...{account.accountNumber.slice(-4)}
+                      <Card
+                        style={{
+                          marginTop: "2vh",
+                        }}
+                      >
+                        <Card.Header className="bg-dark text-uppercase text-white">
+                          {account.accountType} Account
+                          <FontAwesomeIcon
+                            icon={faArrowRightFromBracket}
+                            style={{ marginLeft: "1rem" }}
+                          />
+                        </Card.Header>
+                        <Card.Body>
+                          <Card.Text>
+                            <Row>
+                              <Col md={5} className="text-center">
+                                <div>
+                                  <strong style={{ fontSize: "3vh" }}>
+                                    ${account.balance.toFixed(2)}
                                   </strong>
-                                </span>
-                                <br />
-                                <div
-                                  style={{ fontSize: "1.25vh" }}
-                                  className="text-muted"
-                                >
-                                  Name: {account.name} <br />
-                                  Email ID: {account.emailId}
                                 </div>
-                              </div>
-                            </Col>
-                          </Row>
-                        </Card.Text>
-                      </Card.Body>
-                      <Card.Footer>
-                        <Link
-                          to="/acc-info"
-                          style={{ textDecoration: "none" }}
-                          onClick={() => dispatch(currentAccount(account))}
-                        >
-                          <Button variant="dark" className="float-end" size="sm">
-                            Account info
-                          </Button>
-                        </Link>
-                        <Link
-                          to="/transfer"
-                          style={{ textDecoration: "none" }}
-                          onClick={() => dispatch(selectedAccount(account))}
-                        >
-                          <Button variant="dark" className="float-end me-2" size="sm">
-                            Transfer money
-                          </Button>
-                        </Link>
-                      </Card.Footer>
-                    </Card>
+                                <div className="text-muted">
+                                  Available balance
+                                </div>
+                              </Col>
+                              <Col md={1} />
+                              <Col md={6}>
+                                <div
+                                  style={{
+                                    fontSize: "1.25vh",
+                                    marginTop: "1vh",
+                                  }}
+                                >
+                                  Account Number:
+                                  <span className="text-primary">
+                                    <span>&nbsp;</span>
+                                    <strong>
+                                      ...{account.accountNumber.slice(-4)}
+                                    </strong>
+                                  </span>
+                                  <br />
+                                  <div
+                                    style={{ fontSize: "1.25vh" }}
+                                    className="text-muted"
+                                  >
+                                    Name: {account.name} <br />
+                                    Email ID: {account.emailId}
+                                  </div>
+                                </div>
+                              </Col>
+                            </Row>
+                          </Card.Text>
+                        </Card.Body>
+                        <Card.Footer>
+                          <Link
+                            to="/transfer"
+                            style={{ textDecoration: "none" }}
+                            onClick={() => dispatch(selectedAccount(account))}
+                          >
+                            <Button
+                              variant="dark"
+                              className="float-end me-2"
+                              size="sm"
+                            >
+                              Transfer money
+                            </Button>
+                          </Link>
+                        </Card.Footer>
+                      </Card>
+                    </Link>
                   );
                 })
               ) : (
@@ -176,28 +179,24 @@ const HomeScreen = () => {
             )}
           </Col>
           <Col md={1} />
-          <Col md={4} style={{ marginTop: "5vh" }}>
-            <Card>
-              <Card.Header
-                style={{ fontSize: "2.5vh" }}
-                className="bg-dark text-white text-center"
-              >
-                Account Disclosures
-              </Card.Header>
-            </Card>
-
+          <Col md={3} style={{ marginTop: "5vh" }}>
             <Card
               style={{
                 marginTop: "2vh",
+                backgroundColor: 'rgba(255, 255, 255, 0.2)', 
+                backdropFilter: 'invert(1%)'
               }}
             >
               <Card.Body>
-                <Card.Text style={{ fontSize: "1.5vh" }}>
-                  <Card.Body>
-                    <p>
+                <Card.Text style={{ fontSize: "1.25vh" }}>
+                  <Card.Body className="text-muted">
+                    <span>
                       <strong>Account Disclosures</strong>
-                    </p>
-                    <p>Investment and Insurance Products are:</p>
+                    </span>
+                    <br />
+                    <br />
+                    <span>Investment and Insurance Products are:</span>
+                    <br />
                     <ul>
                       <li>
                         Not Insured by the MFIC (Martian Financial Institutions
@@ -212,7 +211,7 @@ const HomeScreen = () => {
                         the Principal Amount Invested
                       </li>
                     </ul>
-                    <p>
+                    <span>
                       Investment products and services are offered through
                       Martian Bank Advisors. Martian Bank Advisors is a trade
                       name used by Martian Clearing Services, LLC (MCSC) and
@@ -220,16 +219,19 @@ const HomeScreen = () => {
                       (Martian Planetary Investment Commission), separate
                       registered broker-dealers and non-bank affiliates of
                       Martian Bank Corporation.
-                    </p>
-                    <p>
+                    </span>
+                    <br />
+                    <span>
                       Deposit products offered by Martian Bank, M.A. Member
                       MFDIC (Martian Financial Deposit Insurance Corporation).
-                    </p>
-                    <p>Equal Planetary Habitat Lender</p>
-                    <p>
+                    </span>
+                    <br />
+                    <span>Equal Planetary Habitat Lender</span>
+                    <br />
+                    <span>
                       MFICO is a registered trademark of Martian Isaac
                       Corporation in Mars and other celestial bodies.
-                    </p>
+                    </span>
                   </Card.Body>
                 </Card.Text>
               </Card.Body>
