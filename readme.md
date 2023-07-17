@@ -63,7 +63,8 @@ git clone https://github.com/warisgill/bankapp
 cd bankapp
 ```
 
---- 
+<br />
+
 ## Installation on KIND cluster
 
 Setting up MartianBank on a KIND (Kubernetes in Docker) cluster involves a few additional steps compared to a regular Kubernetes cluster. KIND allows you to create a lightweight Kubernetes cluster inside Docker containers, which is ideal for testing and development purposes. Here's how you can set up MartianBank on a KIND cluster:
@@ -127,7 +128,7 @@ kubectl delete all --all --namespace default
 
 That's it! You now have MartianBank installed and running on your KIND cluster. Remember that KIND clusters are ephemeral and will be destroyed once you delete them. You can always create a new cluster with the same name or a different one using `kind create cluster` if needed. Happy testing with MartianBank on your KIND cluster. 
 
----
+<br />
 
 ## Installation on AWS EKS cluster
 
@@ -231,7 +232,7 @@ helm uninstall martianbank
 kubectl delete all --all --namespace default
 ```
 
----
+<br />
 
 ## Installating locally
 
