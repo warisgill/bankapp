@@ -145,7 +145,6 @@ kind: Service
 metadata:
     name: customer-auth
 spec:
-    type: LoadBalancer
     selector:
         app: customer-auth
     ports:
@@ -172,7 +171,6 @@ kind: Service
 metadata:
     name: ui
 spec:
-    type: LoadBalancer
     selector:
         app: ui
     ports:
@@ -186,7 +184,6 @@ kind: Service
 metadata:
     name: dashboard
 spec:
-    type: LoadBalancer
     selector:
         app: dashboard
     ports:

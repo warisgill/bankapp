@@ -1,56 +1,346 @@
-# Martian Bank 🚀
-
-  
+![MartianBank](https://drive.google.com/uc?export=view&id=12EfkuXkXExd4pcUMo9ZKsIDP-3rK6Q2M)
 
 <br />
 
-This Bank App is a microservices application that allows customers to access and manage their bank accounts, perform financial transactions, locate ATMs, and apply for loans.
+MartianBank is a microservices application that allows customers to access and manage their bank accounts, perform financial transactions, locate ATMs, and apply for loans.
 
-  
-
-It is built using [React](https://react.dev/),[Node.js](https://nodejs.org/en/about), [Python](https://flask.palletsprojects.com/en/2.3.x/) and is packaged in [Docker](https://www.docker.com/) containers.
-
-  
+It is built using [React](https://react.dev/),[ Node.js](https://nodejs.org/en/about), [ Python](https://flask.palletsprojects.com/en/2.3.x/) and is packaged in [Docker](https://www.docker.com/) containers.
 
 <br />
-
-  
 
 ![Screenshot](https://drive.google.com/uc?export=view&id=1BmbbL5GJyHRBCkUYH91K8GaJJxtiNz_q)
 
-  
-  
+<br />
+
+
+# Table of contents:
+- [Application Overview](#application-overview)
+- [Application Design](#application-design)
+- [Getting Started](#getting-started)
+  - [Installation on KIND Cluster](#installation-on-kind-cluster)
+  - [Installation on AWS EKS Cluster](#installation-on-aws-eks-cluster)
+  - [Running Locally](#running-locally)
+- [Deployment Diagram](#deployment-diagram)
+- [Contributing](#contributing)
+- [License](#license)
 
 <br />
 
-  
-
-## Application Design
-
-  
+# Application Design
 
 <br />
-
-  
 
 The Martian Bank UI is a [React](https://react.dev/) dashboard which uses [react-redux toolkit](https://redux-toolkit.js.org/). There is an [NGINX](https://www.nginx.com/) container which site between the UI and microservices and acts as a reverse proxy. There are 6 microservices, out of which 2 (customer-auth and atm-locator) are developed in Node.js whereas the others are done using Python. The dashboard microservice talks to accounts, transactions and loan microservices using [gRPC](https://grpc.io/).
 
-  
-
 ![Architecture Diagram](https://drive.google.com/uc?export=view&id=11wVBfu2FNnhEWACRv63rq1XvnUWQQO4-)
 
-  
+<br />
+<br />
+
+
+# Getting Started
+
+There are mulitple ways to install MartianBank. But before you start, please ensure you have the following prerequisites installed:
+
+1. **Docker**: To run Kubernetes and containerized applications. You can download and install Docker from [here](https://www.docker.com/).
+
+2. **Kubernetes**: Enable Kubernetes within Docker Desktop. Follow the instructions provided in the official Docker documentation [here](https://docs.docker.com/desktop/kubernetes/).
+
+3. **kubectl**: The Kubernetes command-line tool to interact with the cluster. Install it using the guidelines found [here](https://kubernetes.io/docs/tasks/tools/).
+
+4. **Helm**: The package manager for Kubernetes. Helm allows you to define, install, and upgrade complex Kubernetes applications. Follow the installation instructions [here](https://helm.sh/docs/intro/install/).
+
+Once you have the prerequisites installed, download the MartianBank GitHub repository using the following steps:
+
+1. Open your terminal or command prompt and clone the repository by running the command:
+```shell
+git clone https://github.com/warisgill/bankapp
+```
+
+2. Change to the downloaded repository directory using the command:
+
+```shell
+cd bankapp
+```
 
 <br />
 
+## Installation on KIND cluster
+
+Setting up MartianBank on a KIND (Kubernetes in Docker) cluster involves a few additional steps compared to a regular Kubernetes cluster. KIND allows you to create a lightweight Kubernetes cluster inside Docker containers, which is ideal for testing and development purposes. Here's how you can set up MartianBank on a KIND cluster:
+
+**Step 1: Install KIND and Docker**
+
+If you haven't already installed KIND and Docker, you need to do that first. Follow the official installation guides for [KIND](https://kind.sigs.k8s.io/docs/user/quick-start/#installation) and [Docker](https://docs.docker.com/get-docker/) based on your operating system.
+
+**Step 2: Create a KIND Cluster**
+
+1. Open your terminal or command prompt.
+
+2. Create a KIND cluster by running the following command:
+
+```shell
+kind create cluster --name martianbank
+```
+
+This will create a new KIND cluster named "martianbank" with a single Kubernetes node.
+
+**Step 3: Configure Kubectl**
+
+The KIND cluster should now be running, but your `kubectl` is not automatically configured to communicate with the cluster. You need to set the context for your `kubectl` to use the KIND cluster.
+
+1. Run the following command to set the `kubectl` context to the new KIND cluster:
+
+```shell
+kubectl cluster-info --context kind-martianbank
+```
+
+**Step 4: Install MartianBank using Helm**
+
+Now that your KIND cluster is set up and Helm is installed, you can proceed with installing MartianBank.
+
+1. Clone the MartianBank GitHub repository and navigate to the downloaded directory as mentioned in the previous tutorial.
+
+2. Install MartianBank using the Helm command:
+```shell
+helm install martianbank martianbank
+```
+
+3. Verify that all pods are running using this command:
+```shell
+kubectl get pods
+```
+
+**Step 5: Access MartianBank App**
+
+After the installation is complete, you can access the MartianBank app by finding the IP address of the running MartianBank service using `kubectl get service` and access it in your browser.
+
+**Step 6: Uninstall MartianBank**
+
+If you want to uninstall MartianBank from the KIND cluster, follow these uninstallation steps:
+
+```shell
+helm uninstall martianbank
+kubectl delete all --all --namespace default
+```
+
+**Note:** If you have installed the MartianBank app in a namespace other than "default," make sure to change the `--namespace` flag in both the Helm and kubectl commands accordingly.
+
+That's it! You now have MartianBank installed and running on your KIND cluster. Remember that KIND clusters are ephemeral and will be destroyed once you delete them. You can always create a new cluster with the same name or a different one using `kind create cluster` if needed. Happy testing with MartianBank on your KIND cluster. 
+
 <br />
 
-  
+## Installation on AWS EKS cluster
 
-# Installation
-There are mulitple ways to install MartianBank. 
+**Step 1: Create an EKS cluster on AWS:**
 
-## Installation Using Helm for MartianBank App
+1. Install AWS CLI tool and configure it (pass in access key, secret key, region, and it creates ~/.aws/config and ~/.aws/credentials files).
+```shell
+aws configure
+```
+
+2. Install eksctl tool
+```shell
+brew tap weaveworks/tap; brew install weaveworks/tap/eksctl
+```  
+
+3. Install IAM authenticator
+```shell
+brew install aws-iam-authenticator
+```
+
+4. Create a cluster.yaml file anywhere on your system.
+```shell
+apiVersion: eksctl.io/v1alpha5
+
+kind: ClusterConfig
+
+metadata:
+
+name: <cluster-name>
+
+region: us-east-1
+
+vpc:
+
+cidr: "172.20.0.0/16"
+
+nat:
+
+gateway: Single
+
+clusterEndpoints:
+
+publicAccess: true
+
+privateAccess: true
+
+nodeGroups:
+
+- name: ng-1
+
+minSize: 2
+
+maxSize: 2
+
+instancesDistribution:
+
+maxPrice: 0.093
+
+instanceTypes: ["t3a.large", "t3.large"]
+
+onDemandBaseCapacity: 0
+
+onDemandPercentageAboveBaseCapacity: 50
+
+spotInstancePools: 2
+
+ssh:
+
+publicKeyPath: <path>
+```
+
+5. Create an EKS cluster using this command (takes ~20 minutes)
+```shell
+eksctl create cluster -f cluster.yaml
+```
+
+**Step 2: Install MartianBank using Helm**
+
+Now that your EKS cluster is set up, you can proceed with installing MartianBank.
+
+1. Go to your cloned repository and install MartianBank using the Helm command: 
+```shell
+helm install martianbank martianbank
+```
+
+2. Verify that all pods are running using this command:
+```shell
+kubectl get pods
+```
+
+**Step 3: Access MartianBank App**
+
+After the installation is complete, you can access the MartianBank app by finding the IP address of the running MartianBank service using `kubectl get service` and access it in your browser.
+
+**Step 4: Uninstall MartianBank**
+
+If you want to uninstall MartianBank from the EKS cluster, follow these uninstallation steps:
+
+```shell
+helm uninstall martianbank
+kubectl delete all --all --namespace default
+```
+
+<br />
+
+## Installating locally
+
+**Option 1: Running on localhost**
+
+1. Start `ui` on port 3000:
+```shell
+cd ui
+npm install
+npm run ui
+```
+
+2. Start auth microservice on port 8000:
+```shell
+cd customer-auth
+npm install
+nodemon server.js
+```
+
+3. Start atm microservice on port 8001
+```shell
+cd atm-locator
+npm install
+nodemon server.js
+```
+
+4. Make sure that you have installed conda and pip.
+
+5. Create a virtual environment for Python microservices.
+```shell
+cd dashboard
+conda create --name <env_name>
+conda activate <env_name>
+pip install -r requirements.txt
+```
+
+6. Start accounts microservice.
+```shell
+cd accounts
+conda activate <env_name>
+python accounts.py
+```
+
+7. Start transactions microservice.
+```shell
+cd transactions
+conda activate <env_name>
+python transaction.py
+```
+
+8. Start loan microservice.
+```
+cd loan
+conda activate <env_name>
+python loan.py
+```
+
+9. Start dashboard microservice on port 5000
+```shell
+cd dashboard
+conda activate <env_name>
+python dashboard.py
+```
+
+Fire up `http://localhost:3000` to access the Martian Bank App.
+
+
+**Option 2: Using Docker**
+
+Make sure you have docker desktop installed and runnning on your system. After that, follow these steps:
+
+1. Build all docker containers:
+```shell
+docker compose up --build
+```
+
+2. Fire up `http://localhost/` to access the Martian Bank App.
+
+3. To delete docker containers:
+
+```shell
+docker compose down
+```
+
+<br />
+
+# Deployment Diagram
+
+![Deployment Diagram](https://drive.google.com/uc?export=view&id=1fVyWct-WydBdaYkZniQxKDn_XQIUxiR6)
+
+<br />
+
+# Contributing
+
+Pull requests and bug reports are welcome.
+
+For larger changes please create an Issue in GitHub first to discuss your
+proposed changes and possible implications.
+
+More more details please see the [Contribution guidelines for this project](CONTRIBUTING.md)
+
+<br />
+
+# License
+[Apache License, Version 2.0](https://www.apache.org/licenses/LICENSE-2.0)
+
+
+<!-- ## Installation Using Helm for MartianBank App
 
 This tutorial will guide you through the process of setting up and installing the MartianBank app using Helm on a Kubernetes cluster. Helm is a package manager for Kubernetes that simplifies the deployment of applications and services.
 
@@ -165,7 +455,7 @@ After performing the above two steps, the MartianBank app should be completely u
 Now you have successfully uninstalled the MartianBank app from your Kubernetes cluster, and all associated resources have been removed. If you have any other Helm releases or resources running on the cluster, you can manage them similarly using Helm commands and kubectl operations.
 
 
-## Installatioin in Kind Cluster
+## Installation in Kind Cluster
 
 Setting up MartianBank on a KIND (Kubernetes in Docker) cluster involves a few additional steps compared to a regular Kubernetes cluster. KIND allows you to create a lightweight Kubernetes cluster inside Docker containers, which is ideal for testing and development purposes. Here's how you can set up MartianBank on a KIND cluster:
 
@@ -228,10 +518,10 @@ That's it! You now have MartianBank installed and running on your KIND cluster. 
 
 
 
-## Local Machine Setup (older)
+## Local Machine Setup (older) -->
   
 
-1. Make env files:
+<!-- 1. Make env files:
 
   
 
@@ -286,351 +576,7 @@ VITE_LOAN_URL=<URL>
 
 ```
 
-  
 
----
-
-<br />
-
-  
-
-2. Run on localhost (your machine)
-
-  
-
-```
-
-# Run frontend (:3000)
-
-cd ui
-
-npm install
-
-npm run ui
-
-```
-
-  
-
-```
-
-# Run auth microservice (:8000)
-
-cd customer-auth
-
-npm install
-
-nodemon server.js
-
-```
-
-  
-
-```
-
-# Run atm microservice (:8001)
-
-cd atm-locator
-
-npm install
-
-nodemon server.js
-
-```
-
-  
-
-Make sure that you have installed conda and pip.
-
-```
-
-cd dashboard
-
-conda create --name <env_name>
-
-conda activate <env_name>
-
-pip install -r requirements.txt
-
-```
-
-  
-
-```
-
-cd accounts
-
-conda activate <env_name>
-
-python accounts.py
-
-```
-
-  
-
-```
-
-cd transactions
-
-conda activate <env_name>
-
-python transaction.py
-
-```
-
-  
-
-```
-
-cd loan
-
-conda activate <env_name>
-
-python loan.py
-
-```
-
-  
-
-```
-
-cd dashboard
-
-conda activate <env_name>
-
-python dashboard.py
-
-```
-
-  
-
-Fire up `http://localhost:3000` to access the Martian Bank App.
-
-  
-
----
-
-<br />
-
-  
-
-## Deployment Diagram
-
-  
-
-![Deployment Diagram](https://drive.google.com/uc?export=view&id=1fVyWct-WydBdaYkZniQxKDn_XQIUxiR6)
-
-  
-
----
-
-<br />
-
-  
-
-3. Running locally using Docker
-
-  
-
-Make sure you have docker desktop installed and runnning on your system.
-
-  
-
-```
-
-# To build docker containers:
-
-docker compose up --build
-
-  
-
-# To remove docker containers:
-
-docker compose down
-
-```
-
-Fire up `http://localhost/` to access the Martian Bank App.
-
-  
-
----
-
-<br />
-
-  
-
-4. Running locally using K8s (inside Docker Desktop):
-
-  
-
-Ensure that you have kubernetes enabled in Docker Desktop. Install `kubectl` as well.
-
-  
-
-Make sure you have helm installed, if not, run brew install helm first.
-
-  
-
-```
-
-# To create a cluster:
-
-helm install test1 martianbank
-
-kubectl get pods
-
-kubectl get services
-
-  
-
-# To delete the cluster:
-
-kubectl delete --all deployments
-
-kubectl delete --all services
-
-```
-
-Fire up `http://localhost/` to access the Martian Bank App.
-
-  
-
----
-
-<br />
-
-  
-
-5. Deploying to AWS EKS:
-
-  
-
-- Install AWS CLI tool and configure it (pass in access key, secret key, region, and it creates ~/.aws/config and ~/.aws/credentials files).
-
-```
-
-aws configure
-
-```
-
-  
-
-- Install eksctl tool
-
-```
-
-brew tap weaveworks/tap; brew install weaveworks/tap/eksctl
-
-```
-
-  
-
-- Install IAM authenticator
-
-```
-
-brew install aws-iam-authenticator
-
-```
-
-  
-
-- Create cluster.yaml file
-
-```
-
-apiVersion: eksctl.io/v1alpha5
-
-kind: ClusterConfig
-
-metadata:
-
-name: <username>
-
-region: us-east-1
-
-vpc:
-
-cidr: "172.20.0.0/16" ## Can change this value
-
-nat:
-
-gateway: Single
-
-clusterEndpoints:
-
-publicAccess: true
-
-privateAccess: true
-
-nodeGroups:
-
-- name: ng-1
-
-minSize: 2
-
-maxSize: 2
-
-instancesDistribution:
-
-maxPrice: 0.093
-
-instanceTypes: ["t3a.large", "t3.large"]
-
-onDemandBaseCapacity: 0
-
-onDemandPercentageAboveBaseCapacity: 50
-
-spotInstancePools: 2
-
-ssh:
-
-publicKeyPath: <path>
-
-```
-
-  
-
-- Create cluster (takes ~20 minutes)
-
-```
-
-eksctl create cluster -f cluster.yaml
-
-```
-
-  
-
-- Run the cluster (make sure you have helm installed, if not, run brew install helm first)
-
-```
-
-helm install test1 martianbank
-
-kubectl get pods
-
-kubectl get services
-
-```
-
-  
-
-- Copy the aws link that you see next to nginx. Fire that to access the Martian Bank.
-
-  
-
-- Delete the cluster
-
-```
-
-kubectl delete --all deployments
-
-kubectl delete --all services
-
-```
-
-  
 
 <!-- ---
 

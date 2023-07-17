@@ -114,6 +114,7 @@ const ApplyLoan = () => {
         progress: undefined,
         theme: "dark",
       });
+      navigate("/loan");
       setLoanAdded(true);
     } catch (err) {
       console.log(err);

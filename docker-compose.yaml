@@ -29,6 +29,7 @@ services:
       context: ./nginx
     container_name: nginx
     hostname: nginx
+    image: martian-bank-nginx
     ports:
       - "80:80"
     depends_on:
