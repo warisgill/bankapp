@@ -60,7 +60,7 @@ const HomeScreen = () => {
           <Col md={8} style={{ marginTop: "5vh" }}>
             <div
               style={{ fontSize: "2.5vh", backgroundColor: "#e9ecef" }}
-              className="card text-center p-2"
+              className="card text-center p-3"
             >
               Bank accounts
             </div>
