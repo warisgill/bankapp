@@ -23,6 +23,8 @@ from pymongo.mongo_client import MongoClient
 logging.basicConfig(level=logging.DEBUG)
 
 
+
+
 uri = "mongodb+srv://waris:test1122@cluster0.jk2md4w.mongodb.net/?retryWrites=true&w=majority"
 db_host = os.getenv("DATABASE_HOST", "localhost")
 # uri = f"mongodb://root:example@{db_host}:27017/"
@@ -65,23 +67,6 @@ def render_homepage():
 
 # gRPC setup
 
-
-# @app.route('/detail', methods=['GET', 'POST'])
-# def account_details():
-#     channel = grpc.insecure_channel('localhost:50051')
-#     client = AccountDetailsServiceStub(channel)
-#     if request.method == 'POST':
-#         account_number = request.form['account_number']
-
-#         # Create a gRPC request
-#         account_request = GetAccountDetailsRequest(account_number=account_number)
-
-#         # Send the gRPC request to the Account Details Microservice
-#         response = client.getAccountDetails(account_request)
-
-#         return render_template('detail_result.html', response=response)
-
-#     return render_template('detail_form.html')
 
 
 

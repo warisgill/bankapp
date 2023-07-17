@@ -8,7 +8,7 @@ import logging
 # set logging to debug
 logging.basicConfig(level=logging.DEBUG)
 
-# logging.
+
 
 
 from loan_pb2 import * 
