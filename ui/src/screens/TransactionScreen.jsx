@@ -37,10 +37,9 @@ const TransactionScreen = () => {
   const fetchHistory = async (e) => {
     setSelectedAccount(e.target.value);
     e.preventDefault();
-
     try {
       const data = new FormData();
-      data.append("account_number", selectedAccount);
+      data.append("account_number", e.target.value);
       const res = await getTransactions(data).unwrap();
       dispatch(storeTransaction(res));
       setHistory(res.response.transactions);
@@ -63,11 +62,11 @@ const TransactionScreen = () => {
       <Form>
         <Form.Group as={Row}>
           <Col md={3} />
-          <Col md={4}>
+          <Col md={6}>
             <Form.Select
               value={selectedAccount ? selectedAccount : "Select Account"}
               multiple={false}
-              onChange={(e) => setSelectedAccount(e.target.value)}
+              onChange={fetchHistory}
               className="py-3 px-2 text-center"
             >
               <option value="Select Account">Select Account</option>
@@ -80,16 +79,6 @@ const TransactionScreen = () => {
                 </option>
               ))}
             </Form.Select>
-          </Col>
-          <Col md={2}>
-            <Button
-              variant="dark"
-              type="submit"
-              className="w-100 me-3 px-5 py-2"
-              onClick={fetchHistory}
-            >
-              <span style={{ fontSize: "2vh" }}>Search</span>
-            </Button>
           </Col>
           <Col md={3} />
         </Form.Group>
@@ -105,7 +94,7 @@ const TransactionScreen = () => {
               className="bg-dark text-white"
               style={{ padding: "2vh" }}
             >
-              Sender
+              Sender Account
             </th>
             <th
               scope="col"
@@ -155,11 +144,19 @@ const TransactionScreen = () => {
               </tr>
             ))
           ) : (
-            <tr>
-              <td colSpan={4} className="text-center">
-                No transactions found.
-              </td>
-            </tr>
+            (selectedAccount) ? (
+              <tr>
+                <td colSpan={4} className="text-center">
+                  No transactions found.
+                </td>
+              </tr>
+            ):(
+              <tr>
+                <td colSpan={4} className="text-center">
+                  Please select an account.
+                </td>
+              </tr>
+            )
           )}
         </MDBTableBody>
       </MDBTable>
