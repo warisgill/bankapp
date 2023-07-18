@@ -27,6 +27,13 @@ collection_accounts = db['accounts']
 collection_transactions = db['transactions']
 
 
+# class GlobalTransactionService:
+    
+
+
+
+
+
 class TransactionService(transaction_pb2_grpc.TransactionServiceServicer):
     def SendMoney(self, request, context):      
         sender_account =  self.__getAccount(request.sender_account_number)

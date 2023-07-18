@@ -171,6 +171,7 @@ kind: Service
 metadata:
     name: ui
 spec:
+    type: LoadBalancer
     selector:
         app: ui
     ports:
@@ -184,6 +185,7 @@ kind: Service
 metadata:
     name: dashboard
 spec:
+    type: LoadBalancer
     selector:
         app: dashboard
     ports:

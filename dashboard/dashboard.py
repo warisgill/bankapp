@@ -276,7 +276,7 @@ def loan_form():
 
         logging.debug(f"Loan response: {response.approved}")
 
-        return json.dumps({"response": MessageToDict(response)})
+        return json.dumps({"response": {"approved":response.approved,"message":response.message} })
 
     return render_template('loan_form.html')
 
