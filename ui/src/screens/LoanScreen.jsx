@@ -54,7 +54,6 @@ const CustomCard = ({ title, text, icon, link }) => {
 };
 
 const LoanScreen = () => {
-
   const [loanAdded, setLoanAdded] = useState(false);
 
   const loanInfo = useSelector((state) => state.loan.loan_history).response;
@@ -151,10 +150,8 @@ const LoanScreen = () => {
 
   return (
     <Row fluid style={{ overflowY: "auto" }}>
-      <Col md={1} />
-
       <Col md={4} className="mt-5">
-        <div
+        {/* <div
           style={{
             fontSize: "2.5vh",
             backgroundColor: "#e9ecef",
@@ -163,7 +160,7 @@ const LoanScreen = () => {
           className="card text-center p-3"
         >
           Available Loans
-        </div>
+        </div> */}
         <CustomCard
           title="Base Camp"
           text={
@@ -219,16 +216,6 @@ const LoanScreen = () => {
       <Col md={1} />
 
       <Col md={6} className="mt-5">
-        <div
-          style={{
-            fontSize: "2.5vh",
-            backgroundColor: "#e9ecef",
-            marginBottom: "3vh",
-          }}
-          className="card text-center p-3"
-        >
-          Your Loans
-        </div>
         {loanInfo && loanInfo.loans ? (
           loanInfo.loans.length > 0 ? (
             loanInfo.loans.map((loan) => (
@@ -248,13 +235,22 @@ const LoanScreen = () => {
           )
         ) : (
           <div>
+            <div
+              style={{
+                fontSize: "2.5vh",
+                backgroundColor: "#e9ecef",
+                marginBottom: "3vh",
+              }}
+              className="card text-center p-3"
+            >
+              Your Loans
+            </div>
             <h3 className="mt-5" style={{ textAlign: "center" }}>
               You dont have any approved loans
             </h3>
           </div>
         )}
       </Col>
-      
     </Row>
   );
 };
