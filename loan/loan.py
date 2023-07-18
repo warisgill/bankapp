@@ -5,7 +5,7 @@ import os
 import grpc
 
 import logging
-
+from flask import Flask, request, jsonify
 # set logging to debug
 logging.basicConfig(level=logging.DEBUG)
 
@@ -23,7 +23,6 @@ client = MongoClient(uri)
 db = client["bank"]
 collection_accounts = db["accounts"]
 collection_loans = db["loans"]
-
 
 class LoanGeneric:
     def ProcessLoanRequest(self, request_data):
@@ -119,10 +118,6 @@ class LoanGeneric:
 
         return True
 
-
-
-
-
 class LoanService(loan_pb2_grpc.LoanServiceServicer):
     def __init__(self) -> None:
         super().__init__()
@@ -163,19 +158,44 @@ class LoanService(loan_pb2_grpc.LoanServiceServicer):
 
 
 
+app = Flask(__name__)
+loan_generic = LoanGeneric()
+@app.route("/loan/request", methods=["POST"])
+def process_loan_request():
+    request_data = request.json
+    response = loan_generic.ProcessLoanRequest(request_data)
+    return jsonify(response)
+
+
+@app.route("/loan/history", methods=["POST"])
+def get_loan_history():
+    logging.debug("----------------> Request: /loan/history")
+    d = request.json
+    logging.debug(f"Request: {d}")
+    response = loan_generic.getLoanHistory({"email": d['email']})
+    return jsonify(response)
 
 
 
-def serve():
+
+def serverGRPC(port):
     server = grpc.server(futures.ThreadPoolExecutor(max_workers=10))
     loan_pb2_grpc.add_LoanServiceServicer_to_server(LoanService(), server)
-    server.add_insecure_port("[::]:50053")
+    server.add_insecure_port(f"[::]:{port}")
     server.start()
     server.wait_for_termination()
 
+def serverFlask(port):
+    logging.debug(f"Starting Flask server on port {port}")
+    app.run(port=port, debug=True)
+
 
 if __name__ == "__main__":
-    serve()
+    port =  50053
+    # serve()
+    # serverGRPC(port)
+    serverFlask(port)
+
 
 
 

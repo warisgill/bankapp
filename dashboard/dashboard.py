@@ -19,6 +19,8 @@ from loan_pb2 import *
 
 from pymongo.mongo_client import MongoClient
 
+import requests as flask_client_requests
+
 # set logging to debug
 logging.basicConfig(level=logging.DEBUG)
 
@@ -248,12 +250,12 @@ def GetTransactionByID():
 
 
 
+
+
+
 @app.route('/loan/', methods=['GET', 'POST'])
 def loan_form():
-    loan_host = os.getenv("LOAN_HOST", "localhost")
-    channel = grpc.insecure_channel(f'{loan_host}:50053')
-    client = LoanServiceStub(channel)
-    if request.method == 'POST':
+    def __getLoanGRPC():
         name = request.form['name']
         email = request.form['email']
         account_type = request.form['account_type']
@@ -268,33 +270,81 @@ def loan_form():
 
         # Create a gRPC request
         loan_request = LoanRequest(name=name, email=email, account_type=account_type, account_number=account_number,  govt_id_type=govt_id_type,  
-                                   govt_id_number=govt_id_number, loan_type=loan_type, loan_amount=loan_amount, interest_rate=interest_rate, time_period=time_period)
+                                    govt_id_number=govt_id_number, loan_type=loan_type, loan_amount=loan_amount, interest_rate=interest_rate, time_period=time_period)
 
         # Send the gRPC request to the Loan Microservice
+        channel = grpc.insecure_channel(host_ip_port)
+        client = LoanServiceStub(channel)
         response = client.ProcessLoanRequest(loan_request)
         # response.account_number = account_number
-
         logging.debug(f"Loan response: {response.approved}")
+        return {"approved":response.approved,"message":response.message} 
 
-        return json.dumps({"response": {"approved":response.approved,"message":response.message} })
+    def __getLoanFlask():
+        # send a request to loan microservice implemented in flask 
+        name = request.form['name']
+        email = request.form['email']
+        account_type = request.form['account_type']
+        account_number = request.form['account_number']
+        govt_id_type = request.form['govt_id_type']
+        govt_id_number = request.form['govt_id_number']
+        loan_type = request.form['loan_type']
+        loan_amount = float(request.form['loan_amount'])
+        interest_rate = float(request.form['interest_rate'])
+        time_period = request.form['time_period']
+
+        loan_request = {
+            "name": name,
+            "email": email,
+            "account_type": account_type,
+            "account_number": account_number,
+            "govt_id_type": govt_id_type,
+            "govt_id_number": govt_id_number,
+            "loan_type": loan_type,
+            "loan_amount": loan_amount,
+            "interest_rate": interest_rate,
+            "time_period": time_period,
+        }
+
+        response = flask_client_requests.post(f"http://{host_ip_port}/loan/request", json=loan_request)    
+        return response.json()
+    
+    loan_host = os.getenv("LOAN_HOST", "localhost")
+    host_ip_port = f'{loan_host}:50053'
+    if request.method == 'POST':        
+        # result = __getLoanGRPC()
+        result = __getLoanFlask()
+        return json.dumps({"response": result})
 
     return render_template('loan_form.html')
 
 @app.route('/loan/history', methods=['GET', 'POST'])
 def loan_history():
-    # getLoanHistory
-    
-    loan_host = os.getenv("LOAN_HOST", "localhost")
-    channel = grpc.insecure_channel(f'{loan_host}:50053')
-    # channel = grpc.insecure_channel('localhost:50053')
-    client = LoanServiceStub(channel)
-    if request.method == 'POST':
-        logging.debug("+++++++++++++++++++++++++++++++++++++++++")
-        logging.debug(request.form['email'])
+    def __grpc():
+        # Send the gRPC request to the Loan Microservice
+        channel = grpc.insecure_channel(host_ip_port)
+        client = LoanServiceStub(channel)
         req =  LoansHistoryRequest(email = request.form['email']) 
         response = client.getLoanHistory(req)
-        logging.debug("After transaction request... +++++++++++++++++++++++++++++++")
-        return json.dumps({"response": MessageToDict(response)})
+        return MessageToDict(response)    
+    def __flask():
+        # send a post request to loan microservice implemented in flask
+        req = {'email': request.form['email']}
+        response = flask_client_requests.post(f"http://{host_ip_port}/loan/history", json=req)
+        logging.debug(f"====================== {response}")
+        return response.json()
+    
+    loan_host = os.getenv("LOAN_HOST", "localhost")
+    host_ip_port = f'{loan_host}:50053'
+    if request.method == 'POST':
+        logging.debug("+++++++++++++++++++++++++++++++++++++++++")
+        
+        # response = __grpc()
+        response = __flask()
+
+        logging.debug("-----------------------------------------")
+
+        return json.dumps({"response": response})
     return json.dumps({"response": None})
 
 
