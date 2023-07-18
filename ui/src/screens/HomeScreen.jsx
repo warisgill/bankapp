@@ -58,12 +58,12 @@ const HomeScreen = () => {
       <Container fluid style={{ overflowY: "auto" }}>
         <Row>
           <Col md={8} style={{ marginTop: "5vh" }}>
-            <div
+            {/* <div
               style={{ fontSize: "2.5vh", backgroundColor: "#e9ecef" }}
               className="card text-center p-3"
             >
               Bank accounts
-            </div>
+            </div> */}
 
             {accountInfo ? (
               accountInfo.length > 0 ? (
@@ -182,9 +182,7 @@ const HomeScreen = () => {
           <Col md={3} style={{ marginTop: "5vh" }}>
             <Card
               style={{
-                marginTop: "2vh",
-                backgroundColor: 'rgba(255, 255, 255, 0.2)', 
-                backdropFilter: 'invert(1%)'
+                marginTop: "1.5vh",
               }}
             >
               <Card.Body>
