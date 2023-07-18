@@ -445,7 +445,7 @@ const TransferScreen = () => {
                         variant="dark"
                         className="mt-3 mr-3"
                       >
-                        Go Back
+                        Cancel
                       </Button>
                     </Link>
                   </Col>
@@ -564,7 +564,7 @@ const TransferScreen = () => {
                           variant="dark"
                           className="mt-3 mr-3"
                         >
-                          Go Back
+                          Cancel
                         </Button>
                       </Link>
                     </Col>

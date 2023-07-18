@@ -464,18 +464,6 @@ const ApplyLoan = () => {
 
           <Row>
             <Col md={6}>
-              <Link to="/loan">
-                <Button
-                  style={{ width: "100%" }}
-                  variant="dark"
-                  className="mt-5"
-                >
-                  Cancel
-                </Button>
-              </Link>
-            </Col>
-
-            <Col md={6}>
               <Button
                 style={{ width: "100%" }}
                 type="submit"
@@ -485,6 +473,17 @@ const ApplyLoan = () => {
               >
                 Apply
               </Button>
+            </Col>
+            <Col md={6}>
+              <Link to="/loan">
+                <Button
+                  style={{ width: "100%" }}
+                  variant="dark"
+                  className="mt-5"
+                >
+                  Cancel
+                </Button>
+              </Link>
             </Col>
           </Row>
         </Form>
