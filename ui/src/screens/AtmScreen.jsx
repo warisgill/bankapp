@@ -249,7 +249,7 @@ const AtmScreen = () => {
             {isInterPlanetary ? (
               <Col md={6}>
                 <div className="map-container">
-                  <img src={mapImg} alt="Map" className="rounded" />
+                  <img src={mapImg} alt="Map" className="rounded" style={{height: '57vh', width: '65vh'}} />
                 </div>
               </Col>
             ) : (
