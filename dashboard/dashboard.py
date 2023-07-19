@@ -305,7 +305,7 @@ def loan_form():
             "interest_rate": interest_rate,
             "time_period": time_period,
         }
-
+        logging.debug(f"........==============>  http://{host_ip_port}/loan/request")
         response = flask_client_requests.post(f"http://{host_ip_port}/loan/request", json=loan_request)    
         return response.json()
     
@@ -330,8 +330,9 @@ def loan_history():
     def __flask():
         # send a post request to loan microservice implemented in flask
         req = {'email': request.form['email']}
+        logging.debug(f'=========================> this is  {f"{host_ip_port}/loan/history"}')
         response = flask_client_requests.post(f"http://{host_ip_port}/loan/history", json=req)
-        logging.debug(f"====================== {response}")
+        logging.debug(f"====================== {response.json()}")
         return response.json()
     
     loan_host = os.getenv("LOAN_HOST", "localhost")
