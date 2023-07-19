@@ -57,6 +57,7 @@ const LoanScreen = () => {
   const [loanAdded, setLoanAdded] = useState(false);
 
   const loanInfo = useSelector((state) => state.loan.loan_history).response;
+
   let allAccounts = useSelector((state) => state.account.all_accounts).response;
   if (!allAccounts) {
     allAccounts = [];
@@ -216,16 +217,16 @@ const LoanScreen = () => {
       <Col md={1} />
 
       <Col md={6} className="mt-5">
-        {loanInfo && loanInfo.loans ? (
-          loanInfo.loans.length > 0 ? (
-            loanInfo.loans.map((loan) => (
+        {loanInfo ? (
+          loanInfo.length > 0 ? (
+            loanInfo.map((loan) => (
               <CustomCard
-                title={`${loan.loanType} Loan for $${loan.loanAmount}`}
+                title={`${loan.loan_type} Loan for $${loan.loan_amount}`}
                 text={
                   <>
-                    Interest Rate: {loan.interestRate}%, Time Period:
-                    {loan.timePeriod} years <br />
-                    Account: {loan.accountNumber}
+                    Interest Rate: {loan.interest_rate}%, Time Period:
+                    {loan.time_period} years <br />
+                    Account: {loan.account_number}
                   </>
                 }
               />

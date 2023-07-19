@@ -1,2 +1,2 @@
-FROM --platform=linux/amd64 nginx
+FROM nginx
 COPY ./default.conf /etc/nginx/conf.d/
