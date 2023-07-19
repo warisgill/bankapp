@@ -187,7 +187,7 @@ def serverGRPC(port):
 
 def serverFlask(port):
     logging.debug(f"Starting Flask server on port {port}")
-    app.run(port=port, debug=True)
+    app.run(host='0.0.0.0' ,port=port, debug=True)
 
 
 if __name__ == "__main__":
