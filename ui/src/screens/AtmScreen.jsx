@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { toast } from "react-toastify";
+import { divIcon } from "leaflet";
 import { useDispatch } from "react-redux";
 import {
   useGetAtmsMutation,
@@ -17,11 +18,12 @@ import {
 } from "react-bootstrap";
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faLocationDot } from "@fortawesome/free-solid-svg-icons";
 import { faAngleDown, faAngleUp } from "@fortawesome/free-solid-svg-icons";
 import "leaflet/dist/leaflet.css";
 import "../index.css";
-import coinIcon from "../assets/coin.png";
-import mapImg from "../assets/map.jpg";
+import mapIcon from "../assets/mapIcon.png";
+import mapImg from "../assets/mapPlanets.png";
 
 const AtmScreen = () => {
   const [location, setLocation] = useState("");
@@ -100,6 +102,15 @@ const AtmScreen = () => {
   useEffect(() => {
     handleSubmit();
   }, [isOpenNow, isInterPlanetary]);
+
+  // Create a custom Leaflet divIcon
+  const customIcon = divIcon({
+    className: "custom-icon",
+    iconSize: [45, 45],
+    iconAnchor: [22.5, 45],
+    popupAnchor: [0, -45],
+    html: `<div style="color: #da1616;"><FontAwesomeIcon icon={faLocationDot} /></div>`,
+  });
 
   return (
     <Container className="mt-5 mb-5">
@@ -249,16 +260,19 @@ const AtmScreen = () => {
             {isInterPlanetary ? (
               <Col md={6}>
                 <div className="map-container">
-                  <img src={mapImg} alt="Map" className="rounded" style={{height: '57vh', width: '65vh'}} />
+                  <img
+                    src={mapImg}
+                    alt="Map"
+                    className="rounded"
+                    style={{ height: "57vh", width: "65vh" }}
+                  />
                 </div>
               </Col>
             ) : (
               <Col md={6}>
                 <div className="map-container">
                   <MapContainer
-                    center={
-                      [37.77175, -81.1901]
-                    }
+                    center={[37.77175, -81.1901]}
                     zoom={15}
                     scrollWheelZoom={false}
                     className="rounded"
@@ -272,7 +286,7 @@ const AtmScreen = () => {
                           atm.coordinates.longitude,
                         ]}
                         icon={L.icon({
-                          iconUrl: coinIcon,
+                          iconUrl: mapIcon,
                           iconSize: [45, 45],
                           iconAnchor: [22.5, 45],
                           popupAnchor: [0, -45],
