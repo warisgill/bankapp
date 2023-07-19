@@ -68,9 +68,9 @@ const ProfileScreen = () => {
     }
   };
   return (
-    <FormContainer position="left">
+    <FormContainer>
       <h4
-        className="bg-dark mx-3 text-white"
+        className="bg-light mx-3"
         style={{
           textAlign: "center",
           paddingTop: "1.5vh",

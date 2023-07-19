@@ -5,14 +5,16 @@ import ATM from "../models/atmModel.js";
 // @route   POST /atm
 // @access  Public
 const getATMs = asyncHandler(async (req, res) => {
-  let query = {};
+  let query = {
+    interPlanetary: false,
+  };
   if (req.body.isOpenNow) {
     query.isOpen = true;
   }
   if (req.body.isInterPlanetary) {
     query.interPlanetary = true;
   }
-  const ATMs = await ATM.find(query, { name: 1, coordinates: 1, address: 1, isOpen: 1 });
+  const ATMs = await ATM.find(query, { name: 1, coordinates: 1, address: 1, isOpen: 1});
   const shuffledATMs = [...ATMs].sort(() => Math.random() - 0.5).slice(0, 4);
   if (shuffledATMs) {
     res.status(200).json(shuffledATMs);

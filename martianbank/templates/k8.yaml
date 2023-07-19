@@ -171,7 +171,6 @@ kind: Service
 metadata:
     name: ui
 spec:
-    type: LoadBalancer
     selector:
         app: ui
     ports:

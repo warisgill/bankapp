@@ -20,6 +20,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAngleDown, faAngleUp } from "@fortawesome/free-solid-svg-icons";
 import "leaflet/dist/leaflet.css";
 import "../index.css";
+import coinIcon from "../assets/coin.png";
+import mapImg from "../assets/map.jpg";
 
 const AtmScreen = () => {
   const [location, setLocation] = useState("");
@@ -244,31 +246,47 @@ const AtmScreen = () => {
                 ))}
               </div>
             </Col>
-            <Col md={6}>
-              <div className="map-container">
-                <MapContainer
-                  center={[37.77528, -81.19197]}
-                  zoom={15}
-                  scrollWheelZoom={false}
-                  className="rounded"
-                >
-                  <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
-                  {atmsList.map((atm, index) => (
-                    <Marker
-                      key={index}
-                      position={[
-                        atm.coordinates.latitude,
-                        atm.coordinates.longitude,
-                      ]}
-                    >
-                      <Popup keepInView autoPan>
-                        {atm.name}
-                      </Popup>
-                    </Marker>
-                  ))}
-                </MapContainer>
-              </div>
-            </Col>
+            {isInterPlanetary ? (
+              <Col md={6}>
+                <div className="map-container">
+                  <img src={mapImg} alt="Map" className="rounded" style={{height: '57vh', width: '65vh'}} />
+                </div>
+              </Col>
+            ) : (
+              <Col md={6}>
+                <div className="map-container">
+                  <MapContainer
+                    center={
+                      [37.77175, -81.1901]
+                    }
+                    zoom={15}
+                    scrollWheelZoom={false}
+                    className="rounded"
+                  >
+                    <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
+                    {atmsList.map((atm, index) => (
+                      <Marker
+                        key={index}
+                        position={[
+                          atm.coordinates.latitude,
+                          atm.coordinates.longitude,
+                        ]}
+                        icon={L.icon({
+                          iconUrl: coinIcon,
+                          iconSize: [45, 45],
+                          iconAnchor: [22.5, 45],
+                          popupAnchor: [0, -45],
+                        })}
+                      >
+                        <Popup keepInView autoPan>
+                          {atm.name}
+                        </Popup>
+                      </Marker>
+                    ))}
+                  </MapContainer>
+                </div>
+              </Col>
+            )}
           </Row>
         </div>
       ) : null}

@@ -11,6 +11,7 @@ services:
       - bankapp-network
 
   ui:
+    platform: linux/amd64
     build:
       context: ./ui
     container_name: ui
@@ -25,6 +26,7 @@ services:
       - bankapp-network
 
   nginx:
+    platform: linux/amd64
     build: 
       context: ./nginx
     container_name: nginx
@@ -41,6 +43,7 @@ services:
       - bankapp-network
 
   customer-auth:
+    platform: linux/amd64
     build:
       context: ./customer-auth
     container_name: customer-auth
@@ -55,6 +58,7 @@ services:
       - bankapp-network
 
   atm-locator:
+    platform: linux/amd64
     build:
       context: ./atm-locator
     container_name: atm-locator
