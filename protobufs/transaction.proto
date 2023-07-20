@@ -11,9 +11,9 @@ message TransactionRequest {
 
 message TransactionResponse {
   // string result = 1;
-  string approved = 1;
+  bool approved = 1;
   // string  = 2;
-  string msg = 2;
+  string message = 2;
 }
 
 message GetALLTransactionsRequest{
@@ -47,7 +47,7 @@ message TransactionByIDRequest{
 
 
 service TransactionService {
-  rpc SendMoney(TransactionRequest) returns (TransactionResponse);
+  rpc sendMoney(TransactionRequest) returns (TransactionResponse);
   rpc getTransactionsHistory(GetALLTransactionsRequest) returns (GetALLTransactionsResponse);
   rpc Zelle(ZelleRequest) returns (TransactionResponse);
   rpc getTransactionByID(TransactionByIDRequest) returns (Transaction);

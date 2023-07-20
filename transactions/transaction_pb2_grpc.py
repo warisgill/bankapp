@@ -14,8 +14,8 @@ class TransactionServiceStub(object):
         Args:
             channel: A grpc.Channel.
         """
-        self.SendMoney = channel.unary_unary(
-                '/TransactionService/SendMoney',
+        self.sendMoney = channel.unary_unary(
+                '/TransactionService/sendMoney',
                 request_serializer=transaction__pb2.TransactionRequest.SerializeToString,
                 response_deserializer=transaction__pb2.TransactionResponse.FromString,
                 )
@@ -39,7 +39,7 @@ class TransactionServiceStub(object):
 class TransactionServiceServicer(object):
     """Missing associated documentation comment in .proto file."""
 
-    def SendMoney(self, request, context):
+    def sendMoney(self, request, context):
         """Missing associated documentation comment in .proto file."""
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
@@ -66,8 +66,8 @@ class TransactionServiceServicer(object):
 
 def add_TransactionServiceServicer_to_server(servicer, server):
     rpc_method_handlers = {
-            'SendMoney': grpc.unary_unary_rpc_method_handler(
-                    servicer.SendMoney,
+            'sendMoney': grpc.unary_unary_rpc_method_handler(
+                    servicer.sendMoney,
                     request_deserializer=transaction__pb2.TransactionRequest.FromString,
                     response_serializer=transaction__pb2.TransactionResponse.SerializeToString,
             ),
@@ -97,7 +97,7 @@ class TransactionService(object):
     """Missing associated documentation comment in .proto file."""
 
     @staticmethod
-    def SendMoney(request,
+    def sendMoney(request,
             target,
             options=(),
             channel_credentials=None,
@@ -107,7 +107,7 @@ class TransactionService(object):
             wait_for_ready=None,
             timeout=None,
             metadata=None):
-        return grpc.experimental.unary_unary(request, target, '/TransactionService/SendMoney',
+        return grpc.experimental.unary_unary(request, target, '/TransactionService/sendMoney',
             transaction__pb2.TransactionRequest.SerializeToString,
             transaction__pb2.TransactionResponse.FromString,
             options, channel_credentials,
