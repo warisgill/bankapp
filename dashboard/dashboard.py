@@ -312,8 +312,10 @@ def loan_form():
     loan_host = os.getenv("LOAN_HOST", "localhost")
     host_ip_port = f'{loan_host}:50053'
     if request.method == 'POST':        
-        # result = __getLoanGRPC()
-        result = __getLoanFlask()
+        result = __getLoanGRPC()
+        # result = __getLoanFlask()
+
+        logging.debug(f"---->Loan response: {result}")
         return json.dumps({"response": result})
 
     return render_template('loan_form.html')
@@ -340,8 +342,8 @@ def loan_history():
     if request.method == 'POST':
         logging.debug("+++++++++++++++++++++++++++++++++++++++++")
         
-        # response = __grpc()
-        response = __flask()
+        response = __grpc()
+        # response = __flask()
 
         logging.debug("-----------------------------------------")
 
