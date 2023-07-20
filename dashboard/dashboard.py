@@ -148,15 +148,17 @@ def transaction_form():
 
         response = client.SendMoney(req)
         # return f"Transaction successful. Transaction ID: {response}"
-        return json.dumps({"response": {'approved': response.approved, 'message': response.message}})
-    
+        return json.dumps(
+            {"response": {"approved": response.approved, "message": response.message}}
+        )
+
     def __flask():
         response = flask_client_requests.post(
-            f"http://{host_ip_port}/transaction/transfer", json=request.form
+            f"http://{host_ip_port}/transfer", json=request.form
         )
         logging.debug(f"====================== {response.json()}")
         return {"response": response.json()}
-        
+
     transaction_host = os.getenv("TRANSACTION_HOST", "localhost")
     host_ip_port = f"{transaction_host}:50052"
     if request.method == "POST":
@@ -164,7 +166,7 @@ def transaction_form():
         result = __flask()
         logging.debug(f"---->Transaction response: {result}")
         return result
-            
+
     return render_template("transaction.html")
 
 
@@ -192,16 +194,21 @@ def transaction_zelle():
         logging.debug(f"Zelle response: {response}")
 
         # return f"Transaction successful. Transaction ID: {response}"
-        return json.dumps({"response": {'approved': response.approved, 'message': response.message}})
+        return json.dumps(
+            {"response": {"approved": response.approved, "message": response.message}}
+        )
 
     def __flask():
-        req = {'sender_email': request.form["sender_email"], 'receiver_email': request.form["receiver_email"], 'amount': float(request.form["amount"]), 'reason': request.form["reason"]}
-        response = flask_client_requests.post(
-            f"http://{host_ip_port}/transaction/zelle", json=req
-        )
+        req = {
+            "sender_email": request.form["sender_email"],
+            "receiver_email": request.form["receiver_email"],
+            "amount": float(request.form["amount"]),
+            "reason": request.form["reason"],
+        }
+        response = flask_client_requests.post(f"http://{host_ip_port}/zelle", json=req)
         logging.debug(f"====================== {response.json()}")
         return {"response": response.json()}
-    
+
     transaction_host = os.getenv("TRANSACTION_HOST", "localhost")
     host_ip_port = f"{transaction_host}:50052"
     if request.method == "POST":
@@ -209,53 +216,84 @@ def transaction_zelle():
         result = __flask()
         logging.debug(f"---->Transaction response: {result}")
         return result
-    
+
     return render_template("transaction.html")
+
 
 @app.route("/transaction/history", methods=["GET", "POST"])
 def get_all_transactions():
-    if request.method == "POST":
-        account_number = request.form["account_number"]  # type: ignore
-
-        transaction_host = os.getenv("TRANSACTION_HOST", "localhost")
-        channel = grpc.insecure_channel(f"{transaction_host}:50052")
-        # channel = grpc.insecure_channel('localhost:50052')
+    def __grpc():
+        channel = grpc.insecure_channel(host_ip_port)
         client = TransactionServiceStub(channel)
 
+        account_number = request.form["account_number"]  # type: ignore
         req = GetALLTransactionsRequest(account_number=account_number)
-
-        # logging.debug("Sending transaction request... +++++++++++++++++++++++++++++++")
-
         response = client.getTransactionsHistory(req)
+        transaction_history = []
+        for r in response.transactions:
+            t = {
+                "account_number": r.account_number,
+                "amount": r.amount,
+                "reason": r.reason,
+                "time_stamp": r.time_stamp,
+                "type": r.type,
+                "transaction_id": r.transaction_id,
+            }
+            transaction_history.append(t)
+        return json.dumps({"response": transaction_history})
 
-        # logging.debug("After transaction request... +++++++++++++++++++++++++++++++")
+    def __flask():
+        req = {"account_number": request.form["account_number"]}
+        response = flask_client_requests.post(
+            f"http://{host_ip_port}/transaction-history", json=req
+        )
+        logging.debug(f"====================== {response.json()}")
+        return {"response": response.json()}
 
-        # # return f"Transaction successful. Transaction ID: {response}"
-        return json.dumps({"response": MessageToDict(response)})
+    transaction_host = os.getenv("TRANSACTION_HOST", "localhost")
+    host_ip_port = f"{transaction_host}:50052"
+    if request.method == "POST":
+        # result = __grpc()
+        result = __flask()
+        logging.debug(f"---->Transaction response: {result}")
+        return result
 
     return json.dumps({"response": None})
 
 
 @app.route("/transaction/transaction-with-id", methods=["GET", "POST"])
 def GetTransactionByID():
-    if request.method == "POST":
+    def __grpc():
         transaction_id = request.form["transaction_id"]  # type: ignore
-
-        transaction_host = os.getenv("TRANSACTION_HOST", "localhost")
-        channel = grpc.insecure_channel(f"{transaction_host}:50052")
-        # channel = grpc.insecure_channel('localhost:50052')
+        channel = grpc.insecure_channel(host_ip_port)
         client = TransactionServiceStub(channel)
-
         req = TransactionByIDRequest(transaction_id=transaction_id)
+        r = client.getTransactionByID(req)
+        response = {
+            "account_number": r.account_number,
+            "amount": r.amount,
+            "reason": r.reason,
+            "time_stamp": r.time_stamp,
+            "type": r.type,
+            "transaction_id": r.transaction_id,
+        }
+        return json.dumps({"response": response})
 
-        # logging.debug("Sending transaction request... +++++++++++++++++++++++++++++++")
+    def __flask():
+        req = {"transaction_id": request.form["transaction_id"]}
+        response = flask_client_requests.post(
+            f"http://{host_ip_port}/transaction-with-id", json=req
+        )
+        logging.debug(f"====================== {response.json()}")
+        return {"response": response.json()}
 
-        response = client.getTransactionByID(req)
-
-        # logging.debug("After transaction request... +++++++++++++++++++++++++++++++")
-
-        # # return f"Transaction successful. Transaction ID: {response}"
-        return json.dumps({"response": MessageToDict(response)})
+    transaction_host = os.getenv("TRANSACTION_HOST", "localhost")
+    host_ip_port = f"{transaction_host}:50052"
+    if request.method == "POST":
+        # result = __grpc()
+        result = __flask()
+        logging.debug(f"---->Transaction response: {result}")
+        return result
 
     return json.dumps({"response": None})
 

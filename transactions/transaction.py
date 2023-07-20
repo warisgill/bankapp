@@ -264,14 +264,14 @@ class TransactionService(transaction_pb2_grpc.TransactionServiceServicer):
 app = Flask(__name__)
 transaction_generic = TransactionGeneric()
 
-@app.route("/transaction/transfer", methods=["POST"])
+@app.route("/transfer", methods=["POST"])
 def sendMoney():
     data = request.json
     data = DotMap(data)
     result = transaction_generic.SendMoney(data)
     return jsonify(result)
 
-@app.route("/transaction/zelle", methods=["POST"])
+@app.route("/zelle", methods=["POST"])
 def zelle():
     logging.debug(" Zelle API called")
     data = request.json
@@ -279,15 +279,18 @@ def zelle():
     result = transaction_generic.Zelle(data)
     return jsonify(result)
 
-@app.route("/getTransactionByID", methods=["POST"])
+@app.route("/transaction-with-id", methods=["POST"])
 def getTransactionByID():
+    logging.debug(" Get Transaction By ID API called")
     data = request.json
+    data = DotMap(data)
     result = transaction_generic.GetTransactionByID(data)
     return jsonify(result)
 
-@app.route("/getTransactionsHistory", methods=["POST"])
+@app.route("/transaction-history", methods=["POST"])
 def getTransactionsHistory():
     data = request.json
+    data = DotMap(data)
     result = transaction_generic.GetTransactionsHistory(data)
     return jsonify(result)
 
