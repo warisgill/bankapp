@@ -4,7 +4,7 @@
 
 MartianBank is a microservices application that allows customers to access and manage their bank accounts, perform financial transactions, locate ATMs, and apply for loans.
 
-It is built using [React](https://react.dev/),[ Node.js](https://nodejs.org/en/about), [ Python](https://flask.palletsprojects.com/en/2.3.x/) and is packaged in [Docker](https://www.docker.com/) containers.
+It is built using [React](https://react.dev/),[ Node.js](https://nodejs.org/en/about), [Python](https://flask.palletsprojects.com/en/2.3.x/) and is packaged in [Docker](https://www.docker.com/) containers.
 
 <br />
 
