@@ -6,7 +6,11 @@ import accounts_pb2 as accounts__pb2
 
 
 class AccountDetailsServiceStub(object):
-    """Missing associated documentation comment in .proto file."""
+    """message GetAccountDetailResponse {
+    AccountDetail account = 1;
+    }
+
+    """
 
     def __init__(self, channel):
         """Constructor.
@@ -17,7 +21,7 @@ class AccountDetailsServiceStub(object):
         self.getAccountDetails = channel.unary_unary(
                 '/AccountDetailsService/getAccountDetails',
                 request_serializer=accounts__pb2.GetAccountDetailRequest.SerializeToString,
-                response_deserializer=accounts__pb2.GetAccountDetailResponse.FromString,
+                response_deserializer=accounts__pb2.AccountDetail.FromString,
                 )
         self.createAccount = channel.unary_unary(
                 '/AccountDetailsService/createAccount',
@@ -32,7 +36,11 @@ class AccountDetailsServiceStub(object):
 
 
 class AccountDetailsServiceServicer(object):
-    """Missing associated documentation comment in .proto file."""
+    """message GetAccountDetailResponse {
+    AccountDetail account = 1;
+    }
+
+    """
 
     def getAccountDetails(self, request, context):
         """Missing associated documentation comment in .proto file."""
@@ -58,7 +66,7 @@ def add_AccountDetailsServiceServicer_to_server(servicer, server):
             'getAccountDetails': grpc.unary_unary_rpc_method_handler(
                     servicer.getAccountDetails,
                     request_deserializer=accounts__pb2.GetAccountDetailRequest.FromString,
-                    response_serializer=accounts__pb2.GetAccountDetailResponse.SerializeToString,
+                    response_serializer=accounts__pb2.AccountDetail.SerializeToString,
             ),
             'createAccount': grpc.unary_unary_rpc_method_handler(
                     servicer.createAccount,
@@ -78,7 +86,11 @@ def add_AccountDetailsServiceServicer_to_server(servicer, server):
 
  # This class is part of an EXPERIMENTAL API.
 class AccountDetailsService(object):
-    """Missing associated documentation comment in .proto file."""
+    """message GetAccountDetailResponse {
+    AccountDetail account = 1;
+    }
+
+    """
 
     @staticmethod
     def getAccountDetails(request,
@@ -93,7 +105,7 @@ class AccountDetailsService(object):
             metadata=None):
         return grpc.experimental.unary_unary(request, target, '/AccountDetailsService/getAccountDetails',
             accounts__pb2.GetAccountDetailRequest.SerializeToString,
-            accounts__pb2.GetAccountDetailResponse.FromString,
+            accounts__pb2.AccountDetail.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 

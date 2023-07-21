@@ -3,20 +3,14 @@ import random
 import datetime
 import os
 import grpc
-import logging
-
-# set logging to debug
-logging.basicConfig(level=logging.DEBUG)
-
-
 from accounts_pb2 import *
 import accounts_pb2_grpc
-
-# logging.debug("Hello local")
-
-# creat a list of accounts and fill with dummy data
-
+import logging
+from dotmap import DotMap
 from pymongo.mongo_client import MongoClient
+from flask import Flask, request, jsonify
+# set logging to debug
+logging.basicConfig(level=logging.DEBUG)
 
 uri = "mongodb+srv://waris:test1122@cluster0.jk2md4w.mongodb.net/?retryWrites=true&w=majority"
 
@@ -26,20 +20,19 @@ client = MongoClient(uri)
 db = client["bank"]
 collection = db["accounts"]
 
+
 class AccountsGeneric:
     def getAccountDetails(self, request):
-        accounts = collection.find()
-        for account in accounts:
-            if account["account_number"] == request.account_number:
-                return GetAccountDetailResponse(
-                    account=Account(
-                        account_number=account["account_number"],
-                        account_holder_name=account["account_holder_name"],
-                        balance=account["balance"],
-                        currency=account["currency"],
-                    )
-                )
-        return GetAccountDetailResponse()
+        logging.debug("Get Account Details called")
+        account = collection.find_one({"account_number": request.account_number})
+
+      
+
+        if account:
+            return  {'account_number': account["account_number"],'name': account["name"], 'balance': account["balance"], 'currency': account["currency"]}
+    
+
+        return {}
 
     # Todo: check if the account already exist or not
 
@@ -54,7 +47,7 @@ class AccountsGeneric:
 
         if count > 0:
             logging.debug("Account already exist")
-            return CreateAccountResponse(result=False)
+            return False  # CreateAccountResponse(result=False)
 
         account = {
             "email_id": request.email_id,
@@ -76,7 +69,7 @@ class AccountsGeneric:
         account["created_at"] = datetime.datetime.now()
         # insert the account into the list of accounts
         collection.insert_one(account)
-        return CreateAccountResponse(result=True)
+        return True  # CreateAccountResponse(result=True)
 
     def getAccounts(self, request):
         email_id = request.email_id
@@ -84,6 +77,69 @@ class AccountsGeneric:
         account_list = []
         for account in accounts:
             # logging.debug(account["balance"])
+            # account_list.append(
+            #     Account(
+            #         account_number=account["account_number"],
+            #         email_id=account["email_id"],
+            #         account_type=account["account_type"],
+            #         address=account["address"],
+            #         govt_id_number=account["govt_id_number"],
+            #         government_id_type=account["government_id_type"],
+            #         name=account["name"],
+            #         balance=account["balance"],
+            #         currency=account["currency"],
+            #     )
+            # )
+            acc = {
+                k: v
+                for k, v in account.items()
+                if k
+                in [
+                    "account_number",
+                    "email_id",
+                    "account_type",
+                    "address",
+                    "govt_id_number",
+                    "government_id_type",
+                    "name",
+                    "balance",
+                    "currency",
+                ]
+            }
+            account_list.append(acc)
+
+        return account_list
+
+
+class AccountDetailsService(accounts_pb2_grpc.AccountDetailsServiceServicer):
+    def __init__(self):
+        self.accounts = AccountsGeneric()
+
+    def getAccountDetails(self, request, context):
+
+        logging.debug("Get Account Details called")
+
+        account = self.accounts.getAccountDetails(request)
+
+        if len(account) > 0:
+            return AccountDetail(
+               account_number=account["account_number"],
+                name=account["name"],
+                balance=account["balance"],
+                currency=account["currency"],
+            )
+        return AccountDetail()
+
+    def createAccount(self, request, context):
+        # return self.accounts.createAccount(request)
+        result = self.accounts.createAccount(request)
+        return CreateAccountResponse(result=result)
+
+    def getAccounts(self, request, context):
+        # return self.accounts.getAccounts(request)
+        accounts = self.accounts.getAccounts(request)
+        account_list = []
+        for account in accounts:
             account_list.append(
                 Account(
                     account_number=account["account_number"],
@@ -97,46 +153,58 @@ class AccountsGeneric:
                     currency=account["currency"],
                 )
             )
-
         return GetAccountsResponse(accounts=account_list)
 
 
+app = Flask(__name__)
+accounts_generic = AccountsGeneric()
+@app.route("/account-detail", methods=["POST"])
+def getAccountDetails():
+    data = request.json
+    data = DotMap(data)
+    # account_number = request.json["account_number"]
+    account = accounts_generic.getAccountDetails(data)
+    return jsonify(account)
+
+@app.route("/create-account", methods=["POST"])
+def createAccount():
+    data = request.json
+    data = DotMap(data)
+    result = accounts_generic.createAccount(data)
+    return jsonify(result)
+
+@app.route("/get-all-accounts", methods=["POST"])
+def getAccounts():
+    data = request.json
+    data = DotMap(data)
+    accounts = accounts_generic.getAccounts(data)
+    return jsonify(accounts)
 
 
 
+def serverFlask(port):
+    logging.debug(f"Starting Flask server on port {port}")
+    app.run(host='0.0.0.0' ,port=port, debug=True)    
 
 
-class AccountDetailsService(accounts_pb2_grpc.AccountDetailsServiceServicer):
-    def __init__(self):
-        self.accounts = AccountsGeneric()
-
-
-    def getAccountDetails(self, request, context):
-        return self.accounts.getAccountDetails(request)
-        
-    
-    def createAccount(self, request, context):
-        return self.accounts.createAccount(request)
-    
-    def getAccounts(self, request, context):
-        return self.accounts.getAccounts(request)
-
-
-def serve():
+def serverGRPC(port):
     # recommendations_host = os.getenv("RECOMMENDATIONS_HOST", "localhost")
     server = grpc.server(futures.ThreadPoolExecutor(max_workers=10))
     accounts_pb2_grpc.add_AccountDetailsServiceServicer_to_server(
         AccountDetailsService(), server
     )
-    server.add_insecure_port("[::]:50051")
+    server.add_insecure_port(f"[::]:{port}")
     # server.add_insecure_port(f"{recommendations_host}:50051")
     # print server ip and port
-    logging.debug(f"Server started at port 50051")
+    logging.debug(f"Server started at port {port}")
     # print IP
-
     server.start()
     server.wait_for_termination()
 
 
+
+
 if __name__ == "__main__":
-    serve()
+    port = 50051
+    # serverGRPC(port)
+    serverFlask(port)

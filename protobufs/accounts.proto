@@ -39,7 +39,7 @@ message GetAccountsResponse {
 
 message AccountDetail{
   string account_number = 1;
-  string account_holder_name = 2;
+  string name = 2;
   double balance = 3;
   string currency = 4;
 }
@@ -50,16 +50,16 @@ message GetAccountDetailRequest {
 
 
 
-message GetAccountDetailResponse {
-  AccountDetail account = 1;
-}
+// message GetAccountDetailResponse {
+//   AccountDetail account = 1;
+// }
 
 
 
 
 
 service AccountDetailsService {
-  rpc getAccountDetails(GetAccountDetailRequest) returns (GetAccountDetailResponse);
+  rpc getAccountDetails(GetAccountDetailRequest) returns (AccountDetail);
   rpc createAccount(CreateAccountRequest) returns (CreateAccountResponse);
   rpc getAccounts(GetAccountsRequest) returns (GetAccountsResponse);
 }
