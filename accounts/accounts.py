@@ -107,15 +107,19 @@ class AccountsGeneric:
 
 
 class AccountDetailsService(accounts_pb2_grpc.AccountDetailsServiceServicer):
+    def __init__(self):
+        self.accounts = AccountsGeneric()
+
+
     def getAccountDetails(self, request, context):
-    
-        return  
+        return self.accounts.getAccountDetails(request)
+        
     
     def createAccount(self, request, context):
-        pass
+        return self.accounts.createAccount(request)
     
     def getAccounts(self, request, context):
-        pass
+        return self.accounts.getAccounts(request)
 
 
 def serve():
