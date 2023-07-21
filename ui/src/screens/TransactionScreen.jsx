@@ -123,43 +123,44 @@ const TransactionScreen = () => {
           {history && history.length > 0 ? (
             history.map((transaction) => (
               <>
-              {console.log(transaction)}
-              <tr key={transaction.transaction_id}>
-                <td className="text-center fw-normal">
-                  {transaction.account_number}
-                </td>
-                <td className="text-center fw-bold">$ {transaction.amount}</td>
-                <td className="text-center">
-                  <p className="fw-normal mb-1">
-                    {transaction.time_stamp.substring(0, 10)}
-                  </p>
-                  <p className="text-muted mb-0">{transaction.reason}</p>
-                </td>
-                <td className="text-center">
-                  <MDBBadge
-                    color={transaction.type === "debit" ? "success" : "danger"}
-                    pill
-                  >
-                    {transaction.type}
-                  </MDBBadge>
-                </td>
-              </tr>
+                <tr key={transaction.transaction_id}>
+                  <td className="text-center fw-normal">
+                    {transaction.account_number}
+                  </td>
+                  <td className="text-center fw-bold">
+                    $ {transaction.amount}
+                  </td>
+                  <td className="text-center">
+                    <p className="fw-normal mb-1">
+                      {transaction.time_stamp.substring(0, 10)}
+                    </p>
+                    <p className="text-muted mb-0">{transaction.reason}</p>
+                  </td>
+                  <td className="text-center">
+                    <MDBBadge
+                      color={
+                        transaction.type === "debit" ? "success" : "danger"
+                      }
+                      pill
+                    >
+                      {transaction.type}
+                    </MDBBadge>
+                  </td>
+                </tr>
               </>
             ))
+          ) : selectedAccount ? (
+            <tr>
+              <td colSpan={4} className="text-center">
+                No transactions found.
+              </td>
+            </tr>
           ) : (
-            (selectedAccount) ? (
-              <tr>
-                <td colSpan={4} className="text-center">
-                  No transactions found.
-                </td>
-              </tr>
-            ):(
-              <tr>
-                <td colSpan={4} className="text-center">
-                  Please select an account.
-                </td>
-              </tr>
-            )
+            <tr>
+              <td colSpan={4} className="text-center">
+                Please select an account.
+              </td>
+            </tr>
           )}
         </MDBTableBody>
       </MDBTable>

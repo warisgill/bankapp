@@ -39,7 +39,7 @@ const ProfileScreen = () => {
           name,
           email,
           password,
-          token: Cookies.get("jwt"),
+          // token: Cookies.get("jwt"),
         }).unwrap();
         dispatch(setCredentials(res));
         toast.success("Your profile has been updated", {
