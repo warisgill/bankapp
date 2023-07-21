@@ -61,14 +61,9 @@ def render_homepage():
 
 @app.route("/account/create", methods=["GET", "POST"])
 def create_account():
-    accounts_host = os.getenv("ACCOUNT_HOST", "localhost")
-    logging.debug(f"host account {accounts_host}")
-    channel = grpc.insecure_channel(f"{accounts_host}:50051")
-    client = AccountDetailsServiceStub(channel)
-    if request.method == "POST":
-        logging.debug("+++++++++++++++++++++++++++++++++++++++++")
-        logging.debug(request.form)
-
+    def __grpc():
+        channel = grpc.insecure_channel(host_ip_port)
+        client = AccountDetailsServiceStub(channel)
         email_id = request.form["email_id"]
         account_type = request.form["account_type"]
         address = request.form["address"]
@@ -94,34 +89,96 @@ def create_account():
         logging.debug(f"Account creation response: {response.result}")
 
         # Return a JSON response
-        return jsonify(
-            {
-                "success": response.result,
-                "message": "Account created successfully",
-                "data": {"response": response.result},
-            }
+        return json.dumps({"response": {'status': response.result}})
+    
+    def __flask():
+        response = flask_client_requests.post(
+            f"http://{host_ip_port}/create-account", json=request.form
         )
+        logging.debug(f"====================== {response.json()}")
+        return {"response": response.json()}
+
+    accounts_host = os.getenv("ACCOUNT_HOST", "localhost")
+    host_ip_port =  f"{accounts_host}:50051"
+    
+    if request.method == "POST":
+        logging.debug("+++++++++++++++++++++++++++++++++++++++++")
+        logging.debug(request.form)
+        # result = __grpc()
+        result = __flask()
+        return result
+    
+    
     return render_template("create_account_form.html")
 
 
 @app.route("/account/allaccounts", methods=["GET", "POST"])
 def get_all_accounts():
-    accounts_host = os.getenv("ACCOUNT_HOST", "localhost")
-    channel = grpc.insecure_channel(f"{accounts_host}:50051")
-    client = AccountDetailsServiceStub(channel)
-    if request.method == "POST":
+    def __grpc():
+        channel = grpc.insecure_channel(host_ip_port)
+        client = AccountDetailsServiceStub(channel)
         logging.debug("+++++++++++++++++++++++++++++++++++++++++")
         logging.debug(request.form)
 
         email_id = request.form["email_id"]
-
         get_req = GetAccountsRequest(email_id=email_id)
-        response = client.getAccounts(get_req)
+        response = client.getAccounts(get_req)        
+        response =  [{'account_number':acc.account_number, 'email_id': acc.email_id, 'account_type':acc.account_type, 'address':acc.address, 'govt_id_number':acc.govt_id_number, 'government_id_type':acc.government_id_type, 'name':acc.name, 'currency': acc.currency, 'balance':acc.balance}  for acc in response.accounts]
+        
+        return json.dumps({"response": response})
+    
 
-        return json.dumps(
-            {"response": [MessageToDict(acc) for acc in response.accounts]}
-        )  # response
+    def __flask():
+        response = flask_client_requests.post(
+            f"http://{host_ip_port}/get-all-accounts", json=request.form
+        )
+        logging.debug(f"====================== {response.json()}")
+        return {"response": response.json()}
+
+    accounts_host = os.getenv("ACCOUNT_HOST", "localhost")
+    host_ip_port =  f"{accounts_host}:50051"
+    if request.method == "POST":
+        # response =  __grpc()
+        response = __flask()
+        return response
+
     return jsonify({"response": None})
+
+
+@app.route("/account/detail", methods=["GET", "POST"])
+def get_account_details():
+    def __grpc():
+        logging.debug(" get account details called")
+        channel = grpc.insecure_channel(host_ip_port)
+        client = AccountDetailsServiceStub(channel)
+
+        account_number = request.form["account_number"]
+        get_req = GetAccountDetailRequest(account_number=account_number)
+        response = client.getAccountDetails(get_req)
+
+        return json.dumps({"response": {'account_number': response.account_number,'name': response.name, 'balance': response.balance, 'currency': response.currency}})
+    
+    def __flask():
+        response = flask_client_requests.post(
+            f"http://{host_ip_port}/account-detail", json=request.form
+        )
+        logging.debug(f"====================== {response.json()}")
+        return {"response": response.json()}
+    
+    accounts_host = os.getenv("ACCOUNT_HOST", "localhost")
+    host_ip_port =  f"{accounts_host}:50051"
+
+    if request.method == "POST":
+        logging.debug("+++++++++++++++++++++++++++++++++++++++++")
+        logging.debug(request.form)
+        # response = __grpc()
+        response = __flask()
+        return response
+
+
+    return jsonify({"response": None})
+
+
 
 
 @app.route("/transaction", methods=["GET", "POST"])
