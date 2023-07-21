@@ -17,13 +17,17 @@ any real-time space e.g., Slack, Discord, etc.
 - [Development](#development)
 <!-- - [Development](#development)
   - [Generating API code](#generating-api-code)
-  - [Building KubeClarity Binaries](#building-kubeclarity-binaries)
-  - [Building KubeClarity Containers](#building-kubeclarity-containers)
+  - [Building MartianBank Binaries](#building-MartianBank-binaries)
+  - [Building MartianBank Containers](#building-MartianBank-containers)
   - [Linting](#linting)
   - [Unit Tests](#unit-tests)
   - [Testing End to End](#testing-end-to-end) -->
-- [Sending Pull Requests](#sending-pull-requests)
-- [Other Ways to Contribute](#other-ways-to-contribute)
+- [How to Contribute](#how-to-contribute)
+  - [Table Of Contents](#table-of-contents)
+  - [Reporting Issues](#reporting-issues)
+  - [Development](#development)
+  - [Sending Pull Requests](#sending-pull-requests)
+  - [Other Ways to Contribute](#other-ways-to-contribute)
 
 ## Reporting Issues
 
@@ -50,13 +54,13 @@ reserve breaking changes until the next major version release.
 
 ## Other Ways to Contribute
 
-We welcome anyone that wants to contribute to KubeClarity to triage and reply to open issues to help troubleshoot
+We welcome anyone that wants to contribute to MartianBank to triage and reply to open issues to help troubleshoot
 and fix existing bugs. Here is what you can do:
 
 - Help ensure that existing issues follows the recommendations from the _[Reporting Issues](#reporting-issues)_ section,
   providing feedback to the issue's author on what might be missing.
-- Review and update the existing content of our [Wiki]() with up-to-date
-  instructions and code samples.
+<!-- - Review and update the existing content of our [Wiki]() with up-to-date
+  instructions and code samples. -->
 - Review existing pull requests, and testing patches against real existing applications that use MartianBank.
 - Write a test, or add a missing test case to an existing test.
 
