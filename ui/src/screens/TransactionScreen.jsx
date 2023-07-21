@@ -42,7 +42,7 @@ const TransactionScreen = () => {
       data.append("account_number", e.target.value);
       const res = await getTransactions(data).unwrap();
       dispatch(storeTransaction(res));
-      setHistory(res.response.transactions);
+      setHistory(res.response);
     } catch (err) {
       toast.error(err?.data?.message || err.error, {
         className: "toast-container-custom",
@@ -122,14 +122,16 @@ const TransactionScreen = () => {
         <MDBTableBody>
           {history && history.length > 0 ? (
             history.map((transaction) => (
-              <tr key={transaction.id}>
+              <>
+              {console.log(transaction)}
+              <tr key={transaction.transaction_id}>
                 <td className="text-center fw-normal">
-                  {transaction.accountNumber}
+                  {transaction.account_number}
                 </td>
                 <td className="text-center fw-bold">$ {transaction.amount}</td>
                 <td className="text-center">
                   <p className="fw-normal mb-1">
-                    {transaction.timeStamp.substring(0, 10)}
+                    {transaction.time_stamp.substring(0, 10)}
                   </p>
                   <p className="text-muted mb-0">{transaction.reason}</p>
                 </td>
@@ -142,6 +144,7 @@ const TransactionScreen = () => {
                   </MDBBadge>
                 </td>
               </tr>
+              </>
             ))
           ) : (
             (selectedAccount) ? (
