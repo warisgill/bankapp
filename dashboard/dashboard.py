@@ -1,6 +1,7 @@
 import os
 import logging
 import json
+
 # from google.protobuf.json_format import MessageToDict
 from flask_cors import CORS
 
@@ -89,8 +90,8 @@ def create_account():
         logging.debug(f"Account creation response: {response.result}")
 
         # Return a JSON response
-        return json.dumps({"response": {'status': response.result}})
-    
+        return json.dumps({"response": {"status": response.result}})
+
     def __flask():
         response = flask_client_requests.post(
             f"http://{host_ip_port}/create-account", json=request.form
@@ -99,19 +100,20 @@ def create_account():
         return {"response": response.json()}
 
     accounts_host = os.getenv("ACCOUNT_HOST", "localhost")
-    host_ip_port =  f"{accounts_host}:50051"
-    
+    host_ip_port = f"{accounts_host}:50051"
+
     if request.method == "POST":
         logging.debug("+++++++++++++++++++++++++++++++++++++++++")
         logging.debug(request.form)
         # result = __grpc()
         result = __flask()
         return result
-    
-    
+
     return render_template("create_account_form.html")
 
+
 #  a_b
+
 
 @app.route("/account/allaccounts", methods=["GET", "POST"])
 def get_all_accounts():
@@ -123,11 +125,23 @@ def get_all_accounts():
 
         email_id = request.form["email_id"]
         get_req = GetAccountsRequest(email_id=email_id)
-        response = client.getAccounts(get_req)        
-        response =  [{'account_number':acc.account_number, 'email_id': acc.email_id, 'account_type':acc.account_type, 'address':acc.address, 'govt_id_number':acc.govt_id_number, 'government_id_type':acc.government_id_type, 'name':acc.name, 'currency': acc.currency, 'balance':acc.balance}  for acc in response.accounts]
-        
+        response = client.getAccounts(get_req)
+        response = [
+            {
+                "account_number": acc.account_number,
+                "email_id": acc.email_id,
+                "account_type": acc.account_type,
+                "address": acc.address,
+                "govt_id_number": acc.govt_id_number,
+                "government_id_type": acc.government_id_type,
+                "name": acc.name,
+                "currency": acc.currency,
+                "balance": acc.balance,
+            }
+            for acc in response.accounts
+        ]
+
         return json.dumps({"response": response})
-    
 
     def __flask():
         response = flask_client_requests.post(
@@ -137,7 +151,7 @@ def get_all_accounts():
         return {"response": response.json()}
 
     accounts_host = os.getenv("ACCOUNT_HOST", "localhost")
-    host_ip_port =  f"{accounts_host}:50051"
+    host_ip_port = f"{accounts_host}:50051"
     if request.method == "POST":
         # response =  __grpc()
         response = __flask()
@@ -157,17 +171,26 @@ def get_account_details():
         get_req = GetAccountDetailRequest(account_number=account_number)
         response = client.getAccountDetails(get_req)
 
-        return json.dumps({"response": {'account_number': response.account_number,'name': response.name, 'balance': response.balance, 'currency': response.currency}})
-    
+        return json.dumps(
+            {
+                "response": {
+                    "account_number": response.account_number,
+                    "name": response.name,
+                    "balance": response.balance,
+                    "currency": response.currency,
+                }
+            }
+        )
+
     def __flask():
         response = flask_client_requests.post(
             f"http://{host_ip_port}/account-detail", json=request.form
         )
         logging.debug(f"====================== {response.json()}")
         return {"response": response.json()}
-    
+
     accounts_host = os.getenv("ACCOUNT_HOST", "localhost")
-    host_ip_port =  f"{accounts_host}:50051"
+    host_ip_port = f"{accounts_host}:50051"
 
     if request.method == "POST":
         logging.debug("+++++++++++++++++++++++++++++++++++++++++")
@@ -176,10 +199,7 @@ def get_account_details():
         response = __flask()
         return response
 
-
     return jsonify({"response": None})
-
-
 
 
 @app.route("/transaction", methods=["GET", "POST"])
@@ -426,8 +446,8 @@ def loan_form():
     loan_host = os.getenv("LOAN_HOST", "localhost")
     host_ip_port = f"{loan_host}:50053"
     if request.method == "POST":
-        result = __getLoanGRPC()
-        # result = __getLoanFlask()
+        # result = __getLoanGRPC()
+        result = __getLoanFlask()
 
         logging.debug(f"---->Loan response: {result}")
         return json.dumps({"response": result})
@@ -442,7 +462,7 @@ def loan_history():
         channel = grpc.insecure_channel(host_ip_port)
         client = LoanServiceStub(channel)
         req = LoansHistoryRequest(email=request.form["email"])
-        response = client.getLoanHistory(req)    
+        response = client.getLoanHistory(req)
         loans = []
         for r in response.loans:
             t = {
@@ -459,14 +479,10 @@ def loan_history():
                 "status": r.status,
                 "timestamp": r.timestamp,
             }
-            loans.append(t)  
+            loans.append(t)
         return loans
 
-
-        
-        
-        
-        # return MessageToDict(response)   
+        # return MessageToDict(response)
 
     def __flask():
         # send a post request to loan microservice implemented in flask
@@ -485,8 +501,8 @@ def loan_history():
     if request.method == "POST":
         logging.debug("+++++++++++++++++++++++++++++++++++++++++")
 
-        response = __grpc()
-        # response = __flask()
+        # response = __grpc()
+        response = __flask()
 
         logging.debug("-----------------------------------------")
 
