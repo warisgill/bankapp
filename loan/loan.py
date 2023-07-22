@@ -193,8 +193,8 @@ def serverFlask(port):
 if __name__ == "__main__":
     port =  50053
     # serve()
-    serverGRPC(port)
-    # serverFlask(port)
+    # serverGRPC(port)
+    serverFlask(port)
 
 
 
