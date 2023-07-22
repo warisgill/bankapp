@@ -1,7 +1,7 @@
 import os
 import logging
 import json
-from google.protobuf.json_format import MessageToDict
+# from google.protobuf.json_format import MessageToDict
 from flask_cors import CORS
 
 from flask import Flask, render_template, request, jsonify
@@ -442,8 +442,31 @@ def loan_history():
         channel = grpc.insecure_channel(host_ip_port)
         client = LoanServiceStub(channel)
         req = LoansHistoryRequest(email=request.form["email"])
-        response = client.getLoanHistory(req)
-        return MessageToDict(response)   
+        response = client.getLoanHistory(req)    
+        loans = []
+        for r in response.loans:
+            t = {
+                "name": r.name,
+                "email": r.email,
+                "account_type": r.account_type,
+                "account_number": r.account_number,
+                "govt_id_type": r.govt_id_type,
+                "govt_id_number": r.govt_id_number,
+                "loan_type": r.loan_type,
+                "loan_amount": r.loan_amount,
+                "interest_rate": r.interest_rate,
+                "time_period": r.time_period,
+                "status": r.status,
+                "timestamp": r.timestamp,
+            }
+            loans.append(t)  
+        return loans
+
+
+        
+        
+        
+        # return MessageToDict(response)   
 
     def __flask():
         # send a post request to loan microservice implemented in flask
