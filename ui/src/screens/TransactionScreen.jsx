@@ -9,6 +9,8 @@ import {
 import { Container, Form, Button, Row, Col } from "react-bootstrap";
 import { toast } from "react-toastify";
 import { useGetTransactionsMutation } from "../slices/transactionApiSlice";
+import { useGetAllAccountsMutation } from "../slices/accountApiSlice";
+import { getAccounts } from "../slices/accountSlice";
 import { storeTransaction } from "../slices/transactionSlice";
 import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
@@ -19,20 +21,16 @@ const TransactionScreen = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  let allAccountsRedux = useSelector(
-    (state) => state.account.all_accounts
-  ).response;
+  const { userInfo } = useSelector((state) => state.auth);
 
-  if (!allAccountsRedux) {
-    allAccountsRedux = [];
-  }
-  const [allAccounts, setAllAccounts] = useState(allAccountsRedux);
+  const [allAccounts, setAllAccounts] = useState([]);
 
   const [selectedAccount, setSelectedAccount] = useState("");
   const [history, setHistory] = useState([]);
 
   const [getTransactions, { isLoading }] = useGetTransactionsMutation();
-  // const [getAllAccounts, { isLoading1 }] = useGetAllAccountsMutation();
+  const [getAllAccounts, { isLoading: isLoading1 }] =
+    useGetAllAccountsMutation();
 
   const fetchHistory = async (e) => {
     setSelectedAccount(e.target.value);
@@ -41,6 +39,7 @@ const TransactionScreen = () => {
       const data = new FormData();
       data.append("account_number", e.target.value);
       const res = await getTransactions(data).unwrap();
+      console.log(res)
       dispatch(storeTransaction(res));
       setHistory(res.response);
     } catch (err) {
@@ -57,6 +56,32 @@ const TransactionScreen = () => {
     }
   };
 
+  const fetchAccounts = async () => {
+    const acc_data = new FormData();
+    acc_data.append("email_id", userInfo.email);
+    const res = await getAllAccounts(acc_data).unwrap();
+    dispatch(getAccounts(res));
+    setAllAccounts(res.response);
+  };
+
+  useEffect(() => {
+    try {
+      fetchAccounts();
+    } catch (err) {
+      console.log(err);
+      toast.error("Error in fetching accounts!", {
+        className: "toast-container-custom",
+        autoClose: true,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+      });
+    }
+  }, []);
+
   return (
     <Container fluid style={{ overflowY: "auto", marginTop: "10vh" }}>
       <Form>
@@ -72,10 +97,10 @@ const TransactionScreen = () => {
               <option value="Select Account">Select Account</option>
               {allAccounts.map((account) => (
                 <option
-                  key={account.accountNumber}
-                  value={account.accountNumber}
+                  key={account.account_number}
+                  value={account.account_number}
                 >
-                  {account.accountNumber}
+                  {account.account_number}
                 </option>
               ))}
             </Form.Select>

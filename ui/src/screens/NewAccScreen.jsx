@@ -42,10 +42,25 @@ const NewAccScreen = () => {
 
       const res = await createNewAccount(data).unwrap();
       console.log(res);
-      dispatch(createAccount(res));
-      toast.success(
-        "Congratulations, your account has been created! We have also given you a $100 joining bonus",
-        {
+      if (res.response) {
+        dispatch(createAccount(res));
+        toast.success(
+          "Congratulations, your account has been created! We have also given you a $100 joining bonus",
+          {
+            className: "toast-container-custom",
+            autoClose: false,
+            hideProgressBar: true,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "dark",
+          }
+        );
+        navigate("/");
+      }
+      else {
+        toast.error(`You can only have 1 ${accType} account`, {
           className: "toast-container-custom",
           autoClose: false,
           hideProgressBar: true,
@@ -54,9 +69,8 @@ const NewAccScreen = () => {
           draggable: true,
           progress: undefined,
           theme: "dark",
-        }
-      );
-      navigate("/");
+        });
+      }
     } catch (err) {
       console.log(err);
       toast.error(err?.data?.message || err.error, {
