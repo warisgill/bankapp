@@ -42,7 +42,7 @@ class TransactionGeneric:
         sender_account = self.__getAccount(request.sender_account_number)
         receiver_account = self.__getAccount(request.receiver_account_number)
         return self.__transfer(
-            sender_account, receiver_account, request.amount, request.reason
+            sender_account, receiver_account, float(request.amount), request.reason
         )
 
     def GetTransactionByID(self, request):
@@ -104,7 +104,7 @@ class TransactionGeneric:
     def Zelle(self, request):
         sender_email = request.sender_email
         receiver_email = request.receiver_email
-        amount = request.amount
+        amount = float(request.amount)
         reason = request.reason
         sender_account = self.__getAccountwithEmail(sender_email)
         receiver_account = self.__getAccountwithEmail(receiver_email)

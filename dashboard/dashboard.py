@@ -6,7 +6,7 @@ from flask_cors import CORS
 
 from flask import Flask, render_template, request, jsonify
 import grpc
-from dataclasses import dataclass
+
 
 from accounts_pb2 import *
 from accounts_pb2_grpc import *
@@ -111,6 +111,7 @@ def create_account():
     
     return render_template("create_account_form.html")
 
+#  a_b
 
 @app.route("/account/allaccounts", methods=["GET", "POST"])
 def get_all_accounts():
@@ -442,7 +443,7 @@ def loan_history():
         client = LoanServiceStub(channel)
         req = LoansHistoryRequest(email=request.form["email"])
         response = client.getLoanHistory(req)
-        return MessageToDict(response)
+        return MessageToDict(response)   
 
     def __flask():
         # send a post request to loan microservice implemented in flask
