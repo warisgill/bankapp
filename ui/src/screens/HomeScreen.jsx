@@ -30,6 +30,7 @@ const HomeScreen = () => {
     const data = new FormData();
     data.append("email_id", userInfo.email);
     const res = await getAllAccounts(data).unwrap();
+    console.log(res)
     dispatch(getAccounts(res));
   };
 
@@ -64,7 +65,6 @@ const HomeScreen = () => {
             >
               Bank accounts
             </div> */}
-
             {accountInfo ? (
               accountInfo.length > 0 ? (
                 accountInfo.map((account) => {
@@ -80,7 +80,7 @@ const HomeScreen = () => {
                         }}
                       >
                         <Card.Header className="bg-dark text-uppercase text-white">
-                          {account.accountType} Account
+                          {account.account_type} Account
                           <FontAwesomeIcon
                             icon={faArrowRightFromBracket}
                             style={{ marginLeft: "1rem" }}
@@ -111,7 +111,7 @@ const HomeScreen = () => {
                                   <span className="text-primary">
                                     <span>&nbsp;</span>
                                     <strong>
-                                      ...{account.accountNumber.slice(-4)}
+                                      ...{account.account_number.slice(-4)}
                                     </strong>
                                   </span>
                                   <br />
@@ -120,7 +120,7 @@ const HomeScreen = () => {
                                     className="text-muted"
                                   >
                                     Name: {account.name} <br />
-                                    Email ID: {account.emailId}
+                                    Email ID: {account.email_id}
                                   </div>
                                 </div>
                               </Col>

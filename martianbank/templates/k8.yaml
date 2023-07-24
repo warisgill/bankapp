@@ -1,3 +1,4 @@
+# ui
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -17,7 +18,65 @@ spec:
             containers:
                 - name: ui
                   image: docker.io/jashmehta3300/martian-bank-ui
+                  env: 
+                    {{- if .Values.nginx.enabled }}
+                      - name: VITE_ACCOUNTS_URL
+                        value: /api/accounts/
+                      - name: VITE_NEW_ACCOUNT_URL
+                        value: /api/accounts/new/
+                      - name: VITE_USERS_URL
+                        value: /api/customer/
+                      - name: VITE_ATM_URL
+                        value: /api/atm/
+                      - name: VITE_TRANSFER_URL
+                        value: /api/transfer/
+                      - name: VITE_ZELLE_URL
+                        value: /api/transfer/zelle
+                      - name: VITE_LOAN_URL
+                        value: /api/loan/
+                      - name: VITE_LOAN_HISTORY_URL
+                        value: /api/loan/history/
+                      - name: VITE_TRANSACTION_URL
+                        value: /api/transactions/
+                    {{- else }}
+                      - name: VITE_ACCOUNTS_URL
+                        value: http://{{ .Values.nginx.dashboardIP }}:5000/account/allaccounts
+                      - name: VITE_NEW_ACCOUNT_URL
+                        value: http://{{ .Values.nginx.dashboardIP }}:5000/account/create
+                      - name: VITE_USERS_URL
+                        value: http://{{ .Values.nginx.dashboardIP }}:5000/api/users
+                      - name: VITE_ATM_URL
+                        value: http://{{ .Values.nginx.dashboardIP }}:5000/api/atm/
+                      - name: VITE_TRANSFER_URL
+                        value: http://{{ .Values.nginx.dashboardIP }}:5000/transaction 
+                      - name: VITE_ZELLE_URL
+                        value: http://{{ .Values.nginx.dashboardIP }}:5000/transaction/zelle/
+                      - name: VITE_TRANSACTION_URL
+                        value: http://{{ .Values.nginx.dashboardIP }}:5000/transaction/history
+                      - name: VITE_LOAN_URL
+                        value: http://{{ .Values.nginx.dashboardIP }}:5000/loan/
+                      - name: VITE_LOAN_HISTORY_URL
+                        value: http://{{ .Values.nginx.dashboardIP }}:5000/loan/history  
+                    {{- end }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+    name: ui
+spec:
+    {{- if not .Values.nginx.enabled }}
+    type: LoadBalancer
+    {{- end }}
+    selector:
+        app: ui
+    ports:
+        - protocol: TCP
+          port: 3000
+          targetPort: 3000
 
+
+
+# dashboard
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -47,6 +106,25 @@ spec:
                         value: loan
                       - name: TRANSACTION_HOST
                         value: transactions
+                      - name: CUSTOMER_AUTH_HOST
+                        value: customer-auth
+                      - name: ATM_LOCATOR_HOST
+                        value: atm-locator
+---
+apiVersion: v1
+kind: Service
+metadata:
+    name: dashboard
+spec:
+    type: LoadBalancer
+    selector:
+        app: dashboard
+    ports:
+        - protocol: TCP
+          port: 5000
+          targetPort: 5000
+
+
   
 # customer-auth
 ---
@@ -70,8 +148,26 @@ spec:
                 - name: customer-auth
                   image: docker.io/jashmehta3300/martian-bank-customer-auth
                   env:
+                    {{- if not .Values.mongodb.enabled }}
                       - name: DATABASE_HOST
                         value: mongodb
+                    {{- else}}
+                      - name: MONGO_URI
+                        value: {{ .Values.mongodb.atlasCustomerAuth }}
+                    {{- end }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+    name: customer-auth
+spec:
+    selector:
+        app: customer-auth
+    ports:
+        - protocol: TCP
+          port: 8000
+          targetPort: 8000
+
 
 
 # atm-locator
@@ -96,9 +192,30 @@ spec:
                 - name: atm-locator
                   image: docker.io/jashmehta3300/martian-bank-atm-locator
                   env:
+                    {{- if not .Values.mongodb.enabled }}
                       - name: DATABASE_HOST
                         value: mongodb
+                    {{- else}}
+                      - name: MONGO_URI
+                        value: {{ .Values.mongodb.atlasAtmLocator }}
+                    {{- end }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+    name: atm-locator
+spec:
+    selector:
+        app: atm-locator
+    ports:
+        - protocol: TCP
+          port: 8001
+          targetPort: 8001
 
+
+
+
+{{- if .Values.nginx.enabled }}
 # nginx
 ---
 apiVersion: apps/v1
@@ -119,11 +236,7 @@ spec:
         spec:
             containers:
                 - name: nginx
-                  image: docker.io/jashmehta3300/martian-bank-nginx
-                  
-
-
-# Service 
+                  image: docker.io/jashmehta3300/martian-bank-nginx 
 ---
 apiVersion: v1
 kind: Service
@@ -137,57 +250,4 @@ spec:
         - protocol: TCP
           port: 80
           targetPort: 80
-
-
----
-apiVersion: v1
-kind: Service
-metadata:
-    name: customer-auth
-spec:
-    selector:
-        app: customer-auth
-    ports:
-        - protocol: TCP
-          port: 8000
-          targetPort: 8000
-
----
-apiVersion: v1
-kind: Service
-metadata:
-    name: atm-locator
-spec:
-    selector:
-        app: atm-locator
-    ports:
-        - protocol: TCP
-          port: 8001
-          targetPort: 8001
-
----
-apiVersion: v1
-kind: Service
-metadata:
-    name: ui
-spec:
-    selector:
-        app: ui
-    ports:
-        - protocol: TCP
-          port: 3000
-          targetPort: 3000
-
----
-apiVersion: v1
-kind: Service
-metadata:
-    name: dashboard
-spec:
-    type: LoadBalancer
-    selector:
-        app: dashboard
-    ports:
-        - protocol: TCP
-          port: 5000
-          targetPort: 5000
+{{- end }}

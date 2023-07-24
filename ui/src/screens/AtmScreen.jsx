@@ -117,7 +117,7 @@ const AtmScreen = () => {
       <Form onSubmit={handleSubmit}>
         <Form.Group>
           <Row>
-            <Col md={7}>
+            <Col md={6}>
               <Form.Control
                 type="text"
                 placeholder="Enter enter a ZIP code, or an address, city, and state."
@@ -139,21 +139,29 @@ const AtmScreen = () => {
           </Row>
           <Row>
             <Col md={7} className="mt-2">
+              {/* Radio button for "Open Now" */}
               <Form.Check
-                type="checkbox"
+                type="radio"
                 label="Open Now"
                 className="py-2 px-5"
+                name="optionGroup"
                 checked={isOpenNow}
-                onChange={(e) => {
-                  setIsOpenNow(e.target.checked);
+                onChange={() => {
+                  setIsOpenNow(true);
+                  setIsInterPlanetary(false); // Deselect the other radio button
                 }}
               />
+              {/* Radio button for "Inter planet ATMs" */}
               <Form.Check
-                type="checkbox"
+                type="radio"
                 label="Inter planet ATMs"
                 className="py-1 px-5"
+                name="optionGroup"
                 checked={isInterPlanetary}
-                onChange={(e) => setIsInterPlanetary(e.target.checked)}
+                onChange={() => {
+                  setIsInterPlanetary(true);
+                  setIsOpenNow(false); // Deselect the other radio button
+                }}
               />
             </Col>
             <Col md={2} />
@@ -264,7 +272,7 @@ const AtmScreen = () => {
                     src={mapImg}
                     alt="Map"
                     className="rounded"
-                    style={{ height: "57vh", width: "65vh" }}
+                    style={{ height: "57vh", width: "67vh" }}
                   />
                 </div>
               </Col>

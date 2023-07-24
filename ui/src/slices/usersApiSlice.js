@@ -19,16 +19,16 @@ export const userApiSlice = apiSlice.injectEndpoints({
         url: `${usersUrl}/auth`,
         method: "POST",
         body: data,
-        credentials: 'include',
+        // credentials: 'include',
       }),
     }),
     logout: builder.mutation({
-      query: (jwtCookie) => ({
+      query: (data) => ({
         url: `${usersUrl}/logout`,
         method: "POST",
+        body: data,
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': jwtCookie,
         },
       }),
     }),
@@ -49,10 +49,10 @@ export const userApiSlice = apiSlice.injectEndpoints({
           email: data.email,
           password: data.password,
         },
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': data.token
-        },
+        // headers: {
+        //   'Content-Type': 'application/json',
+        //   'Authorization': data.token
+        // },
       }),
     }),
   }),

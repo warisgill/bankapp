@@ -13,8 +13,8 @@ const AccInfoScreen = () => {
 
   if (!currentAccount) {
     currentAccount = {
-      accountType: "",
-      accountNumber: "",
+      account_type: "",
+      account_number: "",
       balance: "",
       address: "",
       govtId: "",
@@ -22,12 +22,12 @@ const AccInfoScreen = () => {
     };
   }
 
-  const [accType, setAccType] = useState(currentAccount.accountType);
-  const [accNo, setAccNo] = useState(currentAccount.accountNumber);
+  const [accType, setAccType] = useState(currentAccount.account_type);
+  const [accNo, setAccNo] = useState(currentAccount.account_number);
   const [balance, setBalance] = useState(currentAccount.balance);
   const [address, setAddress] = useState(currentAccount.address);
-  const [govtId, setGovtId] = useState(currentAccount.governmentIdType);
-  const [govtIdNo, setGovtIdNo] = useState(currentAccount.govtIdNumber);
+  const [govtId, setGovtId] = useState(currentAccount.government_id_type);
+  const [govtIdNo, setGovtIdNo] = useState(currentAccount.govt_id_number);
 
   const navigate = useNavigate();
   const dispatch = useDispatch();

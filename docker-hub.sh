@@ -13,3 +13,7 @@ docker push jashmehta3300/martian-bank-customer-auth
 # atm-locator
 docker tag martian-bank-atm-locator jashmehta3300/martian-bank-atm-locator
 docker push jashmehta3300/martian-bank-atm-locator
+
+# dashboard
+docker tag martian-bank-dashboard jashmehta3300/martian-bank-dashboard
+docker push jashmehta3300/martian-bank-dashboard

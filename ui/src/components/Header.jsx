@@ -30,24 +30,35 @@ const Header = () => {
 
   const logoutHandler = async () => {
     try {
-      const jwtCookie = Cookies.get("jwt");
-      if (!jwtCookie) {
-        toast.error("No JWT cookie found!");
-      } else {
-        await logoutApiCall(jwtCookie).unwrap();
-        dispatch(logout());
-        toast.success("Logged out", {
-          className: "toast-container-custom",
-          autoClose: false,
-          hideProgressBar: true,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "dark",
-        });
-        navigate("/login");
-      }
+      // const jwtCookie = Cookies.get("jwt");
+      // if (!jwtCookie) {
+      //   toast.error("No JWT cookie found!");
+      // } else {
+      //   await logoutApiCall(jwtCookie).unwrap();
+      //   dispatch(logout());
+      //   toast.success("Logged out", {
+      //     className: "toast-container-custom",
+      //     autoClose: false,
+      //     hideProgressBar: true,
+      //     closeOnClick: true,
+      //     pauseOnHover: true,
+      //     draggable: true,
+      //     progress: undefined,
+      //     theme: "dark",
+      //   });
+      await logoutApiCall({email: userInfo.email}).unwrap();
+      dispatch(logout());
+      toast.success("Logged out", {
+        className: "toast-container-custom",
+        autoClose: false,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+      });
+      navigate("/login");
     } catch (err) {
       console.error(err);
     }
