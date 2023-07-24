@@ -96,7 +96,7 @@ spec:
         spec:
             containers:
                 - name: dashboard
-                  image: docker.io/jashmehta3300/martian-bank-dashboard
+                  image: docker.io/waris95/martian-bank-dashboard
                   env:
                       - name: DATABASE_HOST
                         value: mongodb
