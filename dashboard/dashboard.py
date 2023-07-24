@@ -515,7 +515,6 @@ def loan_history():
 
 @app.route("/api/users", methods=["POST"])
 def register_user():
-
     logging.debug("=========================> register user called")
 
     customer_auth_host = os.getenv("CUSTOMER_AUTH_HOST", "localhost")
@@ -535,7 +534,6 @@ def register_user():
 
 @app.route("/api/users/auth", methods=["POST"])
 def login_user():
-
     logging.debug("=========================> login user called")
 
     customer_auth_host = os.getenv("CUSTOMER_AUTH_HOST", "localhost")
@@ -555,7 +553,6 @@ def login_user():
 
 @app.route("/api/users/logout", methods=["POST"])
 def logout_user():
-
     logging.debug("=========================> logout user called")
 
     customer_auth_host = os.getenv("CUSTOMER_AUTH_HOST", "localhost")
@@ -575,7 +572,6 @@ def logout_user():
 
 @app.route("/api/users/profile", methods=["GET", "PUT"])
 def profile_user():
-
     logging.debug("=========================> profile user called")
 
     customer_auth_host = os.getenv("CUSTOMER_AUTH_HOST", "localhost")
@@ -590,7 +586,7 @@ def profile_user():
         logging.debug(
             f"=========================> response from {customer_auth_host}:8000/api/users/profile: {user_data}"
         )
-    
+
     if request.method == "PUT":
         user_data = flask_client_requests.put(
             f"http://{customer_auth_host}:8000/api/users/profile", json=request.json
@@ -598,13 +594,12 @@ def profile_user():
         logging.debug(
             f"=========================> response from {customer_auth_host}:8000/api/users/profile: {user_data}"
         )
-    
+
     return json.dumps(user_data)
 
 
 @app.route("/api/atm/", methods=["POST"])
 def get_atms():
-
     logging.debug("=========================> get atms called")
 
     atm_locator_host = os.getenv("ATM_LOCATOR_HOST", "localhost")
@@ -624,7 +619,6 @@ def get_atms():
 
 @app.route("/api/atm/<string:id>", methods=["GET"])
 def get_specific_atm(id):
-
     logging.debug("=========================> get specific atm called")
 
     atm_locator_host = os.getenv("ATM_LOCATOR_HOST", "localhost")
@@ -638,7 +632,7 @@ def get_specific_atm(id):
     logging.debug(
         f"=========================> response from {atm_locator_host}:8001/api/atm/{id}: {atm_data}"
     )
-    
+
     return json.dumps(atm_data)
 
 
