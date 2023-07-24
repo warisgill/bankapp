@@ -511,41 +511,68 @@ def loan_history():
 
 
 
-##### Proxy Routes #####
+#################### Proxy Routes for API Clarity ####################
+
 
 @app.route("/api/users", methods=["POST"])
 def register_user():
-    user_data = flask_client_requests.post("http://customer-auth:8000/api/users", json=request.json).json()
+    customer_auth_host = os.getenv("CUSTOMER_AUTH_HOST", "localhost")
+    user_data = flask_client_requests.post(
+        f"http://{customer_auth_host}:8000/api/users", json=request.json
+    ).json()
     return json.dumps(user_data)
+
 
 @app.route("/api/users/auth", methods=["POST"])
 def login_user():
-    user_data = flask_client_requests.post("http://customer-auth:8000/api/users/auth", json=request.json).json()
+    customer_auth_host = os.getenv("CUSTOMER_AUTH_HOST", "localhost")
+    user_data = flask_client_requests.post(
+        f"http://{customer_auth_host}:8000/api/users/auth", json=request.json
+    ).json()
     return json.dumps(user_data)
+
 
 @app.route("/api/users/logout", methods=["POST"])
 def logout_user():
-    user_data = flask_client_requests.post("http://customer-auth:8000/api/users/logout", json=request.json).json()
+    customer_auth_host = os.getenv("CUSTOMER_AUTH_HOST", "localhost")
+    user_data = flask_client_requests.post(
+        f"http://{customer_auth_host}:8000/api/users/logout", json=request.json
+    ).json()
     return json.dumps(user_data)
+
 
 @app.route("/api/users/profile", methods=["GET", "PUT"])
 def profile_user():
+    customer_auth_host = os.getenv("CUSTOMER_AUTH_HOST", "localhost")
     if request.method == "GET":
-        user_data = flask_client_requests.get("http://customer-auth:8000/api/users/profile", json=request.json).json()
+        user_data = flask_client_requests.get(
+            f"http://{customer_auth_host}:8000/api/users/profile", json=request.json
+        ).json()
         return json.dumps(user_data)
     if request.method == "PUT":
-        user_data = flask_client_requests.put("http://customer-auth:8000/api/users/profile", json=request.json).json()
+        user_data = flask_client_requests.put(
+            f"http://{customer_auth_host}:8000/api/users/profile", json=request.json
+        ).json()
         return json.dumps(user_data)
+
 
 @app.route("/api/atm/", methods=["POST"])
 def get_atms():
-    atm_data = flask_client_requests.post("http://atm-locator:8001/api/atm", json=request.json).json()
+    atm_locator_host = os.getenv("ATM_LOCATOR_HOST", "localhost")
+    atm_data = flask_client_requests.post(
+        f"http://{atm_locator_host}:8001/api/atm", json=request.json
+    ).json()
     return json.dumps(atm_data)
+
 
 @app.route("/api/atm/<string:id>", methods=["GET"])
 def get_specific_atm(id):
-    atm_data = flask_client_requests.get(f"http://atm-locator:8001/api/atm/{id}").json()
+    atm_locator_host = os.getenv("ATM_LOCATOR_HOST", "localhost")
+    atm_data = flask_client_requests.get(
+        f"http://{atm_locator_host}:8001/api/atm/{id}"
+    ).json()
     return json.dumps(atm_data)
+
 
 if __name__ == "__main__":
     app.run(debug=True)

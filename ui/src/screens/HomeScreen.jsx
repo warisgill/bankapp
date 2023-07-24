@@ -120,7 +120,7 @@ const HomeScreen = () => {
                                     className="text-muted"
                                   >
                                     Name: {account.name} <br />
-                                    Email ID: {account.emailId}
+                                    Email ID: {account.email_id}
                                   </div>
                                 </div>
                               </Col>

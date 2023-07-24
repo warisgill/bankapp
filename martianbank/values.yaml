@@ -25,10 +25,12 @@ serviceAccount:
 
 podAnnotations: {}
 
-podSecurityContext: {}
+podSecurityContext:
+  {}
   # fsGroup: 2000
 
-securityContext: {}
+securityContext:
+  {}
   # capabilities:
   #   drop:
   #   - ALL
@@ -43,7 +45,8 @@ service:
 ingress:
   enabled: false
   className: ""
-  annotations: {}
+  annotations:
+    {}
     # kubernetes.io/ingress.class: nginx
     # kubernetes.io/tls-acme: "true"
   hosts:
@@ -56,7 +59,8 @@ ingress:
   #    hosts:
   #      - chart-example.local
 
-resources: {}
+resources:
+  {}
   # We usually recommend not to specify default resources and to leave this as a conscious
   # choice for the user. This also increases chances charts run on environments with little
   # resources, such as Minikube. If you do want to specify resources, uncomment the following
@@ -80,3 +84,30 @@ nodeSelector: {}
 tolerations: []
 
 affinity: {}
+
+#######################################################################################
+## Deploy with/without NGINX
+
+nginx:
+  ## For API Clairty, you will have to disable nginx by setting enabled to false
+  ##
+  enabled: true
+  ## If enabled is false then deploy the application, get the external IP of dashboard
+  ## service, add it here, and apply the changes.
+  ##
+  # dashboardIP: ab6aa94b66b8b4ff3a0abb8a864a273e-XXXXXXXXXX.us-east-1.elb.amazonaws.com
+
+
+
+#######################################################################################
+## Deploy with local MongoDB or with MongoDB Atlas
+
+mongodb:
+  ## For easier development and testing, we deploy MongoDB Atlas instance
+  ##
+  enabled: true
+  atlasCustomerAuth: "mongodb+srv://jash:jashmehta123@customer-auth.8yai7cq.mongodb.net/customer-auth?retryWrites=true&w=majority"
+  atlasAtmLocator: "mongodb+srv://jash:jashmehta123@atm-locator.vbxfrwn.mongodb.net/?retryWrites=true&w=majority" 
+  ## If you want to use local MongoDB, then set enabled to 'false'
+  ##
+  # enabled: false
