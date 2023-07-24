@@ -1,4 +1,4 @@
-{{ if .Values.mongodb.enabled -}}
+{{ if not .Values.mongodb.enabled -}}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
