@@ -98,8 +98,6 @@ spec:
                 - name: dashboard
                   image: docker.io/waris95/martian-bank-dashboard
                   env:
-                      - name: DATABASE_HOST
-                        value: mongodb
                       - name: ACCOUNT_HOST
                         value: accounts
                       - name: LOAN_HOST
@@ -110,6 +108,9 @@ spec:
                         value: customer-auth
                       - name: ATM_LOCATOR_HOST
                         value: atm-locator
+                  envFrom:
+                      - configMapRef:
+                          name: configmap-martianbank
 ---
 apiVersion: v1
 kind: Service
