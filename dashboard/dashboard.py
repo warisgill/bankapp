@@ -33,6 +33,8 @@ if db_url is None:
 
 uri = db_url
 
+logging.debug(f"Connecting to MongoDB at {uri}")
+
 
 client = MongoClient(uri)
 db = client["bank"]
