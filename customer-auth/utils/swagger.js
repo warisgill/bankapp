@@ -31,5 +31,7 @@ export const swaggerDocs = (app, port) => {
     res.send(swaggerSpec);
   });
 
-  console.log(`Swagger documentation available at http://localhost:${port}/docs`);
+  console.log(
+    `Swagger documentation available at :${port}/docs`
+  );
 };

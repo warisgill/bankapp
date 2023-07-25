@@ -1,4 +1,4 @@
-import mongoose from 'mongoose';
+import mongoose from "mongoose";
 
 const atmSchema = mongoose.Schema(
   {
@@ -70,6 +70,6 @@ const atmSchema = mongoose.Schema(
   }
 );
 
-const ATM = mongoose.model('ATM', atmSchema);
+const ATM = mongoose.model("ATM", atmSchema);
 
 export default ATM;
