@@ -9,8 +9,6 @@ const AccInfoScreen = () => {
   let currentAccount = useSelector((state) => state.account.current_account);
   const { userInfo } = useSelector((state) => state.auth);
 
-  console.log("Current account: ", currentAccount);
-
   if (!currentAccount) {
     currentAccount = {
       account_type: "",
