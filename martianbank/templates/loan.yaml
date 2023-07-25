@@ -17,9 +17,9 @@ spec:
       containers:
         - name: loan
           image: docker.io/waris95/martian-bank-loan
-          env:
-            - name: DATABASE_HOST
-              value: mongodb
+          envFrom:
+            - configMapRef:
+                name: configmap-martianbank
 
 ---
 apiVersion: v1

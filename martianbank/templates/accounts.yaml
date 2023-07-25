@@ -17,10 +17,9 @@ spec:
       containers:
         - name: accounts
           image: docker.io/waris95/martian-bank-accounts
-          env:
-            - name: DATABASE_HOST
-              value: mongodb
-
+          envFrom:
+            - configMapRef:
+                name: configmap-martianbank
 ---
 apiVersion: v1
 kind: Service
