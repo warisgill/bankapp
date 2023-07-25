@@ -21,7 +21,7 @@ kubectl label namespace bank-app istio-injection=enabled
 
 # install martianbank
 
-helm install --set "nginx.enabled=false" martianbank martianbank -n bank-app 
+helm install --set 'nginx.enabled=false' martianbank martianbank -n bank-app
 kubectl get pods -n bank-app
 kubectl get services -n bank-app
 
