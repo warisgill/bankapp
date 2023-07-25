@@ -152,10 +152,14 @@ spec:
                     {{- if not .Values.mongodb.enabled }}
                       - name: DATABASE_HOST
                         value: mongodb
-                    {{- else}}
-                      - name: MONGO_URI
-                        value: {{ .Values.mongodb.atlasCustomerAuth }}
                     {{- end }}
+                      - name: NODE_ENV
+                        value: production
+                      - name: PORT 
+                        value: "8000"
+                  envFrom:
+                      - configMapRef:
+                          name: configmap-martianbank
 ---
 apiVersion: v1
 kind: Service
@@ -196,10 +200,14 @@ spec:
                     {{- if not .Values.mongodb.enabled }}
                       - name: DATABASE_HOST
                         value: mongodb
-                    {{- else}}
-                      - name: MONGO_URI
-                        value: {{ .Values.mongodb.atlasAtmLocator }}
                     {{- end }}
+                      - name: NODE_ENV
+                        value: production
+                      - name: PORT 
+                        value: "8001"
+                  envFrom:
+                      - configMapRef:
+                          name: configmap-martianbank
 ---
 apiVersion: v1
 kind: Service

@@ -30,6 +30,20 @@ const LoginScreen = () => {
     e.preventDefault();
     try {
       const res = await login({ email, password }).unwrap();
+      console.log(res)
+      if (res.status === false){
+        toast.error(res.message, {
+          className: "toast-container-custom",
+          autoClose: true,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "dark",
+        });
+        return;
+      }
       dispatch(setCredentials({ ...res }));
       toast.success("Successfully logged in!", {
         className: "toast-container-custom",

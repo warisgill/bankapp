@@ -12,7 +12,8 @@ from flask import Flask, request, jsonify
 # set logging to debug
 logging.basicConfig(level=logging.DEBUG)
 
-
+from dotenv import load_dotenv
+load_dotenv()
 
 # db_host = os.getenv("DATABASE_HOST", "localhost")
 db_url = os.getenv("DB_URL")

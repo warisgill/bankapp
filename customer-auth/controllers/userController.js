@@ -76,6 +76,7 @@ const authUser = asyncHandler(async (req, res) => {
   } catch (error) {
     res.status(res.statusCode === 200 ? 500 : res.statusCode);
     res.json({
+      status: false,
       message: error.message || "Internal Server Error",
       stack: process.env.NODE_ENV === "production" ? null : error.stack,
     });

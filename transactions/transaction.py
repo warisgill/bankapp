@@ -19,6 +19,8 @@ from flask import Flask, request, jsonify
 
 from google.protobuf.json_format import MessageToDict
 
+from dotenv import load_dotenv
+load_dotenv()
 
 import logging
 
