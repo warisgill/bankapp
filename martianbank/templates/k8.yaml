@@ -153,8 +153,14 @@ spec:
                         value: mongodb
                     {{- else}}
                       - name: MONGO_URI
-                        value: {{ .Values.mongodb.atlasCustomerAuth }}
+                        value: {{ .Values.customer-auth.mongoUri }}
                     {{- end }}
+                      - name: NODE_ENV
+                        value: {{ .Values.customer-auth.nodeEnv }}
+                      - name: PORT 
+                        value: {{ .Values.customer-auth.port }}
+                      - name: JWT_SECRET
+                        value: {{ .Values.customer-auth.jwtSecret }}
 ---
 apiVersion: v1
 kind: Service
@@ -197,8 +203,14 @@ spec:
                         value: mongodb
                     {{- else}}
                       - name: MONGO_URI
-                        value: {{ .Values.mongodb.atlasAtmLocator }}
+                        value: {{ .Values.atm-locator.mongoUri }}
                     {{- end }}
+                      - name: NODE_ENV
+                        value: {{ .Values.atm-locator.nodeEnv }}
+                      - name: PORT 
+                        value: {{ .Values.atm-locator.port }}
+                      - name: JWT_SECRET
+                        value: {{ .Values.atm-locator.jwtSecret }}
 ---
 apiVersion: v1
 kind: Service

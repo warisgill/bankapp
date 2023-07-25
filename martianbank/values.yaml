@@ -86,6 +86,25 @@ tolerations: []
 affinity: {}
 
 #######################################################################################
+## Customer-Auth Configuration
+
+customer-auth:
+  port: 8000
+  nodeEnv: production
+  jwtSecret: 'secret@123'
+  mongoUri: "mongodb+srv://jash:jashmehta123@customer-auth.8yai7cq.mongodb.net/customer-auth?retryWrites=true&w=majority"
+
+
+#######################################################################################
+## Atm-Locator Configuration
+
+atm-locator:
+  port: 8001
+  nodeEnv: production
+  jwtSecret: 'secret@123'
+  mongoUri: "mongodb+srv://jash:jashmehta123@atm-locator.vbxfrwn.mongodb.net/?retryWrites=true&w=majority" 
+
+#######################################################################################
 ## Deploy with/without NGINX
 
 nginx:
@@ -107,5 +126,3 @@ mongodb:
   ## If you want to use local MongoDB, then set enabled to 'false'
   ##
   enabled: true
-  atlasCustomerAuth: "mongodb+srv://jash:jashmehta123@customer-auth.8yai7cq.mongodb.net/customer-auth?retryWrites=true&w=majority"
-  atlasAtmLocator: "mongodb+srv://jash:jashmehta123@atm-locator.vbxfrwn.mongodb.net/?retryWrites=true&w=majority" 
