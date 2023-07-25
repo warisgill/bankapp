@@ -235,11 +235,11 @@ const ApplyLoan = () => {
                     const selectedAccountNumber = e.target.value;
                     const selectedAccount = allAccounts.find(
                       (account) =>
-                        account.accountNumber === selectedAccountNumber
+                        account.account_number === selectedAccountNumber
                     );
                     setAccNo(selectedAccountNumber);
                     setAccType(
-                      selectedAccount ? selectedAccount.accountType : null
+                      selectedAccount ? selectedAccount.account_type : null
                     );
                     setGovtId(
                       selectedAccount ? selectedAccount.governmentIdType : null
@@ -252,8 +252,8 @@ const ApplyLoan = () => {
                 >
                   <option value="">Select your account number</option>
                   {allAccounts.map((account) => (
-                    <option value={account.accountNumber}>
-                      {account.accountNumber}
+                    <option value={account.account_number}>
+                      {account.account_number}
                     </option>
                   ))}
                 </Form.Select>

@@ -5,7 +5,7 @@ import generateToken from "../utils/generateToken.js";
 
 
 // @desc    Register a new user
-// @route   POST /auth/users/
+// @route   POST /api/users
 // @access  Public
 const registerUser = asyncHandler(async (req, res) => {
   try {
@@ -31,7 +31,7 @@ const registerUser = asyncHandler(async (req, res) => {
     });
 
     if (user) {
-      generateToken(res, user._id);
+      // generateToken(res, user._id);
       res.status(200).json({
         _id: user._id,
         name: user.name,
@@ -67,7 +67,7 @@ const authUser = asyncHandler(async (req, res) => {
     const user = await User.findOne({ email });
 
     if (user && (await user.matchPassword(password))) {
-      generateToken(res, user._id);
+      // generateToken(res, user._id);
       res.json({
         _id: user._id,
         name: user.name,
@@ -109,16 +109,18 @@ const authUser = asyncHandler(async (req, res) => {
 // @access  Public
 const logoutUser = (req, res) => {
   try {
-    const jwtCookie = req.headers.authorization;
+    // const jwtCookie = req.headers.authorization;
 
-    // Check if the JWT cookie exists
-    if (jwtCookie === undefined) {
-      res.status(400);
-      throw new Error("No JWT cookie found");
-    }
-    else{
-      res.status(200).json({ message: "Logged out successfully" });
-    }
+    // // Check if the JWT cookie exists
+    // if (jwtCookie === undefined) {
+    //   res.status(400);
+    //   throw new Error("No JWT cookie found");
+    // }
+    // else{
+    //   res.status(200).json({ message: "Logged out successfully" });
+    // }
+
+    res.status(200).json({ message: "Logged out successfully" });
 
     // res.cookie("jwt", "", {
     //   httpOnly: true,

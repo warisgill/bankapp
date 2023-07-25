@@ -2,7 +2,7 @@ import asyncHandler from "express-async-handler";
 import ATM from "../models/atmModel.js";
 
 // @desc    Returns list of all ATMs
-// @route   POST /atm
+// @route   POST /api/atm
 // @access  Public
 const getATMs = asyncHandler(async (req, res) => {
   let query = {
@@ -76,7 +76,7 @@ const addATM = asyncHandler(async (req, res) => {
   }
 });
 
-// @desc    Add new ATM
+// @desc    Add specific ATM data
 // @route   GET /atm/:id
 // @access  Public
 const getSpecificATM = asyncHandler(async (req, res) => {

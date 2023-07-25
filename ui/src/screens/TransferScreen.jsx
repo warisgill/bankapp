@@ -42,10 +42,10 @@ const TransferScreen = () => {
 
   const [transferType, setTransferType] = useState("internal");
   const [accType, setAccType] = useState(
-    selectedAccount ? selectedAccount.accountType : ""
+    selectedAccount ? selectedAccount.account_type : ""
   );
   const [accNo, setAccNo] = useState(
-    selectedAccount ? selectedAccount.accountNumber : ""
+    selectedAccount ? selectedAccount.account_number : ""
   );
   const [receiverEmail, setReceiverEmail] = useState("");
   const [receiverAcc, setReceiverAcc] = useState("");
@@ -55,7 +55,7 @@ const TransferScreen = () => {
   const [balance, setBalance] = useState(selectedAccount.balance);
 
   const checkingAccount = allAccounts.find(
-    (account) => account.accountType === "Checking"
+    (account) => account.account_type === "Checking"
   );
 
   const checkingAccountBalance = checkingAccount
@@ -268,11 +268,11 @@ const TransferScreen = () => {
                         const selectedAccountNumber = e.target.value;
                         const selectedAccount = allAccounts.find(
                           (account) =>
-                            account.accountNumber === selectedAccountNumber
+                            account.account_number === selectedAccountNumber
                         );
                         setAccNo(selectedAccountNumber);
                         setAccType(
-                          selectedAccount ? selectedAccount.accountType : null
+                          selectedAccount ? selectedAccount.account_type : null
                         );
                         setBalance(
                           selectedAccount ? selectedAccount.balance : null
@@ -283,13 +283,13 @@ const TransferScreen = () => {
                     >
                       <option value="">Select Account</option>
                       {allAccounts.map((account) => {
-                        if (account.accountNumber !== receiverAccNo) {
+                        if (account.account_number !== receiverAccNo) {
                           return (
                             <option
-                              key={account.accountNumber}
-                              value={account.accountNumber}
+                              key={account.account_number}
+                              value={account.account_number}
                             >
-                              {account.accountNumber}
+                              {account.account_number}
                             </option>
                           );
                         }
@@ -334,12 +334,12 @@ const TransferScreen = () => {
                           const r_selectedAccountNumber = e.target.value;
                           const r_selectedAccount = allAccounts.find(
                             (account) =>
-                              account.accountNumber === r_selectedAccountNumber
+                              account.account_number === r_selectedAccountNumber
                           );
                           setReceiverAccNo(r_selectedAccountNumber);
                           setReceiverAcc(
                             r_selectedAccount
-                              ? r_selectedAccount.accountType
+                              ? r_selectedAccount.account_type
                               : null
                           );
                         }}
@@ -347,13 +347,13 @@ const TransferScreen = () => {
                       >
                         <option value="">Select Account</option>
                         {allAccounts.map((account) => {
-                          if (account.accountNumber !== accNo) {
+                          if (account.account_number !== accNo) {
                             return (
                               <option
-                                key={account.accountNumber}
-                                value={account.accountNumber}
+                                key={account.account_number}
+                                value={account.account_number}
                               >
-                                {account.accountNumber}
+                                {account.account_number}
                               </option>
                             );
                           }
