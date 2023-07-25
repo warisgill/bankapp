@@ -154,9 +154,9 @@ spec:
                         value: mongodb
                     {{- end }}
                       - name: NODE_ENV
-                        value: {{ .Values.customer-auth.nodeEnv }}
+                        value: production
                       - name: PORT 
-                        value: {{ .Values.customer-auth.port }}
+                        value: "8000"
                   envFrom:
                       - configMapRef:
                           name: configmap-martianbank
@@ -202,9 +202,9 @@ spec:
                         value: mongodb
                     {{- end }}
                       - name: NODE_ENV
-                        value: {{ .Values.atm-locator.nodeEnv }}
+                        value: production
                       - name: PORT 
-                        value: {{ .Values.atm-locator.port }}
+                        value: "8001"
                   envFrom:
                       - configMapRef:
                           name: configmap-martianbank

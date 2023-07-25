@@ -86,21 +86,6 @@ tolerations: []
 affinity: {}
 
 #######################################################################################
-## Customer-Auth Configuration
-
-customer-auth:
-  port: 8000
-  nodeEnv: production
-
-
-#######################################################################################
-## Atm-Locator Configuration
-
-atm-locator:
-  port: 8001
-  nodeEnv: production
-
-#######################################################################################
 ## Deploy with/without NGINX
 
 nginx:
