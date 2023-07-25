@@ -26,9 +26,14 @@ import requests as flask_client_requests
 logging.basicConfig(level=logging.DEBUG)
 
 
-uri = "mongodb+srv://waris:test1122@cluster0.jk2md4w.mongodb.net/?retryWrites=true&w=majority"
-db_host = os.getenv("DATABASE_HOST", "localhost")
-# uri = f"mongodb://root:example@{db_host}:27017/"
+# db_host = os.getenv("DATABASE_HOST", "localhost")
+db_url = os.getenv("DB_URL")
+if db_url is None:
+    raise Exception("DB_URL environment variable is not set")
+
+uri = db_url
+
+
 client = MongoClient(uri)
 db = client["bank"]
 collection = db["accounts"]
