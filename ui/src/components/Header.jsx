@@ -79,8 +79,8 @@ const Header = () => {
               <img
                 src="./src/assets/coin.png"
                 alt="logo"
-                width="85"
-                height="85"
+                width="70vw"
+                height="auto"
               />
               <strong style={{ fontSize: "4vh" }}>Martian </strong>
               <span
