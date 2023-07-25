@@ -8,6 +8,8 @@ from flask_cors import CORS
 from flask import Flask, render_template, request, jsonify
 import grpc
 
+from dotenv import load_dotenv
+load_dotenv()
 
 from accounts_pb2 import *
 from accounts_pb2_grpc import *

@@ -15,9 +15,9 @@ const connectDB = async () => {
       );
     } else {
       console.log(
-        `Connecting to MongoDB Atlas (Cloud) at ${process.env.MONGO_URI} ...`
+        `Connecting to MongoDB Atlas (Cloud) at ${process.env.DB_URL} ...`
       );
-      const conn = await mongoose.connect(process.env.MONGO_URI);
+      const conn = await mongoose.connect(process.env.DB_URL);
     }
 
     console.log(` --- MongoDB Connected --- `.cyan);

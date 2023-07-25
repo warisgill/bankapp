@@ -152,16 +152,14 @@ spec:
                     {{- if not .Values.mongodb.enabled }}
                       - name: DATABASE_HOST
                         value: mongodb
-                    {{- else}}
-                      - name: MONGO_URI
-                        value: {{ .Values.customer-auth.mongoUri }}
                     {{- end }}
                       - name: NODE_ENV
                         value: {{ .Values.customer-auth.nodeEnv }}
                       - name: PORT 
                         value: {{ .Values.customer-auth.port }}
-                      - name: JWT_SECRET
-                        value: {{ .Values.customer-auth.jwtSecret }}
+                  envFrom:
+                      - configMapRef:
+                          name: configmap-martianbank
 ---
 apiVersion: v1
 kind: Service
@@ -202,16 +200,14 @@ spec:
                     {{- if not .Values.mongodb.enabled }}
                       - name: DATABASE_HOST
                         value: mongodb
-                    {{- else}}
-                      - name: MONGO_URI
-                        value: {{ .Values.atm-locator.mongoUri }}
                     {{- end }}
                       - name: NODE_ENV
                         value: {{ .Values.atm-locator.nodeEnv }}
                       - name: PORT 
                         value: {{ .Values.atm-locator.port }}
-                      - name: JWT_SECRET
-                        value: {{ .Values.atm-locator.jwtSecret }}
+                  envFrom:
+                      - configMapRef:
+                          name: configmap-martianbank
 ---
 apiVersion: v1
 kind: Service
