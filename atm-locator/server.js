@@ -1,46 +1,40 @@
-import path from 'path';
-import express from 'express';
-import dotenv from 'dotenv';
-import cors from 'cors';
-import morgan from 'morgan';
+import path from "path";
+import express from "express";
+import dotenv from "dotenv";
+
+import cors from "cors";
+import morgan from "morgan";
+import cookieParser from "cookie-parser";
+import colors from "colors";
+
+import { notFound, errorHandler } from "./middleware/errorMiddleware.js";
+
+import atmRoutes from "./routes/atmRoutes.js";
+
+// Load environment variables from .env file
 dotenv.config();
-import connectDB from './config/db.js';
-import cookieParser from 'cookie-parser';
-import { notFound, errorHandler } from './middleware/errorMiddleware.js';
-import atmRoutes from './routes/atmRoutes.js';
 
-const port = process.env.PORT || 5001;
-
+// connect to MongoDB Atlas database
+import connectDB from "./config/db.js";
 connectDB();
 
+const port = process.env.PORT || 8001;
 const app = express();
 
+// mounting middlewares
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(cors());
-
+app.use(cors({credentials: true, origin: true}));
 app.use(cookieParser());
+app.use(morgan("dev"));
 
-if (process.env.NODE_ENV === 'development') {
-  app.use(morgan('dev'));
-}
+// mounting routes
+app.use("/api/atm", atmRoutes);
 
-app.use('/api/atm', atmRoutes);
-
-if (process.env.NODE_ENV === 'production') {
-  const __dirname = path.resolve();
-  app.use(express.static(path.join(__dirname, '/ui/dist')));
-
-  app.get('*', (req, res) =>
-    res.sendFile(path.resolve(__dirname, 'ui', 'dist', 'index.html'))
-  );
-} else {
-  app.get('/', (req, res) => {
-    res.send('atm-locator API is running....');
-  });
-}
-
+// error handling middlewares
 app.use(notFound);
 app.use(errorHandler);
 
-app.listen(port, () => console.log(`atm-locator server started on port ${port}`));
+app.listen(port, () =>
+  console.log(`atm-locator server started on port ${port}`.green.bold)
+);

@@ -206,7 +206,6 @@ router.post("/auth", authUser);
  */
 router.post("/logout", logoutUser);
 
-
 /**
  * @swagger
  * /api/users/profile:
@@ -344,9 +343,7 @@ router.post("/logout", logoutUser);
  *                   description: Stack trace (only in development mode)
  */
 
-router.route("/profile")
-  .get(getUserProfile)
-  .put(updateUserProfile);
+router.route("/profile").get(getUserProfile).put(updateUserProfile);
 
 // router
 //   .route("/profile")
