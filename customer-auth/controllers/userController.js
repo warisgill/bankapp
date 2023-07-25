@@ -1,8 +1,7 @@
 import asyncHandler from "express-async-handler";
-// import { Worker } from 'worker_threads';
 import User from "../models/userModel.js";
-import generateToken from "../utils/generateToken.js";
-
+// import { Worker } from 'worker_threads';
+// import generateToken from "../utils/generateToken.js";
 
 // @desc    Register a new user
 // @route   POST /api/users
@@ -11,7 +10,6 @@ const registerUser = asyncHandler(async (req, res) => {
   try {
     const { name, email, password } = req.body;
 
-    // Check if name, email and password are present
     if (!name || !email || !password) {
       res.status(400);
       throw new Error("Name, email and password are required");
@@ -42,7 +40,6 @@ const registerUser = asyncHandler(async (req, res) => {
       throw new Error("Invalid user data");
     }
   } catch (error) {
-    // Handle any errors
     res.status(res.statusCode === 200 ? 500 : res.statusCode);
     res.json({
       message: error.message || "Internal Server Error",
@@ -58,7 +55,6 @@ const authUser = asyncHandler(async (req, res) => {
   try {
     const { email, password } = req.body;
 
-    // Check if email and password are present
     if (!email || !password) {
       res.status(400);
       throw new Error("Email and password are required");
@@ -78,7 +74,6 @@ const authUser = asyncHandler(async (req, res) => {
       throw new Error("Invalid email or password");
     }
   } catch (error) {
-    // Handle any errors
     res.status(res.statusCode === 200 ? 500 : res.statusCode);
     res.json({
       message: error.message || "Internal Server Error",
@@ -111,7 +106,6 @@ const logoutUser = (req, res) => {
   try {
     // const jwtCookie = req.headers.authorization;
 
-    // // Check if the JWT cookie exists
     // if (jwtCookie === undefined) {
     //   res.status(400);
     //   throw new Error("No JWT cookie found");
@@ -128,7 +122,6 @@ const logoutUser = (req, res) => {
     // });
     // res.status(200).json({ message: "Logged out successfully" });
   } catch (error) {
-    // Handle any errors
     res.status(res.statusCode === 200 ? 500 : res.statusCode);
     res.json({
       message: error.message || "Internal Server Error",
@@ -155,7 +148,6 @@ const getUserProfile = asyncHandler(async (req, res) => {
       throw new Error("User not found");
     }
   } catch (error) {
-    // Handle any errors
     res.status(res.statusCode === 200 ? 500 : res.statusCode);
     res.json({
       message: error.message || "Internal Server Error",
@@ -192,7 +184,6 @@ const updateUserProfile = asyncHandler(async (req, res) => {
       throw new Error("User not found");
     }
   } catch (error) {
-    // Handle any errors
     res.status(res.statusCode === 200 ? 500 : res.statusCode);
     res.json({
       message: error.message || "Internal Server Error",

@@ -103,11 +103,9 @@ nginx:
 ## Deploy with local MongoDB or with MongoDB Atlas
 
 mongodb:
-  ## For easier development and testing, we deploy MongoDB Atlas instance
+  ## For easier development and testing, we deploy MongoDB Atlas instance (enabled: true).
+  ## If you want to use local MongoDB, then set enabled to 'false'
   ##
   enabled: true
   atlasCustomerAuth: "mongodb+srv://jash:jashmehta123@customer-auth.8yai7cq.mongodb.net/customer-auth?retryWrites=true&w=majority"
   atlasAtmLocator: "mongodb+srv://jash:jashmehta123@atm-locator.vbxfrwn.mongodb.net/?retryWrites=true&w=majority" 
-  ## If you want to use local MongoDB, then set enabled to 'false'
-  ##
-  # enabled: false

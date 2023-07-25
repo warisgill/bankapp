@@ -14,7 +14,12 @@ const getATMs = asyncHandler(async (req, res) => {
   if (req.body.isInterPlanetary) {
     query.interPlanetary = true;
   }
-  const ATMs = await ATM.find(query, { name: 1, coordinates: 1, address: 1, isOpen: 1});
+  const ATMs = await ATM.find(query, {
+    name: 1,
+    coordinates: 1,
+    address: 1,
+    isOpen: 1,
+  });
   const shuffledATMs = [...ATMs].sort(() => Math.random() - 0.5).slice(0, 4);
   if (shuffledATMs) {
     res.status(200).json(shuffledATMs);
