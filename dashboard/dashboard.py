@@ -259,7 +259,7 @@ def transaction_form():
 
         logging.debug("Sending transaction request...")
 
-        response = client.SendMoney(req)
+        response = client.sendMoney(req)
         # return f"Transaction successful. Transaction ID: {response}"
         return json.dumps(
             {"response": {"approved": response.approved, "message": response.message}}

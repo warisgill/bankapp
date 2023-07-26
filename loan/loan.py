@@ -196,6 +196,7 @@ def get_loan_history():
 
 
 def serverGRPC(port):
+    logging.debug(f"Starting GRPC server on port {port}")
     server = grpc.server(futures.ThreadPoolExecutor(max_workers=10))
     loan_pb2_grpc.add_LoanServiceServicer_to_server(LoanService(), server)
     server.add_insecure_port(f"[::]:{port}")
