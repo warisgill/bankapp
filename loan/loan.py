@@ -26,6 +26,14 @@ if db_url is None:
 
 uri = db_url
 
+protocol = os.getenv('SERVICE_PROTOCOL')
+if protocol is None:
+    raise Exception("SERVICE_PROTOCOL environment variable is not set")
+
+protocol = protocol.lower()
+
+logging.debug(f"microservice protocol: {protocol}")
+
 
 
 client = MongoClient(uri)
@@ -201,9 +209,11 @@ def serverFlask(port):
 
 if __name__ == "__main__":
     port =  50053
-    # serve()
-    # serverGRPC(port)
-    serverFlask(port)
+
+    if protocol == "grpc":
+        serverGRPC(port)
+    else:
+        serverFlask(port)
 
 
 

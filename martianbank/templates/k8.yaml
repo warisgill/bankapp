@@ -98,6 +98,8 @@ spec:
                 - name: dashboard
                   image: docker.io/waris95/martian-bank-dashboard
                   env:
+                      - name: SERVICE_PROTOCOL
+                        value: {{.Values.SERVICE_PROTOCOL}}
                       - name: ACCOUNT_HOST
                         value: accounts
                       - name: LOAN_HOST

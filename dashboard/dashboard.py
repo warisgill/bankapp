@@ -37,6 +37,13 @@ uri = db_url
 
 logging.debug(f"Connecting to MongoDB at {uri}")
 
+protocol = os.getenv('SERVICE_PROTOCOL')
+if protocol is None:
+    raise Exception("SERVICE_PROTOCOL environment variable is not set")
+
+protocol = protocol.lower()
+logging.debug(f"microservice protocol: {protocol}")
+
 
 client = MongoClient(uri)
 db = client["bank"]
@@ -115,7 +122,14 @@ def create_account():
         logging.debug("+++++++++++++++++++++++++++++++++++++++++")
         logging.debug(request.form)
         # result = __grpc()
-        result = __flask()
+        # result = __flask()
+        result = None
+        if protocol == "grpc":
+            result = __grpc()
+        else:
+            result = __flask()
+
+
         return result
 
     return render_template("create_account_form.html")
@@ -163,7 +177,13 @@ def get_all_accounts():
     host_ip_port = f"{accounts_host}:50051"
     if request.method == "POST":
         # response =  __grpc()
-        response = __flask()
+        # response = __flask()
+        response = None
+        if protocol == "grpc":
+            response = __grpc()
+        else:
+            response = __flask()
+        
         return response
 
     return jsonify({"response": None})
@@ -205,7 +225,13 @@ def get_account_details():
         logging.debug("+++++++++++++++++++++++++++++++++++++++++")
         logging.debug(request.form)
         # response = __grpc()
-        response = __flask()
+        # response = __flask()
+        response = None
+        if protocol == "grpc":
+            response = __grpc()
+        else:
+            response = __flask()
+        
         return response
 
     return jsonify({"response": None})
@@ -250,7 +276,13 @@ def transaction_form():
     host_ip_port = f"{transaction_host}:50052"
     if request.method == "POST":
         # result = __grpc()
-        result = __flask()
+        # result = __flask()
+        result = None
+        if protocol == "grpc":
+            result = __grpc()
+        else:
+            result = __flask()
+        
         logging.debug(f"---->Transaction response: {result}")
         return result
 
@@ -300,7 +332,14 @@ def transaction_zelle():
     host_ip_port = f"{transaction_host}:50052"
     if request.method == "POST":
         # result = __grpc()
-        result = __flask()
+        # result = __flask()
+        
+        result = None
+        if protocol == "grpc":
+            result = __grpc()
+        else:
+            result = __flask()
+        
         logging.debug(f"---->Transaction response: {result}")
         return result
 
@@ -341,7 +380,12 @@ def get_all_transactions():
     host_ip_port = f"{transaction_host}:50052"
     if request.method == "POST":
         # result = __grpc()
-        result = __flask()
+        # result = __flask()
+        result = None
+        if protocol == "grpc":
+            result = __grpc()
+        else:
+            result = __flask()
         logging.debug(f"---->Transaction response: {result}")
         return result
 
@@ -378,7 +422,14 @@ def GetTransactionByID():
     host_ip_port = f"{transaction_host}:50052"
     if request.method == "POST":
         # result = __grpc()
-        result = __flask()
+        # result = __flask()
+        
+        result = None
+        if protocol == "grpc":
+            result = __grpc()
+        else:
+            result = __flask()
+        
         logging.debug(f"---->Transaction response: {result}")
         return result
 
@@ -456,7 +507,13 @@ def loan_form():
     host_ip_port = f"{loan_host}:50053"
     if request.method == "POST":
         # result = __getLoanGRPC()
-        result = __getLoanFlask()
+        # result = __getLoanFlask()
+
+        result = None
+        if protocol == "grpc":
+            result = __getLoanGRPC()
+        else:
+            result = __getLoanFlask()
 
         logging.debug(f"---->Loan response: {result}")
         return json.dumps({"response": result})
@@ -511,7 +568,15 @@ def loan_history():
         logging.debug("+++++++++++++++++++++++++++++++++++++++++")
 
         # response = __grpc()
-        response = __flask()
+        # response = __flask()
+
+        response = None
+        if protocol == "grpc":
+            response = __grpc()
+        else:
+            response = __flask()
+
+        
 
         logging.debug("-----------------------------------------")
 

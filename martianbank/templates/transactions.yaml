@@ -22,6 +22,10 @@ spec:
                   envFrom:
                     - configMapRef:
                         name: configmap-martianbank
+                  env:
+                    - name: SERVICE_PROTOCOL
+                      value: {{.Values.SERVICE_PROTOCOL}}      
+                
 
 ---
 apiVersion: v1
