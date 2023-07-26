@@ -22,7 +22,7 @@ import { faLocationDot } from "@fortawesome/free-solid-svg-icons";
 import { faAngleDown, faAngleUp } from "@fortawesome/free-solid-svg-icons";
 import "leaflet/dist/leaflet.css";
 import "../index.css";
-import mapIcon from "../assets/mapIcon.png";
+import mapIcon from "../assets/coin.png";
 import mapImg from "../assets/mapPlanets.png";
 
 const AtmScreen = () => {
@@ -72,6 +72,7 @@ const AtmScreen = () => {
         isOpenNow,
         isInterPlanetary,
       }).unwrap();
+      console.log(res);
       dispatch(setAtms(res));
       setAtmsList(res);
       toast.success("Found ATMs near you!", {

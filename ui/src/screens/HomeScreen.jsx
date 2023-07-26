@@ -56,15 +56,11 @@ const HomeScreen = () => {
 
   const renderDashboard = () => {
     return (
-      <Container fluid style={{ overflowY: "auto" }}>
+      <div style={{ display: "flex", flexDirection: "column", minHeight: "100vh" }}>
+      <Container fluid style={{ flex: 1, overflowY: "auto" }}>
         <Row>
+          <Col md={2} />
           <Col md={8} style={{ marginTop: "5vh" }}>
-            {/* <div
-              style={{ fontSize: "2.5vh", backgroundColor: "#e9ecef" }}
-              className="card text-center p-3"
-            >
-              Bank accounts
-            </div> */}
             {accountInfo ? (
               accountInfo.length > 0 ? (
                 accountInfo.map((account) => {
@@ -178,8 +174,11 @@ const HomeScreen = () => {
               <Loader />
             )}
           </Col>
-          <Col md={1} />
-          <Col md={3} style={{ marginTop: "5vh" }}>
+          <Col md={2} />
+        </Row>
+        <Row style={{ marginTop: "2vh"}}>
+          <Col md={2} />
+          <Col md={8}>
             <Card
               style={{
                 marginTop: "1.5vh",
@@ -193,7 +192,7 @@ const HomeScreen = () => {
                     </span>
                     <br />
                     <br />
-                    <span>Investment and Insurance Products are:</span>
+                    {/* <span>Investment and Insurance Products are:</span>
                     <br />
                     <ul>
                       <li>
@@ -208,7 +207,7 @@ const HomeScreen = () => {
                         Subject to Investment Risks, Including Possible Loss of
                         the Principal Amount Invested
                       </li>
-                    </ul>
+                    </ul> */}
                     <span>
                       Investment products and services are offered through
                       Martian Bank Advisors. Martian Bank Advisors is a trade
@@ -235,8 +234,10 @@ const HomeScreen = () => {
               </Card.Body>
             </Card>
           </Col>
+          <Col md={2} />
         </Row>
       </Container>
+      </div>
     );
   };
 

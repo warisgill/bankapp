@@ -15,6 +15,9 @@ import loan_pb2_grpc
 
 from pymongo.mongo_client import MongoClient
 
+from dotenv import load_dotenv
+load_dotenv()
+
 
 # db_host = os.getenv("DATABASE_HOST", "localhost")
 db_url = os.getenv("DB_URL")
