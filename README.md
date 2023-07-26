@@ -198,6 +198,12 @@ Now that you have the MartianBank repository downloaded, you can use Helm to ins
 helm  install  martianbank  martianbank
 ```
 
+By defualt loan, transaction and accounts microservices will run with http protocol. To switch to gRPC type the following command:
+
+```bash
+helm install martianbank martianbank --set SERVICE_PROTOCOL=grpc
+```
+
   
 
 2.  Wait for the installation to complete. Helm will deploy the necessary components to your Kubernetes cluster.
