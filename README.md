@@ -167,6 +167,15 @@ By default loan, transaction and accounts microservices will run with http proto
 helm install martianbank martianbank --set SERVICE_PROTOCOL=grpc
 ```
 
+Additionally, you can flip between mongoDB local and mongoDB Atlas (cloud database instance). To switch to local mongo, use the following flag:
+```bash
+helm install martianbank martianbank --set "mongodb.enabled=false"
+```
+
+By default, we use NGINX for reverse-proxy. If you want to deploy without NGINX, use this flag:
+```bash
+helm install martianbank martianbank --set "nginx.enabled=false"
+```
   
 
 2.  Wait for the installation to complete. Helm will deploy the necessary components to your Kubernetes cluster.
@@ -606,6 +615,21 @@ Now that your EKS cluster is set up, you can proceed with installing MartianBank
 helm install martianbank martianbank
 ```
 
+By default loan, transaction and accounts microservices will run with http protocol. To switch to gRPC type the following command:
+
+```bash
+helm install martianbank martianbank --set SERVICE_PROTOCOL=grpc
+```
+
+Additionally, you can flip between mongoDB local and mongoDB Atlas (cloud database instance). To switch to local mongo, use the following flag:
+```bash
+helm install martianbank martianbank --set "mongodb.enabled=false"
+```
+
+By default, we use NGINX for reverse-proxy. If you want to deploy without NGINX, use this flag:
+```bash
+helm install martianbank martianbank --set "nginx.enabled=false"
+```
   
 
 2.  Verify that all pods are running using this command:
