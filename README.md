@@ -145,7 +145,7 @@ data:
 
 -   When running Docker or pods, use `"mongodb://root:example@mongodb:27017"` for the local database.
     
--   When running scripts directly on a machine, use `"mongodb://root:example@localhost:27017"`.
+<!-- -   When running scripts directly on a machine, use `"mongodb://root:example@localhost:27017"`. -->
 
 ####  Step 2: Install MartianBank using Helm
 

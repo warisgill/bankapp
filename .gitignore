@@ -30,4 +30,4 @@ __pycache__
 docker-hub.sh
 dockers_images_update.sh
 
-martianbank/templates/configmap.yaml
+# martianbank/templates/configmap.yaml

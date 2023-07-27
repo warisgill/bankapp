@@ -106,7 +106,7 @@ mongodb:
   ## For easier development and testing, we deploy MongoDB Atlas instance (enabled: true).
   ## If you want to use local MongoDB, then set enabled to 'false'
   ##
-  enabled: true
+  enabled: false
 
 SERVICE_PROTOCOL: "http"
 DB_URL:  
