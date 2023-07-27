@@ -78,7 +78,7 @@ It is built using [React](https://react.dev/),[ Node.js](https://nodejs.org/en/a
 
   
 
-The Martian Bank UI is a [React](https://react.dev/) dashboard which uses [react-redux toolkit](https://redux-toolkit.js.org/). There is an [NGINX](https://www.nginx.com/) container which site between the UI and microservices and acts as a reverse proxy. There are 6 microservices, out of which 2 (customer-auth and atm-locator) are developed in Node.js whereas the others are done using Python. The dashboard microservice talks to accounts, transactions and loan microservices using [gRPC](https://grpc.io/).
+The Martian Bank UI is created using [React](https://react.dev/) and [react-redux toolkit](https://redux-toolkit.js.org/). There is an [NGINX](https://www.nginx.com/) container that acts as a reverse proxy for UI and backend services. There are 6 microservices, out of which 2 (customer-auth and atm-locator) are developed in Node.js whereas the others are done using Flask (Python). The dashboard microservice talks to accounts, transactions and loan microservices using [gRPC](https://grpc.io/) and [http](https://en.wikipedia.org/wiki/HTTP) (can be flipped and is available as a deployment parameter).
 
   
 
@@ -91,8 +91,6 @@ The Martian Bank UI is a [React](https://react.dev/) dashboard which uses [react
   
 
 <br />
-
-`----------------------------`
 
   
 
@@ -149,21 +147,15 @@ First, download the MartianBank GitHub repository using the following steps:
   
 
 2.  Clone the repository by running the command:
-
-  
-
 ```bash
-git  clone  https://github.com/warisgill/bankapp
+git clone https://github.com/warisgill/bankapp
 ```
-
   
 
 3.  Change to the downloaded repository directory using the command:
 
-  
-
 ```bash
-cd  bankapp
+cd bankapp
 ```
 
 
@@ -176,6 +168,7 @@ metadata:
   name: configmap-martianbank
 data:
   DB_URL: # enter the DB url
+  JWT_SECRET: # enter any string that you wish to use as a secret
 ```
 
 -   When running Docker or pods, use `"mongodb://root:example@mongodb:27017"` for the local database.
@@ -192,13 +185,11 @@ Now that you have the MartianBank repository downloaded, you can use Helm to ins
 
 1.  To install MartianBank, use the Helm command:
 
-  
-
 ```bash
-helm  install  martianbank  martianbank
+helm install martianbank martianbank
 ```
 
-By defualt loan, transaction and accounts microservices will run with http protocol. To switch to gRPC type the following command:
+By default loan, transaction and accounts microservices will run with http protocol. To switch to gRPC type the following command:
 
 ```bash
 helm install martianbank martianbank --set SERVICE_PROTOCOL=grpc
@@ -217,13 +208,9 @@ helm install martianbank martianbank --set SERVICE_PROTOCOL=grpc
 After the installation is complete, you can verify the status of the pods running within your Kubernetes cluster.
 
   
-
 To get a list of pods, run the following command:
-
-  
-
 ```bash
-kubectl  get  pods
+kubectl get pods
 ```
 
   
@@ -237,11 +224,8 @@ To access the MartianBank app, you need to find the URL (IP address) of the runn
   
 
 Run the following command to get the list of services:
-
-  
-
 ```bash
-kubectl  get  service
+kubectl get service
 ```
 
   
@@ -291,11 +275,8 @@ To remove the MartianBank app from the cluster, we'll use Helm to uninstall it.
   
 
 2.  Run the following Helm command to uninstall the MartianBank release:
-
-  
-
 ```bash
-helm  uninstall  martianbank
+helm uninstall martianbank
 ```
 
   
@@ -313,11 +294,8 @@ Although Helm has uninstalled the main components, there might still be some res
   
 
 1.  Run the following kubectl command:
-
-  
-
 ```bash
-kubectl  delete  all  --all  --namespace  default
+kubectl delete all --all --namespace default
 ```
 
   
@@ -363,11 +341,8 @@ If you haven't already installed Minikube and its prerequisites, follow the offi
   
 
 2.  Start the Minikube cluster by running the following command:
-
-  
-
 ```bash
-minikube  start
+minikube start
 ```
 
   
@@ -397,12 +372,9 @@ Before installing MartianBank, you need to have Helm installed on your local mac
   
 
 2.  Clone the MartianBank GitHub repository and navigate to the downloaded directory as mentioned in the previous tutorial.
-
-  
-
 ```bash
-git  clone  https://github.com/warisgill/bankapp
-cd  bankapp
+git clone https://github.com/warisgill/bankapp
+cd bankapp
 ```
 
   
@@ -416,11 +388,8 @@ Now that you have Minikube running and Helm installed, you can proceed with inst
   
 
 1.  To install MartianBank, use the Helm command:
-
-  
-
 ```bash
-helm  install  martianbank  martianbank
+helm install martianbank martianbank
 ```
 
   
@@ -437,13 +406,10 @@ After installing MartianBank on your Minikube cluster, you may encounter that th
 
 To make the LoadBalancer type service accessible via an external IP in Minikube, you can use the `minikube tunnel` command. This command sets up a network route to expose the LoadBalancer's IP externally. Here's how to use it: Now, to make the LoadBalancer accessible from an external IP, run the following command in a **_new terminal_**:
 
-  
-
 ```bash
-minikube  tunnel
+minikube tunnel
 ```
 
-  
 
 The `minikube tunnel` command will create a network route to expose the LoadBalancer service to an external IP address. The external IP should no longer be in the "pending" state after running this command.
 
@@ -454,11 +420,8 @@ The `minikube tunnel` command will create a network route to expose the LoadBala
   
 
 After running `minikube tunnel`, the LoadBalancer's external IP should be available. You can get the IP by running:
-
-  
-
 ```bash
-kubectl  get  service
+kubectl get service
 ```
 
   
@@ -485,11 +448,9 @@ That's it! Using `minikube tunnel`, you can expose LoadBalancer services in Mini
 
 If you want to uninstall MartianBank from your Minikube cluster, follow the same uninstallation steps mentioned in the previous tutorial:
 
-  
-
 ```bash
-helm  uninstall  martianbank
-kubectl  delete  all  --all  --namespace  default
+helm uninstall martianbank
+kubectl delete all --all --namespace default
 ```
 
   
@@ -527,11 +488,8 @@ If you haven't already installed KIND and Docker, you need to do that first. Fol
   
 
 2.  Create a KIND cluster by running the following command:
-
-  
-
 ```bash
-kind  create  cluster  --name  martianbank
+kind create cluster --name martianbank
 ```
 
   
@@ -549,11 +507,8 @@ The KIND cluster should now be running, but your `kubectl` is not automatically 
   
 
 1.  Run the following command to set the `kubectl` context to the new KIND cluster:
-
-  
-
 ```bash
-kubectl  cluster-info  --context  kind-martianbank
+kubectl cluster-info --context kind-martianbank
 ```
 
   
@@ -571,11 +526,8 @@ Now that your KIND cluster is set up and Helm is installed, you can proceed with
   
 
 2.  Install MartianBank using the Helm command:
-
-  
-
 ```bash
-helm  install  martianbank  martianbank
+helm install martianbank martianbank
 ```
 
   
@@ -593,12 +545,9 @@ After the installation is complete, you can access the MartianBank app just like
   
 
 If you want to uninstall MartianBank from the KIND cluster, follow the same uninstallation steps mentioned in the previous tutorial:
-
-  
-
 ```bash
-helm  uninstall  martianbank
-kubectl  delete  all  --all  --namespace  default
+helm uninstall martianbank
+kubectl delete all --all --namespace default
 ```
 
   
@@ -616,113 +565,59 @@ That's it! You now have MartianBank installed and running on your KIND cluster. 
   
 
 1.  Install AWS CLI tool and configure it (pass in access key, secret key, region, and it creates ~/.aws/config and ~/.aws/credentials files).
-
-  
-
 ```shell
-
-aws  configure
-
+aws configure
 ```
 
   
 
 2.  Install eksctl tool
-
-  
-
 ```shell
-
-brew  tap  weaveworks/tap;  brew  install  weaveworks/tap/eksctl
-
+brew tap weaveworks/tap; brew install weaveworks/tap/eksctl
 ```
-
-  
+ 
 
 3.  Install IAM authenticator
-
-  
-
 ```shell
-
-brew  install  aws-iam-authenticator
-
+brew install aws-iam-authenticator
 ```
 
   
 
 4.  Create a cluster.yaml file anywhere on your system.
-
+```yaml
+apiVersion: eksctl.io/v1alpha5 
+kind: ClusterConfig 
   
-
+metadata: 
+  name: <cluster-name> 
+  region: us-east-1 
+  
+vpc: 
+  cidr: "172.20.0.0/16" ## Can change this value 
+  nat: 
+   gateway: Single 
+  clusterEndpoints: 
+   publicAccess: true 
+   privateAccess: true 
+  
+nodeGroups: 
+  - name: ng-1 
+    minSize: 2 
+    maxSize: 2 
+    instancesDistribution: 
+      maxPrice: 0.093 
+      instanceTypes: ["t3a.large", "t3.large"] 
+      onDemandBaseCapacity: 0 
+      onDemandPercentageAboveBaseCapacity: 50 
+      spotInstancePools: 2 
+    ssh: 
+     publicKeyPath: <path> 
 ```
-
-apiVersion: eksctl.io/v1alpha5
-
-kind: ClusterConfig
-
-  
-
-metadata:
-
-name: <username>
-
-region: us-east-1
-
-  
-
-vpc:
-
-cidr: "172.20.0.0/16" ## Can change this value
-
-nat:
-
-gateway: Single
-
-clusterEndpoints:
-
-publicAccess: true
-
-privateAccess: true
-
-  
-
-nodeGroups:
-
-- name: ng-1
-
-minSize: 2
-
-maxSize: 2
-
-instancesDistribution:
-
-maxPrice: 0.093
-
-instanceTypes: ["t3a.large", "t3.large"]
-
-onDemandBaseCapacity: 0
-
-onDemandPercentageAboveBaseCapacity: 50
-
-spotInstancePools: 2
-
-ssh:
-
-publicKeyPath: <path>
-
-```
-
-  
 
 5.  Create an EKS cluster using this command (takes ~20 minutes)
-
-  
-
 ```shell
-
-eksctl  create  cluster  -f  cluster.yaml
-
+eksctl create cluster -f cluster.yaml
 ```
 
   
@@ -736,25 +631,15 @@ Now that your EKS cluster is set up, you can proceed with installing MartianBank
   
 
 1.  Go to your cloned repository and install MartianBank using the Helm command:
-
-  
-
 ```shell
-
-helm  install  martianbank  martianbank
-
+helm install martianbank martianbank
 ```
 
   
 
 2.  Verify that all pods are running using this command:
-
-  
-
 ```shell
-
-kubectl  get  pods
-
+kubectl get pods
 ```
 
   
@@ -772,15 +657,9 @@ After the installation is complete, you can access the MartianBank app by findin
   
 
 If you want to uninstall MartianBank from the EKS cluster, follow these uninstallation steps:
-
-  
-
 ```shell
-
-helm  uninstall  martianbank
-
-kubectl  delete  all  --all  --namespace  default
-
+helm uninstall martianbank
+kubectl delete all --all --namespace default
 ```
 
   
@@ -798,138 +677,76 @@ kubectl  delete  all  --all  --namespace  default
   
 
 1.  Start `ui` on port 3000:
-
-  
-
 ```shell
-
-cd  ui
-
-npm  install
-
-npm  run  ui
-
+cd ui
+npm install
+npm run ui
 ```
 
   
 
 2.  Start auth microservice on port 8000:
-
-  
-
 ```shell
-
-cd  customer-auth
-
-npm  install
-
-nodemon  server.js
-
+cd customer-auth
+npm install
+nodemon server.js
 ```
 
   
-
 3.  Start atm microservice on port 8001
-
-  
-
 ```shell
-
-cd  atm-locator
-
-npm  install
-
-nodemon  server.js
-
+cd atm-locator
+npm install
+nodemon server.js
 ```
 
   
-
 4.  Make sure that you have installed conda and pip.
 
-  
 
 5.  Create a virtual environment for Python microservices.
-
-  
-
 ```shell
-
-cd  dashboard
-
-conda  create  --name  <env_name>
-
-conda  activate  <env_name>
-
-pip  install  -r  requirements.txt
-
+cd dashboard
+conda create --name <env_name>
+conda activate <env_name>
+pip install -r requirements.txt
 ```
 
   
 
 6.  Start accounts microservice.
-
-  
-
 ```shell
-
-cd  accounts
-
-conda  activate  <env_name>
-
-python  accounts.py
-
+cd accounts
+conda activate <env_name>
+python accounts.py
 ```
 
   
 
 7.  Start transactions microservice.
-
-  
-
 ```shell
-
-cd  transactions
-
-conda  activate  <env_name>
-
-python  transaction.py
-
+cd transactions
+conda activate <env_name>
+python transaction.py
 ```
 
   
 
 8.  Start loan microservice.
-
-  
-
-```
-
+```shell
 cd loan
-
 conda activate <env_name>
-
 python loan.py
-
 ```
 
   
 
 9.  Start dashboard microservice on port 5000
-
-  
-
 ```shell
-
-cd  dashboard
-
-conda  activate  <env_name>
-
-python  dashboard.py
-
+cd dashboard
+conda activate <env_name>
+python dashboard.py
 ```
-
-  
 
 Fire up `http://localhost:3000` to access the Martian Bank App.
 
@@ -944,13 +761,8 @@ Make sure you have docker desktop installed and runnning on your system. After t
   
 
 1.  Build all docker containers:
-
-  
-
 ```shell
-
-docker  compose  up  --build
-
+docker compose up --build
 ```
 
   
@@ -964,9 +776,7 @@ docker  compose  up  --build
   
 
 ```shell
-
-docker  compose  down
-
+docker compose down
 ```
 
   
