@@ -1007,7 +1007,7 @@ More more details please see the [Contribution guidelines for this project](CONT
 
   
 
-[Apache License, Version 2.0](https://www.apache.org/licenses/LICENSE-2.0)
+[BSD 3-Clause License](https://opensource.org/license/bsd-3-clause/)
 
   
 
