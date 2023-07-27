@@ -28,40 +28,13 @@ It is built using [React](https://react.dev/),[ Node.js](https://nodejs.org/en/a
 
 #  Table of contents:
 
-  
-
 -  [Application Overview](#application-overview)
-
-  
-
 -  [Application Design](#application-design)
-
-  
-
 -  [Getting Started](#getting-started)
-
-  
-
 -  [Installation on KIND Cluster](#installation-on-kind-cluster)
-
-  
-
 -  [Installation on AWS EKS Cluster](#installation-on-aws-eks-cluster)
-
-  
-
 -  [Running Locally](#running-locally)
-
-  
-
--  [Deployment Diagram](#deployment-diagram)
-
-  
-
 -  [Contributing](#contributing)
-
-  
-
 -  [License](#license)
 
   
@@ -80,9 +53,8 @@ It is built using [React](https://react.dev/),[ Node.js](https://nodejs.org/en/a
 
 The Martian Bank UI is created using [React](https://react.dev/) and [react-redux toolkit](https://redux-toolkit.js.org/). There is an [NGINX](https://www.nginx.com/) container that acts as a reverse proxy for UI and backend services. There are 6 microservices, out of which 2 (customer-auth and atm-locator) are developed in Node.js whereas the others are done using Flask (Python). The dashboard microservice talks to accounts, transactions and loan microservices using [gRPC](https://grpc.io/) and [http](https://en.wikipedia.org/wiki/HTTP) (can be flipped and is available as a deployment parameter).
 
-  
 
-![Architecture Diagram](https://drive.google.com/uc?export=view&id=11wVBfu2FNnhEWACRv63rq1XvnUWQQO4-)
+![Architecture Diagram](https://drive.google.com/uc?export=view&id=1H1MKRLmcuIKKyXgcX7VRkL18ECJDyw3q)
 
   
 
@@ -345,7 +317,6 @@ If you haven't already installed Minikube and its prerequisites, follow the offi
 minikube start
 ```
 
-  
 
 This command will create and start a local Kubernetes cluster using Minikube.
 
@@ -772,24 +743,10 @@ docker compose up --build
   
 
 3.  To delete docker containers:
-
-  
-
 ```shell
 docker compose down
 ```
 
-  
-
-<br />
-
-  
-
-#  Deployment Diagram
-
-  
-
-![Deployment Diagram](https://drive.google.com/uc?export=view&id=1fVyWct-WydBdaYkZniQxKDn_XQIUxiR6)
 
   
 
