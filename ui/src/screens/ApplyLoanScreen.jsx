@@ -248,10 +248,10 @@ const ApplyLoan = () => {
                       selectedAccount ? selectedAccount.account_type : null
                     );
                     setGovtId(
-                      selectedAccount ? selectedAccount.governmentIdType : null
+                      selectedAccount ? selectedAccount.government_id_type : null
                     );
                     setGovtIdNo(
-                      selectedAccount ? selectedAccount.govtIdNumber : null
+                      selectedAccount ? selectedAccount.govt_id_number : null
                     );
                   }}
                   aria-label="Select account number"

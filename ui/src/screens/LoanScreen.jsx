@@ -158,7 +158,7 @@ const LoanScreen = () => {
   return (
     <Row fluid style={{ overflowY: "auto" }}>
       <Col md={4} className="mt-5">
-        {/* <div
+        <div
           style={{
             fontSize: "2.5vh",
             backgroundColor: "#e9ecef",
@@ -166,8 +166,8 @@ const LoanScreen = () => {
           }}
           className="card text-center p-3"
         >
-          Available Loans
-        </div> */}
+          Loan options for you
+        </div>
         <CustomCard
           title="Base Camp"
           text={
@@ -225,37 +225,49 @@ const LoanScreen = () => {
       <Col md={6} className="mt-5">
         {loanInfo ? (
           loanInfo.length > 0 ? (
-            loanInfo.map((loan) => (
-              <CustomCard
-                title={`${loan.loan_type} Loan for $${loan.loan_amount}`}
-                text={
-                  <>
-                    Interest Rate: {loan.interest_rate}%, Time Period:
-                    {loan.time_period} years <br />
-                    Account: {loan.account_number}
-                  </>
-                }
-              />
-            ))
+            <div>
+              <div
+                style={{
+                  fontSize: "2.5vh",
+                  backgroundColor: "#e9ecef",
+                  marginBottom: "3vh",
+                }}
+                className="card text-center p-3"
+              >
+                Enrolled Loans
+              </div>
+              {loanInfo.map((loan) => (
+                <CustomCard
+                  title={`${loan.loan_type} Loan for $${loan.loan_amount}`}
+                  text={
+                    <>
+                      Interest Rate: {loan.interest_rate}%, Time Period:
+                      {loan.time_period} years <br />
+                      Account: {loan.account_number}
+                    </>
+                  }
+                />
+              ))}
+            </div>
           ) : (
-            <Loader />
+            <div>
+              <div
+                style={{
+                  fontSize: "2.5vh",
+                  backgroundColor: "#e9ecef",
+                  marginBottom: "3vh",
+                }}
+                className="card text-center p-3"
+              >
+                Enrolled Loans
+              </div>
+              <h3 className="mt-5" style={{ textAlign: "center" }}>
+                You dont have any approved loans
+              </h3>
+            </div>
           )
         ) : (
-          <div>
-            <div
-              style={{
-                fontSize: "2.5vh",
-                backgroundColor: "#e9ecef",
-                marginBottom: "3vh",
-              }}
-              className="card text-center p-3"
-            >
-              Your Loans
-            </div>
-            <h3 className="mt-5" style={{ textAlign: "center" }}>
-              You dont have any approved loans
-            </h3>
-          </div>
+          <Loader />
         )}
       </Col>
     </Row>

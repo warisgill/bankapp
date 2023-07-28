@@ -62,10 +62,8 @@ const HomeScreen = () => {
 
   const renderDashboard = () => {
     return (
-      <div style={{ minHeight: "100vh", display: "flex", flexDirection: "column" }}>
-        <Container fluid style={{ flex: 1, overflowY: "auto" }}>
+        <Container fluid style={{ overflowY: "auto" }}>
           <Row>
-            <Col md={2} />
             <Col md={8} style={{ marginTop: "5vh" }}>
               {accountInfo ? (
                 accountInfo.length > 0 ? (
@@ -180,13 +178,8 @@ const HomeScreen = () => {
                 <Loader />
               )}
             </Col>
-            <Col md={2} />
-          </Row>
-        </Container>
-        <div style={{ flexShrink: "0", marginBottom: "12vh", width:"100%"}}>
-          <Row style={{ marginTop: "2vh", width:"100%" }}>
-            <Col md={2} />
-            <Col md={8}>
+            <Col md={1} />
+            <Col md={3} style={{ marginTop: "5vh" }}>
               <Card
                 style={{
                   marginTop: "1.5vh",
@@ -200,7 +193,7 @@ const HomeScreen = () => {
                       </span>
                       <br />
                       <br />
-                      {/* <span>Investment and Insurance Products are:</span>
+                      <span>Investment and Insurance Products are:</span>
                     <br />
                     <ul>
                       <li>
@@ -215,7 +208,7 @@ const HomeScreen = () => {
                         Subject to Investment Risks, Including Possible Loss of
                         the Principal Amount Invested
                       </li>
-                    </ul> */}
+                    </ul>
                       <span>
                         Investment products and services are offered through
                         Martian Bank Advisors. Martian Bank Advisors is a trade
@@ -243,8 +236,7 @@ const HomeScreen = () => {
               </Card>
             </Col>
           </Row>
-        </div>
-      </div>
+        </Container>
     );
   };
 

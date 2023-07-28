@@ -158,8 +158,8 @@ const NewAccScreen = () => {
                           aria-label="Select account type"
                         >
                           <option value="">Select your account type</option>
-                          <option value="Savings">Savings</option>
                           <option value="Checking">Checking</option>
+                          <option value="Savings">Savings</option>
                           <option value="Investment">Investment</option>
                           <option value="Money Market">Money Market</option>
                         </Form.Select>
