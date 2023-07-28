@@ -157,7 +157,7 @@ spec:
                   env:
                     {{- if not .Values.mongodb.enabled }}
                       - name: DATABASE_HOST
-                        value: root:example@mongodb
+                        value: "root:example@mongodb"
                     {{- end }}
                       - name: NODE_ENV
                         value: production
@@ -205,7 +205,7 @@ spec:
                   env:
                     {{- if not .Values.mongodb.enabled }}
                       - name: DATABASE_HOST
-                        value: root:example@mongodb
+                        value: "root:example@mongodb"
                     {{- end }}
                       - name: NODE_ENV
                         value: production
