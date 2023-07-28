@@ -1,3 +1,9 @@
+/**
+ * Copyright (c) 2023 Cisco Systems, Inc. and its affiliates All rights reserved.
+ * Use of this source code is governed by a BSD-style
+ * license that can be found in the LICENSE file.
+ */
+
 import { Navbar, Nav, Container, NavDropdown } from "react-bootstrap";
 import { toast } from "react-toastify";
 import { LinkContainer } from "react-router-bootstrap";

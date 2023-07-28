@@ -1,3 +1,9 @@
+/**
+ * Copyright (c) 2023 Cisco Systems, Inc. and its affiliates All rights reserved.
+ * Use of this source code is governed by a BSD-style
+ * license that can be found in the LICENSE file.
+ */
+
 import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Form, Button, Row, Col, Container } from "react-bootstrap";

@@ -1,3 +1,9 @@
+/**
+ * Copyright (c) 2023 Cisco Systems, Inc. and its affiliates All rights reserved.
+ * Use of this source code is governed by a BSD-style
+ * license that can be found in the LICENSE file.
+ */
+
 import { fetchBaseQuery, createApi } from "@reduxjs/toolkit/query/react";
 const usersUrl = import.meta.env.VITE_USERS_URL;
 
