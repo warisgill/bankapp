@@ -118,7 +118,7 @@ kind: Service
 metadata:
     name: dashboard
 spec:
-    type: LoadBalancer
+    # type: LoadBalancer
     selector:
         app: dashboard
     ports:

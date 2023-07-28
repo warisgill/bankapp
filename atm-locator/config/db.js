@@ -24,8 +24,8 @@ const connectDB = async () => {
       const conn = await mongoose.connect(
         `mongodb://${process.env.DATABASE_HOST}:27017/`
       );
-      
-      console.log(`Seeding database with data from atm_data.json ...`)
+
+      console.log(`Seeding database with data from atm_data.json ...`);
 
       const atmDataFile = join(
         dirname(fileURLToPath(import.meta.url)),
@@ -39,10 +39,14 @@ const connectDB = async () => {
         createdAt: new Date(item.createdAt.$date),
         updatedAt: new Date(item.updatedAt.$date),
       }));
-      await ATM.insertMany(processedData);
+      try {
+        await ATM.collection.drop();
+        await ATM.insertMany(processedData);
+      } catch (error) {
+        console.log(`Error: ${error.message}`.red.bold);
+      }
 
-      console.log(`Database seeded with ${processedData.length} records.`)
-
+      console.log(`Database seeded with ${processedData.length} records.`);
     } else {
       console.log(
         `Connecting to MongoDB Atlas (Cloud) at ${process.env.DB_URL} ...`
@@ -51,7 +55,6 @@ const connectDB = async () => {
     }
 
     console.log(` --- MongoDB Connected --- `.cyan);
-
   } catch (error) {
     console.error(`Error: ${error.message}`.red.bold);
     process.exit(1);
