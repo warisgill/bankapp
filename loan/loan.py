@@ -61,6 +61,7 @@ class LoanGeneric:
 
         count =  collection_loans.count_documents({"email": email, 'account_number': account_number})
 
+        logging.debug(f"Count whther the email and account exist or not : {count}")
         if count == 0:
             return {"approved": False, "message": "Email or Account not found."}
         result = self.__approveLoan(user_account, loan_amount)
