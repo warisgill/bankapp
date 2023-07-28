@@ -15,9 +15,17 @@ brew install jq
 # Clear existing licenses.txt file (if any)
 echo -n > ./licenses.txt
 
+# Make virtual environment
+conda create -n bankapp 
+conda activate bankapp
+cd dashboard
+pip install -r requirements.txt
+cd ..
+
 # report for dashboard
 echo -e "\n\n --- Dashboard --- \n" >> ./licenses.txt
 cd dashboard
+conda activate bankapp
 pip-licenses --format=json >./licenses.json
 cat licenses.json | jq -r '.[] | [.Name, .Version, .License] | @tsv' | column -t -s $'\t' >>../licenses.txt
 rm -rf licenses.json
@@ -27,6 +35,7 @@ echo -e "\n\n" >> ./licenses.txt
 # report for accounts
 echo -e "\n\n --- Accounts --- \n" >> ./licenses.txt
 cd accounts
+conda activate bankapp
 pip-licenses --format=json >./licenses.json
 cat licenses.json | jq -r '.[] | [.Name, .Version, .License] | @tsv' | column -t -s $'\t' >>../licenses.txt
 rm -rf licenses.json
@@ -36,6 +45,7 @@ echo -e "\n\n" >> ./licenses.txt
 # report for loan
 echo -e "\n\n --- Loan --- \n" >> ./licenses.txt
 cd loan
+conda activate bankapp
 pip-licenses --format=json >./licenses.json
 cat licenses.json | jq -r '.[] | [.Name, .Version, .License] | @tsv' | column -t -s $'\t' >>../licenses.txt
 rm -rf licenses.json
@@ -45,6 +55,7 @@ echo -e "\n\n" >> ./licenses.txt
 # report for transactions
 echo -e "\n\n --- Transactions -- \n" >> ./licenses.txt
 cd transactions
+conda activate bankapp
 pip-licenses --format=json >./licenses.json
 cat licenses.json | jq -r '.[] | [.Name, .Version, .License] | @tsv' | column -t -s $'\t' >>../licenses.txt
 rm -rf licenses.json
