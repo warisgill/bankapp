@@ -501,6 +501,9 @@ def loan_form():
             "interest_rate": interest_rate,
             "time_period": time_period,
         }
+
+        logging.debug(f"........==============>  {loan_request}")
+
         logging.debug(f"........==============>  http://{host_ip_port}/loan/request")
         response = flask_client_requests.post(
             f"http://{host_ip_port}/loan/request", json=loan_request

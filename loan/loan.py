@@ -184,6 +184,7 @@ loan_generic = LoanGeneric()
 @app.route("/loan/request", methods=["POST"])
 def process_loan_request():
     request_data = request.json
+    logging.debug(f"Request: {request_data}")
     response = loan_generic.ProcessLoanRequest(request_data)
     return jsonify(response)
 
