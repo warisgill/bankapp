@@ -58,11 +58,13 @@ class LoanGeneric:
         interest_rate = float(request_data["interest_rate"])
         time_period = request_data["time_period"]
         user_account = self.__getAccount(account_number)
+        
+        count =  collection_accounts.count_documents({"email_id": email, 'account_number': account_number})
 
-        count =  collection_loans.count_documents({"email": email, 'account_number': account_number})
-
+        logging.debug(f"user account only based on account number search : {user_account}")
+        logging.debug(f"Count whther the email and account exist or not : {count}")
         if count == 0:
-            return {"approved": False, "message": "Email or Account not found."}
+            return {"approved": False, "message": "Email or Account number not found."}
         result = self.__approveLoan(user_account, loan_amount)
         logging.debug(f"Result {result}")
         message = "Loan Approved" if result else "Loan Rejected"
