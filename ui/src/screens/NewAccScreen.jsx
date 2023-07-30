@@ -244,7 +244,6 @@ const NewAccScreen = () => {
                               </Modal.Footer>
                             </Modal>
                           )}
-                          {/* <TermsAndConditionsModal /> */}
                         </div>
                       </Col>
                     </Row>

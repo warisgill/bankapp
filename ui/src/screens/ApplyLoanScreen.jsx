@@ -30,6 +30,8 @@ import Loader from "../components/Loader";
 import "../index.css";
 
 const ApplyLoan = () => {
+  const [validated, setValidated] = useState(false);
+
   const [accNo, setAccNo] = useState("");
   const [accType, setAccType] = useState("");
 
@@ -89,51 +91,51 @@ const ApplyLoan = () => {
 
   const submitHandler = async (e) => {
     e.preventDefault();
+    e.stopPropagation();
+    setValidated(true);
 
-    if (!isCheckboxChecked) {
-      toast.error("Please agree to the Terms and Conditions");
-      return;
-    }
-
-    try {
-      const data_loan = new FormData();
-      data_loan.append("name", userInfo.name);
-      data_loan.append("email", userInfo.email);
-      data_loan.append("account_number", accNo);
-      data_loan.append("account_type", accType);
-      data_loan.append("govt_id_number", govtIdNo);
-      data_loan.append("govt_id_type", govtId);
-      data_loan.append("loan_type", loanType);
-      data_loan.append("loan_amount", loanAmount);
-      data_loan.append("interest_rate", intRate);
-      data_loan.append("time_period", loanTime);
-      const res = await postLoanAPI(data_loan).unwrap();
-      console.log(res);
-      dispatch(createLoan(res));
-      toast.success("Congratulations! Your loan is approved!", {
-        className: "toast-container-custom",
-        autoClose: 500,
-        hideProgressBar: true,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "dark",
-      });
-      navigate("/loan");
-      setLoanAdded(true);
-    } catch (err) {
-      console.log(err);
-      toast.error(err?.data?.message || err.error, {
-        className: "toast-container-custom",
-        autoClose: 500,
-        hideProgressBar: true,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "dark",
-      });
+    const form = e.currentTarget;
+    if (form.checkValidity()) {
+      try {
+        const data_loan = new FormData();
+        data_loan.append("name", userInfo.name);
+        data_loan.append("email", userInfo.email);
+        data_loan.append("account_number", accNo);
+        data_loan.append("account_type", accType);
+        data_loan.append("govt_id_number", govtIdNo);
+        data_loan.append("govt_id_type", govtId);
+        data_loan.append("loan_type", loanType);
+        data_loan.append("loan_amount", loanAmount);
+        data_loan.append("interest_rate", intRate);
+        data_loan.append("time_period", loanTime);
+        const res = await postLoanAPI(data_loan).unwrap();
+        console.log(res);
+        dispatch(createLoan(res));
+        toast.success("Congratulations! Your loan is approved!", {
+          className: "toast-container-custom",
+          autoClose: 500,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "dark",
+        });
+        navigate("/loan");
+        setLoanAdded(true);
+      } catch (err) {
+        console.log(err);
+        toast.error(err?.data?.message || err.error, {
+          className: "toast-container-custom",
+          autoClose: 500,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "dark",
+        });
+      }
     }
   };
 
@@ -187,7 +189,7 @@ const ApplyLoan = () => {
       {isLoading ? (
         <Loader />
       ) : (
-        <Form>
+        <Form noValidate validated={validated} onSubmit={submitHandler}>
           <Row className="mt-4">
             <Col md={6}>
               <Form.Group className="my-3" controlId="name">
@@ -197,6 +199,7 @@ const ApplyLoan = () => {
                   placeholder="Enter your name"
                   value={userInfo.name}
                   disabled
+                  required
                 ></Form.Control>
               </Form.Group>
             </Col>
@@ -208,6 +211,7 @@ const ApplyLoan = () => {
                   placeholder="Enter your email address"
                   value={userInfo.email}
                   disabled
+                  required
                 ></Form.Control>
               </Form.Group>
             </Col>
@@ -218,6 +222,7 @@ const ApplyLoan = () => {
               <Form.Group className="my-3" controlId="acc_type">
                 <Form.Label>Account type</Form.Label>
                 <Form.Select
+                  required
                   value={accType}
                   multiple={false}
                   onChange={(e) => setAccType(e.target.value)}
@@ -236,6 +241,7 @@ const ApplyLoan = () => {
               <Form.Group className="my-3" controlId="acc_no">
                 <Form.Label>Account number</Form.Label>
                 <Form.Select
+                  required
                   value={accNo ? accNo : "Select Account"}
                   onChange={(e) => {
                     const selectedAccountNumber = e.target.value;
@@ -248,7 +254,9 @@ const ApplyLoan = () => {
                       selectedAccount ? selectedAccount.account_type : null
                     );
                     setGovtId(
-                      selectedAccount ? selectedAccount.government_id_type : null
+                      selectedAccount
+                        ? selectedAccount.government_id_type
+                        : null
                     );
                     setGovtIdNo(
                       selectedAccount ? selectedAccount.govt_id_number : null
@@ -272,8 +280,8 @@ const ApplyLoan = () => {
               <Form.Group className="my-3" controlId="govt_id">
                 <Form.Label>ID Type</Form.Label>
                 <Form.Select
-                  value={govtId}
                   required
+                  value={govtId}
                   multiple={false}
                   onChange={(e) => setGovtId(e.target.value)}
                   aria-label="Select your ID type"
@@ -290,9 +298,9 @@ const ApplyLoan = () => {
               <Form.Group className="my-3" controlId="govt_id_no">
                 <Form.Label>ID number</Form.Label>
                 <Form.Control
+                  required
                   type="text"
                   placeholder="Enter your ID number"
-                  required
                   value={govtIdNo}
                   onChange={(e) => setGovtIdNo(e.target.value)}
                   disabled={govtIdNo ? true : false}
@@ -306,6 +314,7 @@ const ApplyLoan = () => {
               <Form.Group className="my-3" controlId="loan_type">
                 <Form.Label>Loan type</Form.Label>
                 <Form.Select
+                  required
                   value={loanType}
                   multiple={false}
                   onChange={(e) => {
@@ -381,7 +390,6 @@ const ApplyLoan = () => {
                 <Form.Group controlId="checkbox">
                   <Form.Check
                     type="checkbox"
-                    label="I have read the "
                     checked={isCheckboxChecked}
                     onChange={(e) => setIsCheckboxChecked(e.target.checked)}
                     required
@@ -391,7 +399,7 @@ const ApplyLoan = () => {
                   onClick={handleModalOpen}
                   style={{ textDecoration: "underline", color: "blue" }}
                 >
-                  <span>&nbsp;</span> Terms and Conditions
+                  Terms and Conditions
                 </div>
                 <Modal
                   show={showModal}
@@ -475,7 +483,6 @@ const ApplyLoan = () => {
                 type="submit"
                 variant="dark"
                 className="mt-5 mr-3"
-                onClick={submitHandler}
               >
                 Apply
               </Button>
