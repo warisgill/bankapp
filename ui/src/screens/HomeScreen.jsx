@@ -38,7 +38,7 @@ const HomeScreen = () => {
       console.log(err);
       toast.error("Error in fetching accounts!", {
         className: "toast-container-custom",
-        autoClose: true,
+        autoClose: 500,
         hideProgressBar: true,
         closeOnClick: true,
         pauseOnHover: true,

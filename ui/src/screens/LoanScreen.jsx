@@ -118,7 +118,7 @@ const LoanScreen = () => {
       console.log(err);
       toast.error(err?.data?.message || err.error, {
         className: "toast-container-custom",
-        autoClose: true,
+        autoClose: 500,
         hideProgressBar: true,
         closeOnClick: true,
         pauseOnHover: true,
@@ -144,7 +144,7 @@ const LoanScreen = () => {
       console.log(err);
       toast.error("Error in fetching loans!", {
         className: "toast-container-custom",
-        autoClose: true,
+        autoClose: 500,
         hideProgressBar: true,
         closeOnClick: true,
         pauseOnHover: true,

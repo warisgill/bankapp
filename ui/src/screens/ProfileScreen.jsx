@@ -50,7 +50,7 @@ const ProfileScreen = () => {
         dispatch(setCredentials(res));
         toast.success("Your profile has been updated", {
           className: "toast-container-custom",
-          autoClose: true,
+          autoClose: 500,
           hideProgressBar: true,
           closeOnClick: true,
           pauseOnHover: true,
@@ -62,7 +62,7 @@ const ProfileScreen = () => {
       } catch (err) {
         toast.error(err?.data?.message || err.error, {
           className: "toast-container-custom",
-          autoClose: true,
+          autoClose: 500,
           hideProgressBar: true,
           closeOnClick: true,
           pauseOnHover: true,
