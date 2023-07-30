@@ -6,15 +6,7 @@
 
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import {
-  Form,
-  Button,
-  Row,
-  Col,
-  Modal,
-  Container,
-  InputGroup,
-} from "react-bootstrap";
+import { Form, Button, Row, Col, Modal, Container } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { useCreateAccountMutation } from "../slices/accountApiSlice";
 import { createAccount } from "../slices/accountSlice";
@@ -188,15 +180,13 @@ const NewAccScreen = () => {
                       <Col md={6}>
                         <Form.Group className="my-3" controlId="govt_id_no">
                           <Form.Label>ID number</Form.Label>
-                          <InputGroup hasValidation>
-                            <Form.Control
-                              type="text"
-                              required
-                              placeholder="Enter your ID number"
-                              value={govtIdNo}
-                              onChange={(e) => setGovtIdNo(e.target.value)}
-                            />
-                          </InputGroup>
+                          <Form.Control
+                            type="text"
+                            required
+                            placeholder="Enter your ID number"
+                            value={govtIdNo}
+                            onChange={(e) => setGovtIdNo(e.target.value)}
+                          />
                         </Form.Group>
                       </Col>
                     </Row>

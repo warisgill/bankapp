@@ -36,8 +36,8 @@ const LoginScreen = () => {
     e.preventDefault();
     try {
       const res = await login({ email, password }).unwrap();
-      console.log(res)
-      if (res.status === false){
+      console.log(res);
+      if (res.status === false) {
         toast.error(res.message, {
           className: "toast-container-custom",
           autoClose: 500,
@@ -53,7 +53,7 @@ const LoginScreen = () => {
       dispatch(setCredentials({ ...res }));
       toast.success("Successfully logged in!", {
         className: "toast-container-custom",
-        autoClose: false,
+        autoClose: 500,
         hideProgressBar: true,
         closeOnClick: true,
         pauseOnHover: true,
@@ -79,11 +79,7 @@ const LoginScreen = () => {
   return (
     <Container>
       <Row className="bg-white rounded" style={{ marginTop: "5vh" }}>
-        <Col
-          md={5}
-          className="rounded p-5"
-          style={{ margin: "2vh" }}
-        >
+        <Col md={5} className="rounded p-5" style={{ margin: "2vh" }}>
           <Row>
             <Col md={12} className="rounded card border p-5">
               <h4
@@ -163,7 +159,7 @@ const LoginScreen = () => {
             </Col>
           </Row>
           <Row>
-            <Col md={12} style={{padding: "10vh", paddingTop: "0"}}>
+            <Col md={12} style={{ padding: "10vh", paddingTop: "0" }}>
               <img
                 src="./src/assets/card.png"
                 alt="card"

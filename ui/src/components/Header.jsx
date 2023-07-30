@@ -56,7 +56,7 @@ const Header = () => {
       dispatch(logout());
       toast.success("Logged out", {
         className: "toast-container-custom",
-        autoClose: false,
+        autoClose: 500,
         hideProgressBar: true,
         closeOnClick: true,
         pauseOnHover: true,

@@ -115,7 +115,7 @@ const TransferScreen = () => {
       dispatch(createTransfer({ ...res }));
       toast.success("Money transfered!", {
         className: "toast-container-custom",
-        autoClose: false,
+        autoClose: 500,
         hideProgressBar: true,
         closeOnClick: true,
         pauseOnHover: true,
