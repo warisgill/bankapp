@@ -663,7 +663,7 @@ kubectl delete all --all --namespace default
 
   
 
-##  Installating locally
+##  Local Installation
 
   
 
