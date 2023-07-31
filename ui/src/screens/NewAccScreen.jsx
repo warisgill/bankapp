@@ -15,25 +15,6 @@ import Loader from "../components/Loader";
 import "../index.css";
 import TermsAndConditionsModal from "../components/AccountTnC";
 
-const AccountTypeOptions = () => (
-  <Form.Select required multiple={false} aria-label="Select account type">
-    <option value="">Select your account type</option>
-    <option value="Checking">Checking</option>
-    <option value="Savings">Savings</option>
-    <option value="Investment">Investment</option>
-    <option value="Money Market">Money Market</option>
-  </Form.Select>
-);
-
-const IDTypeOptions = () => (
-  <Form.Select required multiple={false} aria-label="Select your ID type">
-    <option value="">Select your ID type</option>
-    <option value="Passport">Passport</option>
-    <option value="DriverLicense">Driver's License</option>
-    <option value="AadharCard">SSN</option>
-  </Form.Select>
-);
-
 const NewAccScreen = () => {
   const [validated, setValidated] = useState(false);
   const [address, setAddress] = useState("");
@@ -64,6 +45,14 @@ const NewAccScreen = () => {
         data.append("government_id_type", govtId);
         data.append("govt_id_number", govtIdNo);
         data.append("account_type", accType);
+        console.log("Sending data: ", {
+          name: userInfo.name,
+          email_id: userInfo.email,
+          address,
+          government_id_type: govtId,
+          govt_id_number: govtIdNo,
+          account_type: accType,
+        })
 
         const res = await createNewAccount(data).unwrap();
         if (res.response) {
@@ -166,7 +155,18 @@ const NewAccScreen = () => {
                     <Row>
                       <Form.Group className="my-3" controlId="acc_type">
                         <Form.Label>Account type</Form.Label>
-                        <AccountTypeOptions />
+                        <Form.Select
+                          value={accType}
+                          multiple={false}
+                          onChange={(e) => setAccType(e.target.value)}
+                          aria-label="Select account type"
+                        >
+                          <option value="">Select your account type</option>
+                          <option value="Checking">Checking</option>
+                          <option value="Savings">Savings</option>
+                          <option value="Investment">Investment</option>
+                          <option value="Money Market">Money Market</option>
+                        </Form.Select>
                       </Form.Group>
                     </Row>
 
@@ -174,7 +174,19 @@ const NewAccScreen = () => {
                       <Col md={6}>
                         <Form.Group className="my-3" controlId="govt_id">
                           <Form.Label>ID type</Form.Label>
-                          <IDTypeOptions />
+                          <Form.Select
+                            value={govtId}
+                            multiple={false}
+                            onChange={(e) => setGovtId(e.target.value)}
+                            aria-label="Select your ID type"
+                          >
+                            <option value="">Select your ID type</option>
+                            <option value="Passport">Passport</option>
+                            <option value="DriverLicense">
+                              Driver's License
+                            </option>
+                            <option value="AadharCard">SSN</option>
+                          </Form.Select>
                         </Form.Group>
                       </Col>
                       <Col md={6}>

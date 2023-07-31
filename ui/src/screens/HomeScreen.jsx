@@ -19,6 +19,7 @@ import {
 } from "../slices/accountSlice";
 import Loader from "../components/Loader";
 import AccountDisclosure from "../components/AccountDisclosure";
+import Hero from "../components/Hero";
 import "../index.css";
 
 const HomeScreen = () => {

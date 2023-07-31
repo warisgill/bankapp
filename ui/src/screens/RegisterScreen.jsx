@@ -31,7 +31,9 @@ const RegisterScreen = () => {
 
   useEffect(() => {
     if (userInfo) {
-      navigate("/login");
+      if (userInfo.email){
+        navigate("/");
+      }      
     }
   }, [navigate, userInfo]);
 
@@ -58,7 +60,7 @@ const RegisterScreen = () => {
             theme: "dark",
           }
         );
-        navigate("/");
+        navigate("/login");
       } catch (err) {
         console.log(err);
         toast.error(err?.data?.message || err.error, {
