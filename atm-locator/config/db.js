@@ -40,13 +40,17 @@ const connectDB = async () => {
         updatedAt: new Date(item.updatedAt.$date),
       }));
       try {
-        await ATM.collection.drop();
+        try {
+          await ATM.collection.drop();
+        }
+        catch (error) {
+          console.log(`Error: ${error.message}`.red.bold);
+        }
         await ATM.insertMany(processedData);
+        console.log(`Database seeded with ${processedData.length} records.`);
       } catch (error) {
         console.log(`Error: ${error.message}`.red.bold);
       }
-
-      console.log(`Database seeded with ${processedData.length} records.`);
     } else {
       console.log(
         `Connecting to MongoDB Atlas (Cloud) at ${process.env.DB_URL} ...`
