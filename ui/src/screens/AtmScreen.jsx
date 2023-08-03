@@ -95,7 +95,7 @@ const AtmScreen = () => {
       console.log(err);
       toast.error(err?.data?.message || err.error, {
         className: "toast-container-custom",
-        autoClose: 1500,
+        autoClose: 500,
         hideProgressBar: true,
         closeOnClick: true,
         pauseOnHover: true,

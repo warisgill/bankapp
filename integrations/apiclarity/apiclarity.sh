@@ -36,7 +36,7 @@ kubectl get pods -n apiclarity
 kubectl get services -n apiclarity
 
 # make UI as load balancer
-kubectl apply -f ./lb-apiclarity.yaml -n apiclarity
+kubectl apply -f ./integrations/apiclarity/lb-apiclarity.yaml -n apiclarity
 
 # after these steps, copy the dashboard external IP and run this commmand:
-# helm upgrade martianbank martianbank -n bank-app --set "nginx.dashboardIP=<external IP>"
+# helm upgrade martianbank martianbank -n bank-app --set 'nginx.enabled=false' --set "nginx.dashboardIP=<external IP>" 

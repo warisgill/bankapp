@@ -90,7 +90,7 @@ const TransferScreen = () => {
     if (accNo === receiverAccNo) {
       toast.error("Sender and receiver account numbers cannot be same!", {
         className: "toast-container-custom",
-        autoClose: true,
+        autoClose: 500,
         hideProgressBar: true,
         closeOnClick: true,
         pauseOnHover: true,
@@ -115,7 +115,7 @@ const TransferScreen = () => {
       dispatch(createTransfer({ ...res }));
       toast.success("Money transfered!", {
         className: "toast-container-custom",
-        autoClose: false,
+        autoClose: 500,
         hideProgressBar: true,
         closeOnClick: true,
         pauseOnHover: true,
@@ -128,7 +128,7 @@ const TransferScreen = () => {
     } catch (err) {
       toast.error(err?.data?.message || err.error, {
         className: "toast-container-custom",
-        autoClose: true,
+        autoClose: 500,
         hideProgressBar: true,
         closeOnClick: true,
         pauseOnHover: true,
@@ -144,7 +144,7 @@ const TransferScreen = () => {
     if (userInfo.email === receiverEmail) {
       toast.error("Sender and receiver cannot be same!", {
         className: "toast-container-custom",
-        autoClose: true,
+        autoClose: 500,
         hideProgressBar: true,
         closeOnClick: true,
         pauseOnHover: true,
@@ -178,7 +178,7 @@ const TransferScreen = () => {
     } catch (err) {
       toast.error(err?.data?.message || err.error, {
         className: "toast-container-custom",
-        autoClose: true,
+        autoClose: 500,
         hideProgressBar: true,
         closeOnClick: true,
         pauseOnHover: true,
@@ -203,7 +203,7 @@ const TransferScreen = () => {
       console.log(err);
       toast.error("Error in fetching accounts!", {
         className: "toast-container-custom",
-        autoClose: true,
+        autoClose: 500,
         hideProgressBar: true,
         closeOnClick: true,
         pauseOnHover: true,
