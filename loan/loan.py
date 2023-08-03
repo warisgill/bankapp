@@ -59,6 +59,7 @@ class LoanGeneric:
         time_period = request_data["time_period"]
         user_account = self.__getAccount(account_number)
         
+        # count = collection_loans.count_documents({"email_id": email, 'account_number': account_number})
         count =  collection_accounts.count_documents({"email_id": email, 'account_number': account_number})
 
         logging.debug(f"user account only based on account number search : {user_account}")
