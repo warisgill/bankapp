@@ -13,7 +13,6 @@ import { toast } from "react-toastify";
 import Loader from "../components/Loader";
 import { useUpdateUserMutation } from "../slices/usersApiSlice";
 import { setCredentials } from "../slices/authSlice";
-import Cookies from "js-cookie";
 import "../index.css";
 
 const ProfileScreen = () => {

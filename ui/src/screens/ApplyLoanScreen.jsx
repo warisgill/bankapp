@@ -12,9 +12,6 @@ import {
   Row,
   Col,
   Modal,
-  Card,
-  Badge,
-  Container,
 } from "react-bootstrap";
 import FormContainer from "../components/FormContainer";
 import { useDispatch, useSelector } from "react-redux";
@@ -22,7 +19,7 @@ import {
   usePostLoanMutation,
   useGetApprovedLoansMutation,
 } from "../slices/loanApiSlice";
-import { createLoan, storeLoanHistory } from "../slices/loanSlice";
+import { createLoan } from "../slices/loanSlice";
 import { useGetAllAccountsMutation } from "../slices/accountApiSlice";
 import { getAccounts } from "../slices/accountSlice";
 import { toast } from "react-toastify";
@@ -47,7 +44,6 @@ const ApplyLoan = () => {
   const [isCheckboxChecked, setIsCheckboxChecked] = useState(false);
   const [loanAdded, setLoanAdded] = useState(false);
 
-  const loanInfo = useSelector((state) => state.loan.loan_history).response;
   let allAccounts = useSelector((state) => state.account.all_accounts).response;
   if (!allAccounts) {
     allAccounts = [];
@@ -82,8 +78,6 @@ const ApplyLoan = () => {
   };
 
   const [postLoanAPI, { isLoading }] = usePostLoanMutation();
-  const [loanHistoryAPI, { isLoading: isLoading2 }] =
-    useGetApprovedLoansMutation();
   const [getAllAccounts, { isLoading: isLoading1 }] =
     useGetAllAccountsMutation();
 

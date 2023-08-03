@@ -5,7 +5,9 @@
  */
 
 import { apiSlice } from "./usersApiSlice";
-const transactionUrl = import.meta.env.VITE_TRANSACTION_URL;
+import ApiUrls from "./apiUrls";
+
+const transactionUrl = import.meta.env.VITE_TRANSACTION_URL || ApiUrls.VITE_TRANSACTION_URL;
 
 export const transactionApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({

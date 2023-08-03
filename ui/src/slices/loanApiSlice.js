@@ -5,8 +5,10 @@
  */
 
 import { apiSlice } from "./usersApiSlice";
-const loanUrl = import.meta.env.VITE_LOAN_URL;
-const loanHistoryUrl = import.meta.env.VITE_LOAN_HISTORY_URL;
+import ApiUrls from "./apiUrls";
+
+const loanUrl = import.meta.env.VITE_LOAN_URL || ApiUrls.VITE_LOAN_URL;
+const loanHistoryUrl = import.meta.env.VITE_LOAN_HISTORY_URL || ApiUrls.VITE_LOAN_HISTORY_URL;
 
 export const loanApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
