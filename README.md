@@ -535,25 +535,9 @@ kubectl  delete  all  --all  --namespace  default
 ```
 
   
-
-  
-
-<br />
-
-  
-
-  
-
 ##  Local Installation
 
-  
-
-  
-
 **Option 1: Running on localhost**
-
-  
-
   
 
 1.  Start `ui` on port 3000:
@@ -566,10 +550,6 @@ npm  install
 npm  run  ui
 ```
 
-  
-
-  
-
 2.  Start auth microservice on port 8000:
 
 ```shell
@@ -581,7 +561,6 @@ nodemon  server.js
 ```
 
   
-
 3.  Start atm microservice on port 8001
 
 ```shell
@@ -592,49 +571,33 @@ npm  install
 nodemon  server.js
 ```
 
-  
+4.  Start accounts microservice. 
+***Note**: Make sure that you have installed pip.
 
-4.  Make sure that you have installed conda and pip.
-
-  
-  
-
-5.  Create a virtual environment for Python microservices.
-
-```shell
-cd  dashboard
-
-conda  create  --name  <env_name>
-
-conda  activate  <env_name>
-
-pip  install  -r  requirements.txt
-```
-
-  
-
-  
-
-6.  Start accounts microservice.
 
 ```shell
 cd  accounts
 
-conda  activate  <env_name>
+python -m venv venv_bankapp
+
+source venv_bankapp/bin/activate
+
+pip install -r requirements.txt
 
 python  accounts.py
 ```
 
-  
 
-  
-
-7.  Start transactions microservice.
+5.  Start transactions microservice.
 
 ```shell
 cd  transactions
 
-conda  activate  <env_name>
+python -m venv venv_bankapp
+
+source venv_bankapp/bin/activate
+
+pip install -r requirements.txt
 
 python  transaction.py
 ```
@@ -643,26 +606,32 @@ python  transaction.py
 
   
 
-8.  Start loan microservice.
+6.  Start loan microservice.
 
 ```shell
 cd  loan
 
-conda  activate  <env_name>
+python -m venv venv_bankapp
+
+source venv_bankapp/bin/activate
+
+pip install -r requirements.txt
 
 python  loan.py
 ```
 
   
 
-  
-
-9.  Start dashboard microservice on port 5000
+7.  Start dashboard microservice.
 
 ```shell
 cd  dashboard
 
-conda  activate  <env_name>
+python -m venv venv_bankapp
+
+source venv_bankapp/bin/activate
+
+pip install -r requirements.txt
 
 python  dashboard.py
 ```
@@ -675,17 +644,10 @@ Fire up `http://localhost:3000` to access the Martian Bank App.
 
   
 
-**Option 2: Using Docker**
-
+## Directly running on Docker
   
-
-  
-
 Make sure you have docker desktop installed and runnning on your system. After that, follow these steps:
 
-  
-
-  
 
 1.  Build all docker containers:
 
@@ -694,14 +656,8 @@ docker  compose  up  --build
 ```
 
   
-
-  
-
 2.  Fire up `http://localhost/` to access the Martian Bank App.
 
-  
-
-  
 
 3.  To delete docker containers:
 
