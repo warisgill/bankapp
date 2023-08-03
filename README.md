@@ -354,7 +354,7 @@ That's it! You now have MartianBank installed and running on your KIND cluster. 
 
   
 
-##  Installation on AWS EKS cluster
+## 4.  Installation on AWS EKS cluster
 
 **Step 1: Create an EKS cluster on AWS:**
 
@@ -535,7 +535,7 @@ kubectl  delete  all  --all  --namespace  default
 ```
 
   
-##  Local Installation
+## 5. Local Installation
 
 **Option 1: Running on localhost**
   
@@ -644,7 +644,7 @@ Fire up `http://localhost:3000` to access the Martian Bank App.
 
   
 
-## Directly running on Docker
+## 6. Directly running on Docker
   
 Make sure you have docker desktop installed and runnning on your system. After that, follow these steps:
 

@@ -25,7 +25,8 @@ if db_url is None:
     raise Exception("DB_URL environment variable is not set")
 
 
-protocol = os.getenv('SERVICE_PROTOCOL')
+# protocol = os.getenv('SERVICE_PROTOCOL')
+protocol = os.getenv('SERVICE_PROTOCOL', 'http')
 if protocol is None:
     raise Exception("SERVICE_PROTOCOL environment variable is not set")
 

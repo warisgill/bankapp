@@ -30,7 +30,7 @@ if db_url is None:
 
 uri = db_url
 
-protocol = os.getenv('SERVICE_PROTOCOL')
+protocol = os.getenv('SERVICE_PROTOCOL', 'http')
 if protocol is None:
     raise Exception("SERVICE_PROTOCOL environment variable is not set")
 

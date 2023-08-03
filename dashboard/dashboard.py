@@ -41,7 +41,9 @@ uri = db_url
 
 logging.debug(f"Connecting to MongoDB at {uri}")
 
-protocol = os.getenv('SERVICE_PROTOCOL')
+# protocol = os.getenv('SERVICE_PROTOCOL')
+protocol = os.getenv('SERVICE_PROTOCOL', 'http')
+
 if protocol is None:
     raise Exception("SERVICE_PROTOCOL environment variable is not set")
 
