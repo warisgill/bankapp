@@ -7,24 +7,21 @@
 import React from "react";
 import {
   MDBBadge,
-  MDBBtn,
   MDBTable,
   MDBTableHead,
   MDBTableBody,
 } from "mdb-react-ui-kit";
-import { Container, Form, Button, Row, Col } from "react-bootstrap";
+import { Container, Form, Row, Col } from "react-bootstrap";
 import { toast } from "react-toastify";
 import { useGetTransactionsMutation } from "../slices/transactionApiSlice";
 import { useGetAllAccountsMutation } from "../slices/accountApiSlice";
 import { getAccounts } from "../slices/accountSlice";
 import { storeTransaction } from "../slices/transactionSlice";
 import { useState, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import "../index.css";
 
 const TransactionScreen = () => {
-  const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const { userInfo } = useSelector((state) => state.auth);

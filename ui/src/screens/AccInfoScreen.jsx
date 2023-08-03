@@ -5,11 +5,11 @@
  */
 
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { Form, Button, Row, Col, DropdownButton } from "react-bootstrap";
+import { Link } from "react-router-dom";
+import { Form, Button, Row, Col } from "react-bootstrap";
 import FormContainer from "../components/FormContainer";
 import Loader from "../components/Loader";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 
 const AccInfoScreen = () => {
   let currentAccount = useSelector((state) => state.account.current_account);
@@ -32,9 +32,6 @@ const AccInfoScreen = () => {
   const [address, setAddress] = useState(currentAccount.address);
   const [govtId, setGovtId] = useState(currentAccount.government_id_type);
   const [govtIdNo, setGovtIdNo] = useState(currentAccount.govt_id_number);
-
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
 
   const isLoading = false;
 
@@ -123,7 +120,6 @@ const AccInfoScreen = () => {
                 multiple={false}
                 disabled
               >
-                {console.log(govtId)}
                 <option value="">Select your govt. ID</option>
                 <option value="Passport">Passport</option>
                 <option value="Driver License">Driver's License</option>

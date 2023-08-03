@@ -5,26 +5,18 @@
  */
 
 import { useState, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import {
-  Form,
   Button,
   Row,
   Col,
-  Modal,
-  Card,
   Badge,
-  Container,
 } from "react-bootstrap";
-import FormContainer from "../components/FormContainer";
 import { useDispatch, useSelector } from "react-redux";
 import {
-  usePostLoanMutation,
   useGetApprovedLoansMutation,
 } from "../slices/loanApiSlice";
-import { createLoan, storeLoanHistory } from "../slices/loanSlice";
-import { useGetAllAccountsMutation } from "../slices/accountApiSlice";
-import { getAccounts } from "../slices/accountSlice";
+import { storeLoanHistory } from "../slices/loanSlice";
 import { toast } from "react-toastify";
 import Loader from "../components/Loader";
 import "../index.css";
@@ -60,6 +52,7 @@ const CustomCard = ({ title, text, icon, link }) => {
 };
 
 const LoanScreen = () => {
+
   const [loanAdded, setLoanAdded] = useState(false);
 
   const loanInfo = useSelector((state) => state.loan.loan_history).response;
@@ -72,62 +65,10 @@ const LoanScreen = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const [postLoanAPI, { isLoading }] = usePostLoanMutation();
   const [loanHistoryAPI, { isLoading: isLoading2 }] =
     useGetApprovedLoansMutation();
-  const [getAllAccounts, { isLoading: isLoading1 }] =
-    useGetAllAccountsMutation();
 
   const { userInfo } = useSelector((state) => state.auth);
-
-  const submitHandler = async (e) => {
-    e.preventDefault();
-
-    if (!isCheckboxChecked) {
-      toast.error("Please agree to the Terms and Conditions");
-      return;
-    }
-
-    try {
-      const data_loan = new FormData();
-      data_loan.append("name", userInfo.name);
-      data_loan.append("email", userInfo.email);
-      data_loan.append("account_number", accNo);
-      data_loan.append("account_type", accType);
-      data_loan.append("govt_id_number", govtIdNo);
-      data_loan.append("govt_id_type", govtId);
-      data_loan.append("loan_type", loanType);
-      data_loan.append("loan_amount", loanAmount);
-      data_loan.append("interest_rate", intRate);
-      data_loan.append("time_period", loanTime);
-      const res = await postLoanAPI(data_loan).unwrap();
-      console.log(res);
-      dispatch(createLoan(res));
-      toast.success("Congratulations! Your loan is approved!", {
-        className: "toast-container-custom",
-        autoClose: 500,
-        hideProgressBar: true,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "dark",
-      });
-      setLoanAdded(true);
-    } catch (err) {
-      console.log(err);
-      toast.error(err?.data?.message || err.error, {
-        className: "toast-container-custom",
-        autoClose: 500,
-        hideProgressBar: true,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "dark",
-      });
-    }
-  };
 
   const fetchLoans = async () => {
     const data = new FormData();
