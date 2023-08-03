@@ -5,8 +5,9 @@
  */
 
 import { apiSlice } from "./usersApiSlice";
-const atmUrl = import.meta.env.VITE_ATM_URL;
-console.log('deployment url: ', atmUrl);
+import ApiUrls from "./apiUrls";
+
+const atmUrl = import.meta.env.VITE_ATM_URL || ApiUrls.VITE_ATM_URL;
 
 export const atmApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({

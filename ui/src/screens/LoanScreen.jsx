@@ -10,6 +10,7 @@ import {
   Button,
   Row,
   Col,
+  Card, 
   Badge,
 } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";

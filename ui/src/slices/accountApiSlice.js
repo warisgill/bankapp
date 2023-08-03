@@ -5,8 +5,10 @@
  */
 
 import { apiSlice } from "./usersApiSlice";
-const accsUrl = import.meta.env.VITE_ACCOUNTS_URL;
-const createAccUrl = import.meta.env.VITE_NEW_ACCOUNT_URL;
+import ApiUrls from "./apiUrls";
+
+const accsUrl = import.meta.env.VITE_ACCOUNTS_URL || ApiUrls.VITE_ACCOUNTS_URL;
+const createAccUrl = import.meta.env.VITE_NEW_ACCOUNT_URL || ApiUrls.VITE_NEW_ACCOUNT_URL;
 
 export const accountApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
