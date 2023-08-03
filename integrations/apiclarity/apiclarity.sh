@@ -3,7 +3,7 @@
 # license that can be found in the LICENSE file.
 
 #######################################################################################
-## Steps to deploy martian-bank with apiclarity
+## OPTIONAL STEPS:
 
 # clean all resources from previous deployments
 
@@ -18,18 +18,21 @@ kubectl delete all --all -n apiclarity
 kubectl delete namespace bank-app
 kubectl delete namespace apiclarity
 
+#######################################################################################
+## Steps to deploy martian-bank with apiclarity
+
 # create namespaces
 
 kubectl create namespace bank-app
 kubectl label namespace bank-app istio-injection=enabled
 
-# install martianbank
+# install martianbank (without NGINX)
 
 helm install --set 'nginx.enabled=false' martianbank martianbank -n bank-app
 kubectl get pods -n bank-app
 kubectl get services -n bank-app
 
-# install API Clarity
+# install API Clarity (note the namespace for envoyWasm)
 
 helm install --set 'trafficSource.envoyWasm.enabled=true' --set 'trafficSource.envoyWasm.namespaces={bank-app}' --set 'supportExternalTraceSource.enabled=true' --create-namespace apiclarity apiclarity/apiclarity -n apiclarity
 kubectl get pods -n apiclarity
@@ -38,5 +41,5 @@ kubectl get services -n apiclarity
 # make UI as load balancer
 kubectl apply -f ./integrations/apiclarity/lb-apiclarity.yaml -n apiclarity
 
-# after these steps, copy the dashboard external IP and run this commmand:
-# helm upgrade martianbank martianbank -n bank-app --set 'nginx.enabled=false' --set "nginx.dashboardIP=<external IP>" 
+# after these steps, copy the dashboard external IP (kubectl get services -n bank-app) and run this commmand:
+helm upgrade martianbank martianbank -n bank-app --set 'nginx.enabled=false' --set "nginx.dashboardIP=<external IP>" 
