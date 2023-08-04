@@ -390,53 +390,33 @@ brew  install  aws-iam-authenticator
 
 ```yaml
 
-apiVersion:  eksctl.io/v1alpha5
-
-kind:  ClusterConfig
-
-metadata:
-
-name:  <cluster-name>
-
-region:  us-east-1
-
-vpc:
-
-cidr:  "172.20.0.0/16"  ## Can change this value
-
-nat:
-
-gateway:  Single
-
-clusterEndpoints:
-
-publicAccess:  true
-
-privateAccess:  true
-
-nodeGroups:
-
--  name:  ng-1
-
-minSize:  2
-
-maxSize:  2
-
-instancesDistribution:
-
-maxPrice:  0.093
-
-instanceTypes:  ["t3a.large",  "t3.large"]
-
-onDemandBaseCapacity:  0
-
-onDemandPercentageAboveBaseCapacity:  50
-
-spotInstancePools:  2
-
-ssh:
-
-publicKeyPath:  <path>
+apiVersion: eksctl.io/v1alpha5 
+kind: ClusterConfig 
+  
+metadata: 
+  name: <cluster-name> 
+  region: us-east-1 
+  
+vpc: 
+  cidr: "172.20.0.0/16" ## Can change this value 
+  nat: 
+   gateway: Single 
+  clusterEndpoints: 
+   publicAccess: true 
+   privateAccess: true 
+  
+nodeGroups: 
+  - name: ng-1 
+    minSize: 2 
+    maxSize: 2 
+    instancesDistribution: 
+      maxPrice: 0.093 
+      instanceTypes: ["t3a.large", "t3.large"] 
+      onDemandBaseCapacity: 0 
+      onDemandPercentageAboveBaseCapacity: 50 
+      spotInstancePools: 2 
+    ssh: 
+     publicKeyPath: <path> 
 
 ```
 
