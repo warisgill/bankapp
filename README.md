@@ -578,13 +578,13 @@ nodemon  server.js
 ```shell
 cd  accounts
 
-python -m venv venv_bankapp
+python3 -m venv venv_bankapp
 
 source venv_bankapp/bin/activate
 
-pip install -r requirements.txt
+pip3 install -r requirements.txt
 
-python  accounts.py
+python3  accounts.py
 ```
 
 
@@ -593,13 +593,13 @@ python  accounts.py
 ```shell
 cd  transactions
 
-python -m venv venv_bankapp
+python3 -m venv venv_bankapp
 
 source venv_bankapp/bin/activate
 
-pip install -r requirements.txt
+pip3 install -r requirements.txt
 
-python  transaction.py
+python3  transaction.py
 ```
 
   
@@ -611,13 +611,13 @@ python  transaction.py
 ```shell
 cd  loan
 
-python -m venv venv_bankapp
+python3 -m venv venv_bankapp
 
 source venv_bankapp/bin/activate
 
-pip install -r requirements.txt
+pip3 install -r requirements.txt
 
-python  loan.py
+python3  loan.py
 ```
 
   
@@ -627,13 +627,13 @@ python  loan.py
 ```shell
 cd  dashboard
 
-python -m venv venv_bankapp
+python3 -m venv venv_bankapp
 
 source venv_bankapp/bin/activate
 
-pip install -r requirements.txt
+pip3 install -r requirements.txt
 
-python  dashboard.py
+python3  dashboard.py
 ```
 
   
