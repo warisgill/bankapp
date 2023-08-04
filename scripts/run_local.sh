@@ -82,7 +82,3 @@ run_python_microservice "loan" "loan"
 
 echo "Setup completed successfully!"
 
-#######################################################################################
-## UNCOMMENT OUT THE FOLLOWING CODE IF YOU WANT TO CLOSE ALL TERMINALS
-
-# osascript -e 'tell application "Terminal" to close every window'
