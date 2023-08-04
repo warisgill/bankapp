@@ -530,7 +530,6 @@ If you want to uninstall MartianBank from the EKS cluster, follow these uninstal
 
 ```shell
 helm  uninstall  martianbank
-
 kubectl  delete  all  --all  --namespace  default
 ```
 
@@ -542,32 +541,26 @@ kubectl  delete  all  --all  --namespace  default
 
 1.  Start `ui` on port 3000:
 
-```shell
+```bash
 cd  ui
-
 npm  install
-
 npm  run  ui
 ```
 
 2.  Start auth microservice on port 8000:
 
-```shell
+```bash
 cd  customer-auth
-
 npm  install
-
 nodemon  server.js
 ```
 
   
 3.  Start atm microservice on port 8001
 
-```shell
+```bash
 cd  atm-locator
-
 npm  install
-
 nodemon  server.js
 ```
 
@@ -575,48 +568,33 @@ nodemon  server.js
 ***Note**: Make sure that you have installed pip.
 
 
-```shell
+```bash
 cd  accounts
-
 python3 -m venv venv_bankapp
-
 source venv_bankapp/bin/activate
-
 pip3 install -r requirements.txt
-
 python3  accounts.py
 ```
 
 
 5.  Start transactions microservice.
 
-```shell
+```bash
 cd  transactions
-
 python3 -m venv venv_bankapp
-
 source venv_bankapp/bin/activate
-
 pip3 install -r requirements.txt
-
 python3  transaction.py
 ```
 
   
-
-  
-
 6.  Start loan microservice.
 
-```shell
+```bash
 cd  loan
-
 python3 -m venv venv_bankapp
-
 source venv_bankapp/bin/activate
-
 pip3 install -r requirements.txt
-
 python3  loan.py
 ```
 
@@ -624,15 +602,11 @@ python3  loan.py
 
 7.  Start dashboard microservice.
 
-```shell
+```bash
 cd  dashboard
-
 python3 -m venv venv_bankapp
-
 source venv_bankapp/bin/activate
-
 pip3 install -r requirements.txt
-
 python3  dashboard.py
 ```
 
