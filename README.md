@@ -62,13 +62,14 @@ cd  bankapp
 4.  Add the `configmap.yaml` config file to `martianbank/templates/` folder with the following content
 
 ```  yaml
-apiVersion:  v1
-kind:  ConfigMap
+apiVersion: v1
+kind: ConfigMap
 metadata:
-name:  configmap-martianbank
+  name: configmap-martianbank
 data:
-DB_URL:  # enter the DB url
-JWT_SECRET:  # enter any string that you wish to use as a secret
+  DB_URL: # enter the DB url
+  JWT_SECRET: # enter any string that you wish to use as a secret
+
 ```
 
  When running Docker or pods, use `"mongodb://root:example@mongodb:27017"` for the local database.
