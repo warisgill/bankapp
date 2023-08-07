@@ -1,9 +1,8 @@
-from locust import HttpUser, task, between
+from locust import HttpUser, task
 from api_urls import ApiUrls
 from faker import Faker
 
 fake = Faker()
-
 
 class MyUser(HttpUser):
 
@@ -41,7 +40,7 @@ class MyUser(HttpUser):
         # Update Profile
         self.client.put(
             "/profile",
-            json={"email": self.user_data["email"], "address": fake.address()},
+            json={"email": self.user_data["email"], "password": fake.unique.password()},
         )
 
         # Logout

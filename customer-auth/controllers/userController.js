@@ -172,7 +172,7 @@ const updateUserProfile = asyncHandler(async (req, res) => {
     const user = await User.findOne(req.email);
 
     if (user) {
-      user.address = req.body.address || user.address;
+      user.password = req.body.password || user.password;
 
       const updatedUser = await user.save();
 
@@ -180,8 +180,8 @@ const updateUserProfile = asyncHandler(async (req, res) => {
         _id: updatedUser._id,
         name: updatedUser.name,
         email: updatedUser.email,
-        address: updatedUser.address,
       });
+      
     } else {
       res.status(404);
       throw new Error("User not found");
