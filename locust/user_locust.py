@@ -4,12 +4,11 @@ from faker import Faker
 
 fake = Faker()
 
-class MyUser(HttpUser):
 
+class MyUser(HttpUser):
     host = ApiUrls["VITE_USERS_URL"]
 
     def on_start(self):
-
         # Create fake user data
         self.user_data = {
             "name": fake.unique.name(),
@@ -22,7 +21,6 @@ class MyUser(HttpUser):
 
     @task
     def user_sequence(self):
-
         # Login
         self.client.post(
             "/auth",
@@ -33,9 +31,7 @@ class MyUser(HttpUser):
         )
 
         # Get Profile
-        self.client.get(
-            "/profile", json={"email": self.user_data["email"]}
-        )
+        self.client.get("/profile", json={"email": self.user_data["email"]})
 
         # Update Profile
         self.client.put(
@@ -44,6 +40,4 @@ class MyUser(HttpUser):
         )
 
         # Logout
-        self.client.post(
-            "/logout", json={"email": self.user_data["email"]}
-        )
+        self.client.post("/logout", json={"email": self.user_data["email"]})

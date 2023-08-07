@@ -1,7 +1,7 @@
 VITE_ACCOUNTS_URL = 'http://127.0.0.1:5000/account/allaccounts'
 VITE_NEW_ACCOUNT_URL = 'http://127.0.0.1:5000/account/create'
 VITE_USERS_URL = 'http://localhost:8000/api/users'
-VITE_ATM_URL = 'http://localhost:8001/api/atm/'
+VITE_ATM_URL = 'http://localhost:8001/api/atm'
 VITE_TRANSFER_URL = 'http://127.0.0.1:5000/transaction'
 VITE_TRANSACTION_URL = 'http://127.0.0.1:5000/transaction/history'
 VITE_LOAN_URL = 'http://127.0.0.1:5000/loan/'
