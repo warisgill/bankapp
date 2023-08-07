@@ -142,7 +142,7 @@ const logoutUser = (req, res) => {
 // @access  Private
 const getUserProfile = asyncHandler(async (req, res) => {
   try {
-    const user = await User.findById(req.user._id);
+    const user = await User.findOne(req.email);
 
     if (user) {
       res.json({
@@ -169,15 +169,10 @@ const getUserProfile = asyncHandler(async (req, res) => {
 // @access  Private
 const updateUserProfile = asyncHandler(async (req, res) => {
   try {
-    const user = await User.findById(req.user._id);
+    const user = await User.findOne(req.email);
 
     if (user) {
-      user.name = req.body.name || user.name;
-      user.email = req.body.email || user.email;
-
-      if (req.body.password) {
-        user.password = req.body.password;
-      }
+      user.address = req.body.address || user.address;
 
       const updatedUser = await user.save();
 
@@ -185,6 +180,7 @@ const updateUserProfile = asyncHandler(async (req, res) => {
         _id: updatedUser._id,
         name: updatedUser.name,
         email: updatedUser.email,
+        address: updatedUser.address,
       });
     } else {
       res.status(404);
