@@ -10,7 +10,7 @@ class MyUser(HttpUser):
     host = ApiUrls["VITE_ACCOUNTS_URL"]
 
     def on_start(self):
-        # Create fake user data
+        # Create fake account data
         self.user_data = {
             "name": fake.unique.name(),
             "email_id": fake.unique.email(),
