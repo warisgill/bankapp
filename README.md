@@ -1,6 +1,6 @@
 <!-- ![MartianBank](https://drive.google.com/uc?export=view&id=12EfkuXkXExd4pcUMo9ZKsIDP-3rK6Q2M) -->
 
-<div style="text-align: center; font-size: 50px;">MARTIAN BANK</div>
+# MARTIAN BANK
 
 <br />
  
