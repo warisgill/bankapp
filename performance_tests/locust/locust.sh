@@ -17,17 +17,30 @@ pip install -r requirements.txt
 #######################################################################################
 ## Running Locust
 
-locust -f auth_locust.py --headless -u 10 -r 1 --run-time 20s &
+locust -f auth_locust.py --headless -u 1 -r 1 --run-time 10s 
 sleep 2
 
-locust -f atm_locust.py --headless -u 10 -r 1 --run-time 20s &
+locust -f atm_locust.py --headless -u 1 -r 1 --run-time 6s 
 sleep 2
 
-locust -f account_locust.py --headless -u 10 -r 1 --run-time 20s & 
+locust -f account_locust.py --headless -u 1 -r 1 --run-time 6s  
 sleep 2
 
-locust -f transaction_locust.py --headless -u 10 -r 1 --run-time 20s & 
+locust -f transaction_locust.py --headless -u 1 -r 1 --run-time 12s  
 sleep 2
 
-locust -f loan_locust.py --headless -u 10 -r 1 --run-time 20s
-sleep 2
+locust -f loan_locust.py --headless -u 1 -r 1 --run-time 7s 
+sleep 5
+
+#######################################################################################
+## Cleanup
+
+deactivate venv_locust
+rm -rf venv_locust
+rm -rf __pycache__
+
+#######################################################################################
+## End
+
+echo "Done!"
+

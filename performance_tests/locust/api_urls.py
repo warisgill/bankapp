@@ -1,3 +1,7 @@
+# Copyright (c) 2023 Cisco Systems, Inc. and its affiliates All rights reserved.
+# Use of this source code is governed by a BSD-style
+# license that can be found in the LICENSE file.
+
 import os 
 
 VITE_ACCOUNTS_URL = os.getenv("VITE_ACCOUNTS_URL") or 'http://127.0.0.1:5000/account'
