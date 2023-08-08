@@ -159,14 +159,15 @@ After performing the above two steps, the MartianBank app should be completely u
 
 Now you have successfully uninstalled the MartianBank app from your Kubernetes cluster, and all associated resources have been removed. If you have any other Helm releases or resources running on the cluster, you can manage them similarly using Helm commands and kubectl operations.
 
+<br />
 
 ##  2. Installation on Minikube Cluster
+
 Let's go through the steps to install MartianBank using Minikube. Minikube allows you to run a single-node Kubernetes cluster on your local machine, making it ideal for testing and development purposes.
 
 **Step 1: Install Minikube and Prerequisites**
 
 If you haven't already installed Minikube and its prerequisites, follow the official Minikube installation guide based on your operating system: [Minikube Installation Guide](https://minikube.sigs.k8s.io/docs/start/)
-
   
 **Step 2: Start Minikube Cluster**
 
@@ -180,6 +181,7 @@ minikube start
 This command will create and start a local Kubernetes cluster using Minikube.
 
 **Step 3: Install Helm**
+
 Before installing MartianBank, you need to have Helm installed on your local machine.
 
 -  Follow the official Helm installation guide based on your operating system: [Helm Installation Guide](https://helm.sh/docs/intro/install/)
@@ -199,7 +201,6 @@ cd bankapp
 
 Now that you have Minikube running and Helm installed, you can proceed with installing MartianBank on your Minikube cluster.
 
-
 1.  To install MartianBank, use the Helm command:
 ```bash
 helm install martianbank martianbank
@@ -208,8 +209,8 @@ helm install martianbank martianbank
 Wait for the installation to complete. Helm will deploy the necessary components to your Minikube cluster.
 
 **Step 6: Use Minikube Tunnel**
-After installing MartianBank on your Minikube cluster, you may encounter that the command `kubectl get service` displays the services with an "external IP" in the "pending" state. This happens because Minikube does not natively support LoadBalancer type services with external IPs. However, you can use the `minikube tunnel` command to enable external access to LoadBalancer services.
 
+After installing MartianBank on your Minikube cluster, you may encounter that the command `kubectl get service` displays the services with an "external IP" in the "pending" state. This happens because Minikube does not natively support LoadBalancer type services with external IPs. However, you can use the `minikube tunnel` command to enable external access to LoadBalancer services.
   
 To make the LoadBalancer type service accessible via an external IP in Minikube, you can use the `minikube tunnel` command. This command sets up a network route to expose the LoadBalancer's IP externally. Here's how to use it: Now, to make the LoadBalancer accessible from an external IP, run the following command in a **_new terminal_**:
 ```bash
@@ -218,21 +219,16 @@ minikube tunnel
 
 The `minikube tunnel` command will create a network route to expose the LoadBalancer service to an external IP address. The external IP should no longer be in the "pending" state after running this command.
 
-
 **Step 7: Access the MartianBank App**
-
   
 After running `minikube tunnel`, the LoadBalancer's external IP should be available. You can get the IP by running:
 ```bash
 kubectl get service
 ```
-
 Look for the external IP in the output (for nginx pod). Copy the IP address and paste it into your browser's address bar. You should be able to access the MartianBank app.
-
 
 **Step 8: Stop Minikube Tunnel**
 Remember that the `minikube tunnel` command will continue running in your terminal until you stop it manually. When you're done testing the app, you can stop the tunnel by pressing `Ctrl + C` in the terminal where the `minikube tunnel` command is running.
-
 
 That's it! Using `minikube tunnel`, you can expose LoadBalancer services in Minikube and access them via external IP addresses for testing and development.
 
@@ -246,17 +242,16 @@ kubectl delete all --all --namespace default
 
 That's it! You now have MartianBank installed and running on your Minikube cluster. Minikube provides an easy way to test and develop applications locally on a Kubernetes cluster. Happy testing with MartianBank on your Minikube setup!
 
+<br />
+
 ##  3. Installatioin on Kind Cluster
 
 **`Warning:`**  _Kind Cluster, by default, does not support the LoadBalancer type service with external IPs [[Load balancer external-ip pending · Issue #411 · kubernetes-sigs/kind (github.com)](https://github.com/kubernetes-sigs/kind/issues/411)]. This means that if you want to access services using an external IP in the Kind cluster, you will need to use an alternative approach. If you does not know how to resolove it, please follow the minikube or docker desktop kubernetes tutorials for installation setup._
-
   
 Setting up MartianBank on a KIND (Kubernetes in Docker) cluster involves a few additional steps compared to a regular Kubernetes cluster. KIND allows you to create a lightweight Kubernetes cluster inside Docker containers, which is ideal for testing and development purposes. Here's how you can set up MartianBank on a KIND cluster:
-
   
 **Step 1: Install KIND and Docker**
 If you haven't already installed KIND and Docker, you need to do that first. Follow the official installation guides for [KIND](https://kind.sigs.k8s.io/docs/user/quick-start/#installation) and [Docker](https://docs.docker.com/get-docker/) based on your operating system.
-
   
 **Step 2: Create a KIND Cluster**
 
@@ -268,10 +263,8 @@ kind create cluster --name martianbank
 ```
 
 This will create a new KIND cluster named "martianbank" with a single Kubernetes node.
-
   
 **Step 3: Configure Kubectl**
-
   
 The KIND cluster should now be running, but your `kubectl` is not automatically configured to communicate with the cluster. You need to set the context for your `kubectl` to use the KIND cluster.
 
@@ -279,7 +272,6 @@ The KIND cluster should now be running, but your `kubectl` is not automatically 
 ```bash
 kubectl cluster-info --context kind-martianbank
 ```
-
 
 **Step 4: Install MartianBank using Helm**
 
@@ -305,7 +297,7 @@ kubectl delete all --all --namespace default
 
 That's it! You now have MartianBank installed and running on your KIND cluster. Remember that KIND clusters are ephemeral and will be destroyed once you delete them. You can always create a new cluster with the same name or a different one using `kind create cluster` if needed. Happy testing with MartianBank on your KIND cluster.
 
-  
+<br />  
 
 ## 4.  Installation on AWS EKS cluster
 
@@ -315,7 +307,6 @@ That's it! You now have MartianBank installed and running on your KIND cluster. 
 ```shell
 aws configure
 ```
-
 
 2. Install eksctl tool
 ```shell
@@ -360,7 +351,6 @@ nodeGroups:
 eksctl create cluster -f cluster.yaml
 ```
 
-
 **Step 2: Install MartianBank using Helm**
 
 Now that your EKS cluster is set up, you can proceed with installing MartianBank.
@@ -403,6 +393,8 @@ helm uninstall martianbank
 kubectl delete all --all --namespace default
 ```
   
+<br />
+
 ## 5. Local Installation
 
 **Option 1: Running on localhost**
@@ -422,19 +414,17 @@ Fire up `http://localhost:3000` to access the Martian Bank App.
 cd scripts
 bash stop_local.sh
 ```
- 
+
+<br />
 
 #  Contributing
 Pull requests and bug reports are welcome. For larger changes please create an Issue in GitHub first to discuss your proposed changes and possible implications.
 
 More more details please see the [Contribution guidelines for this project](CONTRIBUTING.md)
 
-
 <br />
 
-
 #  License
-
 
 [BSD 3-Clause License](https://opensource.org/license/bsd-3-clause/)
 
