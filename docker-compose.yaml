@@ -122,6 +122,19 @@ services:
     networks:
       - bankapp-network 
 
+  locust:
+    build:
+      context: .
+      dockerfile: performance_tests/locust/Dockerfile
+    container_name: locust
+    hostname: locust
+    ports:
+      - "8089:8089"
+    image: martian-bank-locust
+    restart: always
+    networks:
+      - bankapp-network
+
 networks:
   bankapp-network:
     driver: bridge
