@@ -95,7 +95,7 @@ nginx:
   ## If enabled is false then deploy the application, get the external IP of dashboard
   ## service, add it here, and apply the changes. (helm upgrade martianbank martianbank)
   ##
-  dashboardIP: a240e3655d56045f2b4e72747ea9cfcf-1131132838.us-east-1.elb.amazonaws.com
+  dashboardIP: "<aws external IP url>"
 
 
 
