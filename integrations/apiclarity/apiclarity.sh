@@ -42,4 +42,11 @@ kubectl get services -n apiclarity
 kubectl apply -f ./integrations/apiclarity/lb-apiclarity.yaml -n apiclarity
 
 # after these steps, copy the dashboard external IP (kubectl get services -n bank-app) and run this commmand:
-helm upgrade martianbank martianbank -n bank-app --set 'nginx.enabled=false' --set "nginx.dashboardIP=<external IP>" 
+dashboard_external_ip=$(kubectl get services -n bank-app | grep dashboard | awk '{print $4}')
+echo $dashboard_external_ip
+helm upgrade martianbank martianbank -n bank-app --set 'nginx.enabled=false' --set "nginx.dashboardIP=$dashboard_external_ip" 
+
+# To generate load using locust
+locust_pod=$(kubectl get pods -n bank-app | grep locust | awk '{print $1}')
+echo $locust_pod
+kubectl exec -it $locust_pod  -n bank-app -- /bin/bash -c "bash locust.sh"

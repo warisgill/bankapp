@@ -243,7 +243,7 @@ def get_account_details():
     return jsonify({"response": None})
 
 
-@app.route("/transaction", methods=["GET", "POST"])
+@app.route("/transaction/", methods=["GET", "POST"])
 def transaction_form():
     def __grpc():
         channel = grpc.insecure_channel(host_ip_port)

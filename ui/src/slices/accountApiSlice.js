@@ -8,13 +8,12 @@ import { apiSlice } from "./usersApiSlice";
 import ApiUrls from "./apiUrls";
 
 const accsUrl = import.meta.env.VITE_ACCOUNTS_URL || ApiUrls.VITE_ACCOUNTS_URL;
-const createAccUrl = import.meta.env.VITE_NEW_ACCOUNT_URL || ApiUrls.VITE_NEW_ACCOUNT_URL;
 
 export const accountApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     createAccount: builder.mutation({
       query: (data) => ({
-        url: createAccUrl,
+        url: `${accsUrl}create`,
         method: "POST",
         prepareHeaders: (headers) => {
           headers.set("Content-Type", "multipart/form-data");
@@ -25,7 +24,7 @@ export const accountApiSlice = apiSlice.injectEndpoints({
     }),
     getAllAccounts: builder.mutation({
       query: (data) => ({
-        url: accsUrl,
+        url: `${accsUrl}allaccounts`,
         method: "POST",
         body: data,
         prepareHeaders: (headers) => {

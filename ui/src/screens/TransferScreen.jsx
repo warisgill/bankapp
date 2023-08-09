@@ -164,17 +164,32 @@ const TransferScreen = () => {
 
       const res = await postTransferExternal(data_external).unwrap();
       console.log(res);
-      toast.success("Money transfered!", {
-        className: "toast-container-custom",
-        autoClose: false,
-        hideProgressBar: true,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "dark",
-      });
-      navigate("/");
+      if (res?.response?.approved === false) {
+        toast.error(res.response.message, {
+          className: "toast-container-custom",
+          autoClose: 500,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "dark",
+        });
+        return;
+      }
+      else if (res?.response?.approved === true) {
+        toast.success("Money transfered!", {
+          className: "toast-container-custom",
+          autoClose: false,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "dark",
+        });
+        navigate("/");
+      }
     } catch (err) {
       toast.error(err?.data?.message || err.error, {
         className: "toast-container-custom",

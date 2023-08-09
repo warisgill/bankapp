@@ -7,13 +7,13 @@
 import { apiSlice } from "./usersApiSlice";
 import ApiUrls from "./apiUrls";
 
-const transactionUrl = import.meta.env.VITE_TRANSACTION_URL || ApiUrls.VITE_TRANSACTION_URL;
+const transferUrl = import.meta.env.VITE_TRANSFER_URL || ApiUrls.VITE_TRANSFER_URL;
 
 export const transactionApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     getTransactions: builder.mutation({
       query: (data) => ({ 
-        url: transactionUrl, 
+        url: `${transferUrl}history`, 
         method: "POST", 
         body: data 
       }),

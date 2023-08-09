@@ -20,7 +20,7 @@ export const atmApiSlice = apiSlice.injectEndpoints({
     }),
     getParticularATM: builder.mutation({
       query: (id) => ({
-        url: `${atmUrl}/${id}`,
+        url: `${atmUrl}${id}`,
         method: "GET",
       }),
     }),

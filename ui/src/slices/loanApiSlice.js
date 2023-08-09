@@ -8,7 +8,6 @@ import { apiSlice } from "./usersApiSlice";
 import ApiUrls from "./apiUrls";
 
 const loanUrl = import.meta.env.VITE_LOAN_URL || ApiUrls.VITE_LOAN_URL;
-const loanHistoryUrl = import.meta.env.VITE_LOAN_HISTORY_URL || ApiUrls.VITE_LOAN_HISTORY_URL;
 
 export const loanApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
@@ -25,7 +24,7 @@ export const loanApiSlice = apiSlice.injectEndpoints({
     }),
     getApprovedLoans: builder.mutation({
       query: (data) => ({
-        url: `${loanHistoryUrl}`,
+        url: `${loanUrl}history`,
         method: "POST",
         body: data,
         prepareHeaders: (headers) => {
