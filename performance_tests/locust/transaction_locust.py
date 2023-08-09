@@ -82,7 +82,7 @@ class MyUser(HttpUser):
         @task
         def internal_transfer(self):
             self.client.post(
-                f"",
+                f"/",
                 data={
                     "sender_account_number": self.account_numbers[0],
                     "receiver_account_number": self.account_numbers[1],
