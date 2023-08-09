@@ -18,6 +18,8 @@ MartianBank is a microservices application that allows customers to access and m
   - [Installation on KIND Cluster](#3-installatioin-on-kind-cluster)
   - [Installation on AWS EKS Cluster](#4-installation-on-aws-eks-cluster)
   - [Running Locally](#5-local-installation)
+- [Highlights](#highlights)
+- [Roadmap](#roadmap)
 - [Contributing](#contributing)
 - [License](#license)
 
@@ -414,6 +416,26 @@ Fire up `http://localhost:3000` to access the Martian Bank App.
 cd scripts
 bash stop_local.sh
 ```
+
+<br />
+
+# Hightlights
+
+- Micro Services Architecture  ​
+- Helm based configurable deployments options​ (eg switching between HTTP and GRPC)​
+- Docker, Kind and EKS based easy installations​
+- Swagger APIs and comprehensive documentation​
+- Performance tests and load generation capabilities​
+- ETI lab deployer with Panoptica​
+- Opensource
+
+<br />
+
+# Roadmap
+
+- Images for background, coin, card, and map.
+- Swagger docs for remaining endpoints
+- Blog posts and videos to support contributors
 
 <br />
 
